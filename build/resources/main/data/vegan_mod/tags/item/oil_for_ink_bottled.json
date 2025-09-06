@@ -1,9 +1,0 @@
-{
-  "values": [
-    "vegan_mod:plant_oil",
-    {
-      "id": "#c:black_dyes",
-      "required": false
-    }
-  ]
-}
