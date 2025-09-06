@@ -1,0 +1,4 @@
+/give Player193 vegan_mod:plant_oil
+/give Player193 vegan_mod:plant_ink
+/give Player193 vegan_mod:hardened_fabric
+/reload

@@ -1,0 +1,13 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:leather_leggings"
+    }
+  ],
+  "result": [
+  ],
+  "tool": {
+    "tag": "c:tools/shear"
+  }
+}

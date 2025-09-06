@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "vegan_mod",
+	"version": "${version}",
+	"name": "I dont want to kill cows",
+	"description": "Vegan solutions for leather",
+	"authors": [ "MoonFather" ],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MLL",
+	"icon": "assets/vegan_mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"moonfather.vegan_mod.VeganMod"
+		],
+		"client": [
+			"moonfather.vegan_mod.ClientEntryPoint"
+		]
+	},
+	"mixins": [
+		"vegan_mod.mixins.json",
+		{
+			"config": "vegan_mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

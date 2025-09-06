@@ -1,0 +1,11 @@
+{
+  "values": [
+    "minecraft:vine",
+    "minecraft:weeping_vines",
+    "minecraft:kelp",
+    {
+      "id": "#c:red_dyes",
+      "required": false
+    }
+  ]
+}
