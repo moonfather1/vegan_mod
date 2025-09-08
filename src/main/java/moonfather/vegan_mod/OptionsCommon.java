@@ -16,6 +16,6 @@ public class OptionsCommon
     }
     public static boolean ink_accepts_blue_dye()
     {
-        return true;
+        return false;
     }
 }

@@ -1,12 +1,12 @@
 package moonfather.vegan_mod.changes;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.packs.resources.CloseableResourceManager;
+import net.minecraft.server.level.ServerPlayer;
 
 public class RecipeManagerMain
 {
-    public static void loaded(MinecraftServer server, CloseableResourceManager resourceManager, boolean success)
+    public static void beforeSync(ServerPlayer serverPlayer, boolean joined)
     {
-        RecipeManagerForLeather.loaded(server, resourceManager, success);
+        RecipeManagerForLeather.joined(serverPlayer, joined);
+        RecipeManagerForInk.joined(serverPlayer, joined);
     }
 }

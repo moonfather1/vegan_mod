@@ -3,7 +3,7 @@
 	"package": "moonfather.vegan_mod.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+      "PotionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

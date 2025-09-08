@@ -17,11 +17,8 @@
   },
   "fabric:load_conditions": [
     {
-      "condition": "fabric:tags_populated",
-      "values": [
-        "vegan_mod:oil_for_ink_no_bottle"
-      ],
-      "registry": "minecraft:item"
+      "condition": "vegan_mod:tag_not_empty",
+      "tag_id": "vegan_mod:oil_for_ink_no_bottle"
     }
   ]
 }

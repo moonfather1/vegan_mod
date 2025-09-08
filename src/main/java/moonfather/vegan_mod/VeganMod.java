@@ -9,6 +9,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,12 +38,24 @@ public class VeganMod implements ModInitializer
 		// + add manual armor recipe with comp
 		// + add uncrafting
 		// logo
-		// book
-		// optional for leather
+		// + book
+		// + optional for leather
 		// ink2 dead
-
+		// options
+		// simple mode
+		// armor in jei
+		// uncraft blue?
+		///////////////////////
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "green_armor"), ArmorCraftingRecipe.getSerializerForRegistration());
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
+		//////////
+		ResourceConditionType<?> conditionTypeForOptionalRecipes = ResourceConditionType.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "optional"), OptionalRecipeCondition.CODEC);
+		OptionalRecipeCondition.setType(conditionTypeForOptionalRecipes);
+		ResourceConditions.register(conditionTypeForOptionalRecipes);
+		//////////
+		ResourceConditionType<?> conditionTypeForOptionalRecipes2 = ResourceConditionType.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "tag_not_empty"), TagNotEmptyRecipeCondition.CODEC);
+		TagNotEmptyRecipeCondition.setType(conditionTypeForOptionalRecipes2);
+		ResourceConditions.register(conditionTypeForOptionalRecipes2);
 	}
 
 	///////////////////////////////////////
@@ -62,7 +76,7 @@ public class VeganMod implements ModInitializer
 
 			ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(Items::addToCreativeTabs);
 
-			ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(RecipeManagerMain::loaded);
+			ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(RecipeManagerMain::beforeSync);
 		}
 
 		private static void addToCreativeTabs(FabricItemGroupEntries entries)

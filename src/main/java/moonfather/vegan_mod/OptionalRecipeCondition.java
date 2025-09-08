@@ -17,8 +17,13 @@ public record OptionalRecipeCondition(String flag) implements ResourceCondition
     @Override
     public ResourceConditionType<?> getType()
     {
-        return null;
+        return type;
     }
+    public static void setType(ResourceConditionType<?> registeredType)
+    {
+        type = registeredType;
+    }
+    private static ResourceConditionType<?> type = null;
 
     @Override
     public boolean test(HolderLookup.@Nullable Provider registryLookup)
