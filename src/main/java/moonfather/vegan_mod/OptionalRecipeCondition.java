@@ -28,10 +28,11 @@ public record OptionalRecipeCondition(String flag) implements ResourceCondition
     @Override
     public boolean test(HolderLookup.@Nullable Provider registryLookup)
     {
-        if (flag == null) return false;
-        if (flag.equals("make_leather_on_crafting_table")) return OptionsCommon.leather_make_on_crafting_table();
-        if (flag.equals("make_leather_on_drying_rack")) return OptionsCommon.leather_make_on_drying_rack();
-        if (flag.equals("ink_accepts_blue_dye")) return OptionsCommon.ink_accepts_blue_dye();
+        if (flag == null) { return false; }
+        if (flag.equals("make_leather_on_crafting_table")) { return OptionsCommon.leather_make_on_crafting_table(); }
+        if (flag.equals("make_leather_on_drying_rack")) { return OptionsCommon.leather_make_on_drying_rack(); }
+        if (flag.equals("ink_accepts_blue_dye")) { return OptionsCommon.ink_accepts_blue_dye(); }
+        if (flag.equals("ink_simple_recipe")) { return OptionsCommon.ink_simple_recipe(); }
         return false;
     }
 }

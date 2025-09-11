@@ -1,6 +1,7 @@
 
 package moonfather.vegan_mod.changes;
 
+import moonfather.vegan_mod.OptionsCommon;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,31 +24,33 @@ public class RecipeManagerForInk
         {
             if (recipe.value().getType().equals(RecipeType.CRAFTING))
             {
-                if (! recipe.value().getResultItem(serverPlayer.getServer().overworld().registryAccess()).has(DataComponents.FOOD))
+                ItemStack output = recipe.value().getResultItem(serverPlayer.getServer().overworld().registryAccess());
+                if (output.has(DataComponents.FOOD))
                 {
-                    boolean needsInkFix = false;
-                    for (Ingredient ingredient : recipe.value().getIngredients())
+                    continue; // FD adds some food with squid ink
+                }
+                if (output.is(Items.BLACK_DYE) && OptionsCommon.ink_accepts_blue_dye())
+                {
+                    continue; // can't give black dye if we accept multiple dyes
+                }
+                boolean needsInkFix = false;
+                for (Ingredient ingredient : recipe.value().getIngredients())
+                {
+                    if (ingredient.test(inkVan) && ! ingredient.test(inkOur))
                     {
-                        if (ingredient.test(inkVan) && ! ingredient.test(inkOur))
-                        {
-                            needsInkFix = true;
-                            break;
-                        }
+                        needsInkFix = true;
+                        break;
                     }
-                    if (needsInkFix)
+                }
+                if (needsInkFix)
+                {
+                    for (int i = 0; i < recipe.value().getIngredients().size(); i++)
                     {
-//                        if (recipe.value() instanceof ShapelessRecipe shapeless)
-//                        {
-                        for (int i = 0; i < recipe.value().getIngredients().size(); i++)
+                        if (recipe.value().getIngredients().get(i).test(inkVan) && ! recipe.value().getIngredients().get(i).test(inkOur))
                         {
-                            if (recipe.value().getIngredients().get(i).test(inkVan) && ! recipe.value().getIngredients().get(i).test(inkOur))
-                            {
-                                Ingredient newIng = RecipeManagerForLeather.makeIngredient(recipe.value().getIngredients().get(i), inkOur);
-                                recipe.value().getIngredients().set(i, newIng);
-                            }
+                            Ingredient newIng = RecipeManagerForLeather.makeIngredient(recipe.value().getIngredients().get(i), inkOur);
+                            recipe.value().getIngredients().set(i, newIng);
                         }
-//                        }
-                        //continue; actually don't skip leather part, we might find both
                     }
                 }
             }

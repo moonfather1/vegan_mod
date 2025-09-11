@@ -1,9 +1,6 @@
 {
   "values": [
     "vegan_mod:plant_oil",
-    {
-      "id": "#c:red_dyes",
-      "required": false
-    }
+    { "id": "oritech:polymer_resin", "required": false }
   ]
 }

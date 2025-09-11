@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "VVV",
+        "V V"
+    ],
+    "key": {
+        "V": {
+                "item": "vegan_mod:hardened_fabric"
+             }
+    },
+    "result": {
+        "id": "minecraft:leather_helmet",
+        "count": 1
+    }
+}

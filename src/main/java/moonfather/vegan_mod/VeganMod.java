@@ -1,7 +1,6 @@
 package moonfather.vegan_mod;
 
 import moonfather.vegan_mod.changes.RecipeManagerMain;
-import moonfather.vegan_mod.items.ArmorCraftingRecipe;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
 import net.fabricmc.api.ModInitializer;
@@ -33,20 +32,14 @@ public class VeganMod implements ModInitializer
 		Other.initialize();
 		// https://wiki.fabricmc.net/tutorial:items#creating_items_in_1212
 
-		// server starting in add to reload
-		// remove 4 cutting. 5? 5.
-		// + add manual armor recipe with comp
-		// + add uncrafting
+		// remove 4 cutting.
 		// logo
-		// + book
-		// + optional for leather
 		// ink2 dead
 		// options
 		// simple mode
-		// armor in jei
-		// uncraft blue?
+		// create crushing  --- 1.20.1
+		// 1.21.8  models, recipes different,  resin
 		///////////////////////
-		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "green_armor"), ArmorCraftingRecipe.getSerializerForRegistration());
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
 		//////////
 		ResourceConditionType<?> conditionTypeForOptionalRecipes = ResourceConditionType.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "optional"), OptionalRecipeCondition.CODEC);

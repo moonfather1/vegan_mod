@@ -18,4 +18,8 @@ public class OptionsCommon
     {
         return false;
     }
+    public static boolean ink_simple_recipe()
+    {
+        return false;
+    }
 }

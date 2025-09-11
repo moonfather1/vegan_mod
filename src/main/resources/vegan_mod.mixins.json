@@ -1,14 +1,16 @@
 {
-	"required": true,
-	"package": "moonfather.vegan_mod.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-      "PotionMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
+  "required": true,
+  "package": "moonfather.vegan_mod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ArmorCraftingMixin",
+    "CuttingBoardMixin",
+    "PotionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
 	}
 }

@@ -8,5 +8,7 @@ public class RecipeManagerMain
     {
         RecipeManagerForLeather.joined(serverPlayer, joined);
         RecipeManagerForInk.joined(serverPlayer, joined);
+        // third one works but not entirely
+        //RecipeManagerForCuttingBoard.joined(serverPlayer, joined);
     }
 }
