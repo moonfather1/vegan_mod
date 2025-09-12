@@ -1,0 +1,10 @@
+{
+  "item.vegan_mod.plant_oil": "Plant Oil",
+  "item.vegan_mod.plant_ink": "Ink Bottle",
+  "item.vegan_mod.hardened_fabric": "Hardened Fabric",
+  "message.vegan_mod.armor_subtitle": "Made from plant materials",
+  "tag.item.vegan_mod.oil_for_ink_bottled": "Oil usable for making ink",
+  "tag.item.vegan_mod.oil_for_ink_no_bottle": "Substances usable for making ink",
+  "tag.item.vegan_mod.oil_for_leather": "Oil usable for making leather-like materials",
+  "tag.item.vegan_mod.plants_for_leather": "Usable for making leather-like materials"
+}

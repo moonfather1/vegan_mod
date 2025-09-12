@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:dyes/black"
+    },
+    {
+      "tag": "vegan_mod:oil_for_ink_no_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "id": "vegan_mod:plant_ink",
+    "count": 1
+  }
+}
+
+

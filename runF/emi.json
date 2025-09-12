@@ -1,0 +1,92 @@
+{
+  "favorites": [],
+  "lookup_history": [
+    {
+      "type": "item",
+      "id": "vegan_mod:hardened_fabric",
+      "amount": 3
+    },
+    "item:minecraft:blue_orchid",
+    "item:minecraft:seagrass",
+    "item:minecraft:leather_horse_armor",
+    "item:minecraft:leather_boots",
+    "item:farmersdelight:cutting_board",
+    {
+      "type": "item",
+      "id": "farmersdelight:rice_panicle",
+      "amount": 9
+    },
+    "item:minecraft:crafting_table",
+    {
+      "type": "item",
+      "id": "farmersdelight:full_tatami_mat",
+      "amount": 2
+    },
+    {
+      "type": "item",
+      "id": "farmersdelight:tatami",
+      "amount": 2
+    },
+    "item:farmersdelight:canvas",
+    "item:farmersdelight:canvas_rug",
+    {
+      "type": "item",
+      "id": "vegan_mod:plant_ink",
+      "amount": 3
+    },
+    "item:minecraft:black_dye",
+    {
+      "type": "item",
+      "id": "vegan_mod:plant_oil",
+      "remainder": "item:minecraft:glass_bottle"
+    },
+    "item:minecraft:book",
+    "item:minecraft:writable_book",
+    [
+      "item:minecraft:leather",
+      "item:vegan_mod:hardened_fabric"
+    ],
+    "item:minecraft:leather_helmet",
+    "item:minecraft:ink_sac",
+    "item:minecraft:leather",
+    [
+      "item:minecraft:ink_sac",
+      {
+        "type": "item",
+        "id": "vegan_mod:plant_ink",
+        "remainder": "item:minecraft:glass_bottle"
+      }
+    ],
+    "item:minecraft:item_frame",
+    "#item:vegan_mod:plants_for_leather",
+    {
+      "type": "item",
+      "id": "minecraft:blue_dye",
+      "amount": 3
+    },
+    {
+      "type": "item",
+      "id": "minecraft:glass_bottle",
+      "amount": 4
+    }
+  ],
+  "craft_history": [
+    "vegan_mod:armor_helmet",
+    "vegan_mod:armor_leggings",
+    "minecraft:leather_leggings",
+    "minecraft:leather_horse_armor",
+    "vegan_mod:armor_boots",
+    "minecraft:leather_boots",
+    "farmersdelight:canvas_rug",
+    "farmersdelight:canvas",
+    "vegan_mod:ink2",
+    "minecraft:black_dye"
+  ],
+  "recipe_defaults": {
+    "added": [],
+    "tags": {},
+    "resolutions": {},
+    "disabled": []
+  },
+  "hidden_stacks": []
+}
