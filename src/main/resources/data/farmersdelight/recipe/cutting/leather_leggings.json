@@ -1,0 +1,8 @@
+{
+  "type": "farmersdelight:cutting",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:false"
+    }
+  ]
+}

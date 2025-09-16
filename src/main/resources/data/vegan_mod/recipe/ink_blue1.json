@@ -12,9 +12,9 @@
     "id": "vegan_mod:plant_ink",
     "count": 1
   },
-  "fabric:load_conditions": [
+  "neoforge:conditions": [
     {
-      "condition": "vegan_mod:optional",
+      "type": "vegan_mod:optional",
       "flag": "ink_accepts_blue_dye"
     }
   ]
