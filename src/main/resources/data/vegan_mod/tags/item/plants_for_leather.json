@@ -2,6 +2,18 @@
   "values": [
     "minecraft:vine",
     "minecraft:weeping_vines",
-    "minecraft:kelp"
+    "minecraft:kelp",
+    { "id": "byg:embur_gel_vines", "required": false },
+    { "id": "byg:imparius_vine", "required": false },
+    { "id": "byg:lament_vine", "required": false },
+    { "id": "byg:shulkren_vine", "required": false },
+    { "id": "byg:skyris_vine", "required": false },
+    { "id": "byg:wailing_vine", "required": false },
+    { "id": "betterendforge:dense_vine", "required": false },
+    { "id": "betterendforge:jungle_vine", "required": false },
+    { "id": "betterendforge:tenanea_flowers", "required": false },
+    { "id": "betterendforge:twisted_vine", "required": false },
+    { "id": "biomesoplenty:willow_vine", "required": false },
+    { "id": "biomeswevegone:skyris_vine", "required": false }
   ]
 }

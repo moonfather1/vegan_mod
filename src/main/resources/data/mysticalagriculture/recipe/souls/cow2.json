@@ -1,0 +1,17 @@
+{
+  "type": "mysticalagriculture:soul_extraction",
+  "input": {
+    "item": "farm_and_charm:butter"
+  },
+  "result": {
+    "type": "mysticalagriculture:cow",
+    "souls": 1
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "farm_and_charm"
+    }
+  ]
+}
+

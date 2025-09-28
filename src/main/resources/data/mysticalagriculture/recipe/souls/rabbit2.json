@@ -1,0 +1,10 @@
+{
+  "type": "mysticalagriculture:soul_extraction",
+  "input": {
+    "item": "minecraft:gray_dye"
+  },
+  "result": {
+    "type": "mysticalagriculture:rabbit",
+    "souls": 1
+  }
+}
