@@ -28,6 +28,8 @@ public class VeganMod implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
+		// see about FD
+		// ink2 is weird
 		Items.initialize();
 		Other.initialize();
 		// https://wiki.fabricmc.net/tutorial:items#creating_items_in_1212
@@ -58,6 +60,7 @@ public class VeganMod implements ModInitializer
 		public static final Item HARDENED_FABRIC = new Item(new Item.Properties());
 		public static final Item PLANT_OIL = new FullBottleItem();
 		public static final Item PLANT_INK = new FullBottleItem();
+		public static final Item GLOWING_INK = new FullBottleItem();
 
 		//////////////////////////////////////////////////////
 
@@ -66,6 +69,7 @@ public class VeganMod implements ModInitializer
 			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "hardened_fabric"), HARDENED_FABRIC);
 			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "plant_ink"), PLANT_INK);
 			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "plant_oil"), PLANT_OIL);
+			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "glowing_ink"), GLOWING_INK);
 
 			ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(Items::addToCreativeTabs);
 
@@ -77,6 +81,7 @@ public class VeganMod implements ModInitializer
 			entries.accept(HARDENED_FABRIC);
 			entries.accept(PLANT_INK);
 			entries.accept(PLANT_OIL);
+			entries.accept(GLOWING_INK);
 		}
 
 		private Items() {}

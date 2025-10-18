@@ -23,6 +23,6 @@ public class PotionMixin
 		{
 			waterBreathingPotionInput = Items.SEAGRASS;
 		}
-		builder.addMix(Potions.AWKWARD, waterBreathingPotionInput, Potions.WATER_BREATHING);
+		builder.addMix(Potions.THICK, waterBreathingPotionInput, Potions.WATER_BREATHING);
 	}
 }
