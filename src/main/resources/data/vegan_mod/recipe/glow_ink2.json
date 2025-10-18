@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:glow_berries"
+    },
+    {
+      "tag": "vegan_mod:oil_for_ink_no_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "id": "vegan_mod:glowing_ink",
+    "count": 1
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value":
+      {
+        "type": "neoforge:tag_empty",
+        "tag": "vegan_mod:oil_for_ink_no_bottle"
+      }
+    }
+  ]
+}
+
+

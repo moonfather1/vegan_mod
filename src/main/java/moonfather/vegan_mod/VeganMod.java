@@ -92,14 +92,16 @@ public class VeganMod {
         }
         public static final DeferredItem<Item> PLANT_OIL = ITEMS.register("plant_oil", FullBottleItem::new);
         public static final DeferredItem<Item> PLANT_INK = ITEMS.register("plant_ink", FullBottleItem::new);
+        public static final DeferredItem<Item> GLOWING_INK = ITEMS.register("glowing_ink", FullBottleItem::new);
         public static final DeferredItem<Item> HARDENED_FABRIC = ITEMS.register("hardened_fabric", () -> new Item(new Item.Properties()));
         private static void addCreative(BuildCreativeModeTabContentsEvent event)
         {
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
             {
+                event.accept(HARDENED_FABRIC);
                 event.accept(PLANT_INK);
                 event.accept(PLANT_OIL);
-                event.accept(HARDENED_FABRIC);
+                event.accept(GLOWING_INK);
             }
         }
     }

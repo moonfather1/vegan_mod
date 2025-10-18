@@ -19,10 +19,11 @@ public class RecipeManagerForInk
     {
         if (server == null) { return; }
         ItemStack inkVan = new ItemStack(Items.INK_SAC), inkOur = new ItemStack(VeganMod.Items.PLANT_INK.get());
+        ItemStack ink2Van = new ItemStack(Items.GLOW_BERRIES), ink2Our = new ItemStack(VeganMod.Items.GLOWING_INK.get());
         Collection<RecipeHolder<?>> all = server.getRecipeManager().getRecipes();
         for (RecipeHolder<?> recipe : all)
         {
-            if (recipe.value().getType().equals(RecipeType.CRAFTING))
+            if (true /*recipe.value().getType().equals(RecipeType.CRAFTING)*/)
             {
                 ItemStack output = recipe.value().getResultItem(server.overworld().registryAccess());
                 if (output.has(DataComponents.FOOD))
@@ -36,7 +37,8 @@ public class RecipeManagerForInk
                 boolean needsInkFix = false;
                 for (Ingredient ingredient : recipe.value().getIngredients())
                 {
-                    if (ingredient.test(inkVan) && ! ingredient.test(inkOur))
+                    if (ingredient.test(inkVan) && ! ingredient.test(inkOur)
+                        || ingredient.test(ink2Van) && ! ingredient.test(ink2Our))
                     {
                         needsInkFix = true;
                         break;
@@ -49,6 +51,11 @@ public class RecipeManagerForInk
                         if (recipe.value().getIngredients().get(i).test(inkVan) && ! recipe.value().getIngredients().get(i).test(inkOur))
                         {
                             Ingredient newIng = RecipeManagerForLeather.makeIngredient(recipe.value().getIngredients().get(i), inkOur);
+                            recipe.value().getIngredients().set(i, newIng);
+                        }
+                        if (recipe.value().getIngredients().get(i).test(ink2Van) && ! recipe.value().getIngredients().get(i).test(ink2Our))
+                        {
+                            Ingredient newIng = RecipeManagerForLeather.makeIngredient(recipe.value().getIngredients().get(i), ink2Our);
                             recipe.value().getIngredients().set(i, newIng);
                         }
                     }
