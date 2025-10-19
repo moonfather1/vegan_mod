@@ -34,6 +34,10 @@ public class RecipeManagerForInk
                 {
                     continue; // can't give black dye if we accept multiple dyes
                 }
+                if (output.is(VeganMod.Items.GLOWING_INK))
+                {
+                    continue; // don't want a recursive recipe
+                }
                 boolean needsInkFix = false;
                 for (Ingredient ingredient : recipe.value().getIngredients())
                 {

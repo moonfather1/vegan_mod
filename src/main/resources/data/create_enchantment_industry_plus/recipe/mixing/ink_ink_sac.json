@@ -27,5 +27,14 @@
       "type": "neoforge:mod_loaded",
       "modid": "create_enchantment_industry_plus_123123123"
     }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create_enchantment_industry_plus",
+        "create_dragons_plus"
+      ]
+    }
   ]
 }

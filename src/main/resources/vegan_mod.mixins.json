@@ -5,7 +5,8 @@
   "mixins": [
     "ArmorCraftingMixin",
     "CuttingBoardMixin",
-    "PotionMixin"
+    "PotionMixin",
+    "SheddingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

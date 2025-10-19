@@ -1,20 +1,25 @@
 package moonfather.vegan_mod;
 
 import moonfather.vegan_mod.changes.RecipeManagerMain;
+import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Unit;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
@@ -30,6 +35,8 @@ public class VeganMod implements ModInitializer
 	{
 		// see about FD
 		// ink2 is weird
+		// options are dummies
+		// shed timer
 		Items.initialize();
 		Other.initialize();
 		// https://wiki.fabricmc.net/tutorial:items#creating_items_in_1212
@@ -51,6 +58,9 @@ public class VeganMod implements ModInitializer
 		ResourceConditionType<?> conditionTypeForOptionalRecipes2 = ResourceConditionType.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "tag_not_empty"), TagNotEmptyRecipeCondition.CODEC);
 		TagNotEmptyRecipeCondition.setType(conditionTypeForOptionalRecipes2);
 		ResourceConditions.register(conditionTypeForOptionalRecipes2);
+		//////////////////
+		UseEntityCallback.EVENT.register(SheddingHandler::onRightClickEntity);
+
 	}
 
 	///////////////////////////////////////
