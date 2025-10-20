@@ -18,10 +18,7 @@ public class SheddingMixin
 		if (entity.tickCount % SheddingHandler.SHEDDING_CHECK_INTERVAL != SheddingHandler.SHEDDING_CHECK_INTERVAL - 3) { return; } // 2 seconds
 		if (OptionsCommon.doesEntityShed(entity))
 		{
-			if (entity.getRandom().nextInt(10) == 7)
-			{
-				SheddingHandler.maybeShed(entity);
-			}
+			SheddingHandler.maybeShed(entity);
 		}
 	}
 }

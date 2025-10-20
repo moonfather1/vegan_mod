@@ -33,19 +33,12 @@ public class VeganMod implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		// see about FD
-		// ink2 is weird
-		// options are dummies
-		// shed timer
 		Items.initialize();
 		Other.initialize();
-		// https://wiki.fabricmc.net/tutorial:items#creating_items_in_1212
-
+		OptionsCommon.initialize();
 		// remove 4 cutting.
 		// logo
-		// ink2 dead
-		// options
-		// simple mode
+		// ink2 dead or weird
 		// create crushing  --- 1.20.1
 		// 1.21.8  models, recipes different,  resin
 		///////////////////////
