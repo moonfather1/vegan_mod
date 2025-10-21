@@ -2,6 +2,7 @@
   "values": [
     "vegan_mod:plant_oil",
     { "id": "oritech:polymer_resin", "required": false },
+    { "id": "techreborn:sap", "required": false },
     { "id": "immersiveengineering:creosote_bucket", "required": false },
     { "id": "hearthandharvest:sap_bucket", "required": false }
   ]

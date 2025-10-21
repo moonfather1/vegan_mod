@@ -23,7 +23,7 @@ public class RecipeManagerForInk
         Collection<RecipeHolder<?>> all = server.getRecipeManager().getRecipes();
         for (RecipeHolder<?> recipe : all)
         {
-            if (true /*recipe.value().getType().equals(RecipeType.CRAFTING)*/)
+            if (recipe.value().getType().equals(RecipeType.CRAFTING))
             {
                 ItemStack output = recipe.value().getResultItem(server.overworld().registryAccess());
                 if (output.has(DataComponents.FOOD))
@@ -33,6 +33,10 @@ public class RecipeManagerForInk
                 if (output.is(Items.BLACK_DYE) && Config.ink_accepts_blue_dye())
                 {
                     continue; // can't give black dye if we accept multiple dyes
+                }
+                if (output.is(VeganMod.Items.GLOWING_INK))
+                {
+                    continue; // don't want a recursive recipe
                 }
                 boolean needsInkFix = false;
                 for (Ingredient ingredient : recipe.value().getIngredients())

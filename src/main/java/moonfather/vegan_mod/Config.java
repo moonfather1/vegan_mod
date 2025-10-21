@@ -1,16 +1,15 @@
 package moonfather.vegan_mod;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.util.HashMap;
+import java.util.Map;
 
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
@@ -33,14 +32,14 @@ public class Config {
             .comment("Does ink recipe accept blue dye? If false, it needs to be black dye.")
             .define("ink_accepts_blue_dye", false);
 
+    private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
+            .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
+            .define("shedding", "minecraft:chicken=minecraft:feather=900, minecraft:armadillo=minecraft:armadillo_scute=1800");
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     //-----------------------------------------//
 
-    public static double leather_multiplier()
-    {
-        return _leather_multiplier.get();
-    }
     public static boolean leather_make_on_crafting_table()
     {
         return _leather_make_on_crafting_table.get();
@@ -57,4 +56,61 @@ public class Config {
     {
         return _ink_accepts_blue_dye.get();
     }
+    public static double leather_multiplier()
+    {
+        return _leather_multiplier.get();
+    }
+
+    //-----------------------------------------//
+
+    public static boolean doesEntityShed(Entity entity)
+    {
+        initializeSheddingIfNeeded();
+        if (entity instanceof ItemEntity) { return false; }
+        return sheddingResults.containsKey(entity.getType());
+    }
+    public static Item getEntityShedItem(Entity entity)
+    {
+        initializeSheddingIfNeeded();
+        return sheddingResults.get(entity.getType());
+    }
+    public static int getEntityShedIntervalInSeconds(Entity entity)
+    {
+        initializeSheddingIfNeeded();
+        return sheddingTime.get(entity.getType());
+    }
+    private static void initializeSheddingIfNeeded()
+    {
+        if (sheddingInitialized) { return; }
+        sheddingInitialized = true;
+        String[] entries = _shedding.get().split(",\\s*");
+        for (String entry : entries)
+        {
+            String[] parts = entry.split("\\s*=\\s*");
+            if (parts.length != 3)
+            {
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (bad format)");
+                continue;
+            }
+            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(ResourceLocation.parse(parts[0])))
+            {
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (entity not present in game)");
+                continue;
+            }
+            if (! BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(parts[1])))
+            {
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (item not present in game)");
+                continue;
+            }
+            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(parts[0]));
+            sheddingResults.put(key, BuiltInRegistries.ITEM.get(ResourceLocation.parse(parts[1])));
+            sheddingTime.put(key, parseInt(parts[2], 900));
+        }
+    }
+
+
+    private static final Map<EntityType<?>, Item> sheddingResults = new HashMap<>();
+    private static final Map<EntityType<?>, Integer> sheddingTime = new HashMap<>();
+    private static boolean sheddingInitialized = false;
+    private static int parseInt(String input, int def) { try { return Integer.parseInt(input); } catch (NumberFormatException ex) { return def; } }
 }

@@ -1,6 +1,7 @@
 {
   "values": [
     { "id": "oritech:polymer_resin", "required": false },
+    { "id": "techreborn:sap", "required": false },
     { "id": "immersiveengineering:plantoil_bucket", "required": false }
   ]
 }
