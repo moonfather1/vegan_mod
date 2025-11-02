@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
+import moonfather.vegan_mod.stupid_fluid.FluidRegistration;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Unit;
@@ -45,6 +46,7 @@ public class VeganMod {
 
         Items.init(modEventBus);
         Other.init(modEventBus);
+        FluidRegistration.init(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_cows_._serverconfig.toml");
