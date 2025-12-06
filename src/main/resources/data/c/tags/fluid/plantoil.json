@@ -1,0 +1,5 @@
+{
+  "values": [
+    { "id": "vegan_mod:plant_oil_source", "required": false }
+  ]
+}

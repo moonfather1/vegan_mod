@@ -13,7 +13,7 @@ public class ClientEvents
     @SubscribeEvent
     public static void onClientSetup(RegisterClientExtensionsEvent event)
     {
-        IClientFluidTypeExtensions ex = ClientExtensions.create(VeganMod.MODID, "plant_oil").tint(0xCCAA66).fogColor(0.6f, 0.6f, 0.3f).build();
-        event.registerFluidType(ex, FluidRegistration.OIL_FLUID.type.get());
+//        IClientFluidTypeExtensions ex = ClientExtensions.create(VeganMod.MODID, "plant_oil").tint(0xCCAA66).fogColor(0.6f, 0.6f, 0.3f).build();
+//        event.registerFluidType(ex, FluidRegistration.OIL_FLUID.type.get());
     }
 }

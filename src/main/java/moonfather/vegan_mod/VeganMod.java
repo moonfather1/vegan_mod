@@ -1,6 +1,7 @@
 package moonfather.vegan_mod;
 
 import com.mojang.serialization.MapCodec;
+import moonfather.vegan_mod.another_attempt_at_fluid.FluidRegistries;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
@@ -39,14 +40,18 @@ public class VeganMod {
 
 
 
-
+    // todo: fluid density?, viscosity?, flammability, distance
+    // todo: IE, maybe config for hiding fluid bucket (if no industry mods?)
+    // todo: drying rack
+    // todo: IE bottling.  create spout.
     public VeganMod(IEventBus modEventBus, ModContainer modContainer)
     {
         modEventBus.addListener(this::commonSetup);
 
         Items.init(modEventBus);
         Other.init(modEventBus);
-        FluidRegistration.init(modEventBus);
+        //FluidRegistration.init(modEventBus);
+        FluidRegistries.init(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_cows_._serverconfig.toml");

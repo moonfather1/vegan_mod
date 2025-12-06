@@ -6,5 +6,11 @@
   "result": {
     "type": "mysticalagriculture:armadillo",
     "souls": 1.5
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ]
 }

@@ -19,7 +19,7 @@ public class RecipeManagerForInk
     {
         if (server == null) { return; }
         ItemStack inkVan = new ItemStack(Items.INK_SAC), inkOur = new ItemStack(VeganMod.Items.PLANT_INK.get());
-        ItemStack ink2Van = new ItemStack(Items.GLOW_BERRIES), ink2Our = new ItemStack(VeganMod.Items.GLOWING_INK.get());
+        ItemStack ink2Van = new ItemStack(Items.GLOW_INK_SAC), ink2Our = new ItemStack(VeganMod.Items.GLOWING_INK.get());
         Collection<RecipeHolder<?>> all = server.getRecipeManager().getRecipes();
         for (RecipeHolder<?> recipe : all)
         {
@@ -33,10 +33,6 @@ public class RecipeManagerForInk
                 if (output.is(Items.BLACK_DYE) && Config.ink_accepts_blue_dye())
                 {
                     continue; // can't give black dye if we accept multiple dyes
-                }
-                if (output.is(VeganMod.Items.GLOWING_INK))
-                {
-                    continue; // don't want a recursive recipe
                 }
                 boolean needsInkFix = false;
                 for (Ingredient ingredient : recipe.value().getIngredients())

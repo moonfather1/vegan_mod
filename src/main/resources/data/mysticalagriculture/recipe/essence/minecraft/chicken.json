@@ -1,8 +1,8 @@
 {
   "type": "cucumber:shaped_no_mirror",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:false"
+      "type": "neoforge:false"
     },
     {
       "type": "mysticalagriculture:crop_enabled",

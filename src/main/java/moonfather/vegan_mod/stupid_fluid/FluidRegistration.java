@@ -39,11 +39,11 @@ public class FluidRegistration
 
     /////////////////////////
 
-    public static final FluidDetails OIL_FLUID = new FluidDetails(
-            "plant_oil",
-            FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
-            null,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.WATER),
-            new Item.Properties().stacksTo(1)
-    );
+//    public static final FluidDetails OIL_FLUID = new FluidDetails(
+//            "plant_oil",
+//            FluidType.Properties.create().canSwim(true).canDrown(true).canPushEntity(true).supportsBoating(true),
+//            null,
+//            BlockBehaviour.Properties.ofFullCopy(Blocks.WATER),
+//            new Item.Properties().stacksTo(1)
+//    );
 }
