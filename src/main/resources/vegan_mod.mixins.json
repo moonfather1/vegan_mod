@@ -7,6 +7,7 @@
     "CatGoalAccessor",
     "CatGoalMixin",
     "CatGoalMixin2",
+    "CDP_BulkColoringMixin",
     "PotionMixin"
   ],
   "injectors": {

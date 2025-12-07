@@ -7,19 +7,19 @@
     {
       "type": "fluid_stack",
       "amount": 250,
-      "fluid": "create_dragons_plus:black_dye",
+      "fluid": "vegan_mod:plant_oil_source",
       "nbt": {}
     }
   ],
   "results": [
     {
-      "id": "vegan_mod:plant_ink"
+      "id": "vegan_mod:plant_oil"
     }
   ],
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "create_dragons_plus"
+      "modid": "create"
     }
   ]
 }

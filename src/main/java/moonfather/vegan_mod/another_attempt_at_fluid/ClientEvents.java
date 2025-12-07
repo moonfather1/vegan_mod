@@ -90,10 +90,11 @@ public class ClientEvents
                     if (tintIndex == 1)
                     {
                         return 0XFFD1C879;
-                    } else {
+                    }
+                    else
+                    {
                         if (defaultColor == -308)
                         {
-
                             defaultColor = colors.getColor(new ItemStack(Items.BUCKET), 0);
                         }
                         return defaultColor;

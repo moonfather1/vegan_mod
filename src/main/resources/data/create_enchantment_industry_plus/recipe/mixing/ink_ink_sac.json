@@ -25,7 +25,10 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:mod_loaded",
-      "modid": "create_enchantment_industry_plus_123123123"
+      "modid": "create_enchantment_industry_plus"
+    },
+    {
+      "type": "neoforge:false"
     }
   ]
 }
