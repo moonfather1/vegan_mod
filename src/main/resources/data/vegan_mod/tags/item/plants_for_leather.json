@@ -14,6 +14,14 @@
     { "id": "betterendforge:tenanea_flowers", "required": false },
     { "id": "betterendforge:twisted_vine", "required": false },
     { "id": "biomesoplenty:willow_vine", "required": false },
-    { "id": "biomeswevegone:skyris_vine", "required": false }
+    { "id": "biomeswevegone:skyris_vine", "required": false },
+    { "id": "undergarden:glitterkelp", "required": false },
+    { "id": "eternal_starlight:spiral_kelp", "required": false },
+    { "id": "#chipped:vine", "required": false },
+    { "id": "regions_unexplored:kapok_vines", "required": false },
+    { "id": "eternal_starlight:lunar_vine", "required": false },
+    { "id": "eternal_starlight:red_crystalfleur_vine", "required": false },
+    { "id": "eternal_starlight:blue_crystalfleur_vine", "required": false },
+    { "id": "deeperdarker:sculk_vines", "required": false }
   ]
 }
