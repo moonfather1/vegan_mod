@@ -25,6 +25,13 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 base {
@@ -119,6 +126,7 @@ configurations {
 
 dependencies {
     compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
+    compileOnly "curse.maven:jei-238222:7416540"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

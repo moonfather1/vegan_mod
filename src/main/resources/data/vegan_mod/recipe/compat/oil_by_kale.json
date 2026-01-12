@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "kaleidoscope_cookery:oil"
+    }
+  ],
+  "result": {
+    "id": "vegan_mod:plant_oil",
+    "count": 1
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "kaleidoscope_cookery"
+    },
+    {
+        "type": "neoforge:tag_empty",
+        "tag": "vegan_mod:oil_for_leather"
+    }
+  ]
+}

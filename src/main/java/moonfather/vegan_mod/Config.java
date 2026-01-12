@@ -25,7 +25,7 @@ public class Config {
             .define("leather_make_on_crafting_table", true);
 
     private static final ModConfigSpec.ConfigValue<String> _leather_armor_color = BUILDER
-            .comment("What color is the leather armor made from plant materials? You cah prefix with # or 0x if you want to use hex numbers.")
+            .comment("What color is the leather armor made from plant materials? You can prefix with # or 0x if you want to use hex numbers.")
             .define("leather_armor_color", "#ABAD65");
 
     private static final ModConfigSpec.BooleanValue _ink_accepts_blue_dye = BUILDER

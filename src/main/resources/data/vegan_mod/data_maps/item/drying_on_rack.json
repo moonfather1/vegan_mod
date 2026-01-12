@@ -1,0 +1,12 @@
+{
+  "values": {
+    "vegan_mod:raw_fabric": {
+      "output": "vegan_mod:hardened_fabric",
+      "time_in_minutes": 16
+    },
+    "minecraft:kelp": {
+      "output": "minecraft:dried_kelp",
+      "time_in_minutes": 8
+    }
+  }
+}
