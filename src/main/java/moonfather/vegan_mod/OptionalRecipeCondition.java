@@ -14,6 +14,7 @@ public record OptionalRecipeCondition(String flag) implements ICondition
         if (flag.equals("make_leather_on_crafting_table")) { return Config.leather_make_on_crafting_table(); }
         if (flag.equals("make_leather_on_drying_rack")) { return Config.leather_make_on_drying_rack(); }
         if (flag.equals("ink_accepts_blue_dye")) { return Config.ink_accepts_blue_dye(); }
+        if (flag.equals("oil_bucket_forced_craftable")) { return Config.oil_bucket_always_craftable(); }
         if (flag.equals("ink_simple_recipe")) { return false; }
         return false;
     }

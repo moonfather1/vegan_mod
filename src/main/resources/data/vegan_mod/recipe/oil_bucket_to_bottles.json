@@ -20,5 +20,25 @@
   "result": {
     "id": "vegan_mod:plant_oil",
     "count": 4
-  }
+  },
+   "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values":
+          [
+              {
+                "type": "neoforge:mod_loaded",
+                "modid": "create"
+              },
+              {
+                "type": "neoforge:mod_loaded",
+                "modid": "immersiveengineering"
+              },
+              {
+                "type": "vegan_mod:optional",
+                "flag": "oil_bucket_forced_craftable"
+              }
+          ]
+    }
+  ]
 }

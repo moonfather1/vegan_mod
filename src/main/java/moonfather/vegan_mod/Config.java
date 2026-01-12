@@ -32,6 +32,10 @@ public class Config {
             .comment("Does ink recipe accept blue dye? If false, it needs to be black dye.")
             .define("ink_accepts_blue_dye", false);
 
+    private static final ModConfigSpec.BooleanValue _oil_bucket_always_craftable = BUILDER
+            .comment("Normally, oil bucket (and fluid in-world) is accessible if Immersive Engineering or Create are present. Otherwise, you just have bottles. This setting can force the buckets craftable regardless of industry mods.")
+            .define("oil_bucket_always_craftable", false);
+
     private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
             .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
             .define("shedding", "minecraft:chicken=minecraft:feather=900, minecraft:armadillo=minecraft:armadillo_scute=1800");
@@ -55,6 +59,10 @@ public class Config {
     public static boolean ink_accepts_blue_dye()
     {
         return _ink_accepts_blue_dye.get();
+    }
+    public static boolean oil_bucket_always_craftable()
+    {
+        return _oil_bucket_always_craftable.get();
     }
     public static double leather_multiplier()
     {
