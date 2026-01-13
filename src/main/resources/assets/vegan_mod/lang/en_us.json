@@ -22,6 +22,8 @@
   "item.vegan_mod.drying_rack": "Drying Rack",
   "message.vegan_mod.invalid_item_for_rack": "That doesn't look like something that needs to be on the rack.",
 
+  "emi.category.vegan_mod.emi_category": "Drying",
+
   "vegan_mod.configuration.leather_multiplier": "Leather multiplier",
   "vegan_mod.configuration.leather_make_on_crafting_table": "Leather made on crafting table",
   "vegan_mod.configuration.leather_armor_color": "Leather armor color",
