@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "VVV",
+        "OVO",
+        "VVV"
+    ],
+    "key": {
+        "V": {
+                "tag": "vegan_mod:plants_for_leather"
+             },
+        "O": {
+                "item": "vegan_mod:thick_oil"
+             }
+    },
+    "result": {
+        "id": "vegan_mod:raw_fabric",
+        "count": 1
+    },
+   "neoforge:conditions": [
+    {
+      "type": "vegan_mod:optional",
+      "flag": "make_leather_on_drying_rack"
+    },
+    {
+      "type": "neoforge:not",
+      "value":
+      {
+        "type": "neoforge:tag_empty",
+        "tag": "vegan_mod:oil_for_leather_in_buckets"
+      }
+    }
+  ]
+}

@@ -1,16 +1,15 @@
 package moonfather.vegan_mod.changes;
 
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 @EventBusSubscriber
 public class EventForRecipes
@@ -18,7 +17,7 @@ public class EventForRecipes
     @SubscribeEvent
     public static void OnServerStarting(ServerStartingEvent event)
     {
-        RecipeManagerMain.beforeSync(event.getServer());
+        RecipeManagerMain.beforeSync(event.getServer().getRecipeManager(), event.getServer().overworld().registryAccess());
     }
 
     //-----------------------------------
@@ -26,28 +25,34 @@ public class EventForRecipes
     @SubscribeEvent
     public static void OnAddReloadListener(AddReloadListenerEvent event)
     {
-        for (PreparableReloadListener listener: event.getListeners())
+        for (Object listener: event.getListeners())
         {
             if (listener instanceof ReloadListener)
             {
                 return;
             }
         }
-        event.addListener(lissy);
+        event.addListener(new ReloadListener(event.getServerResources().getRecipeManager(), event.getRegistryAccess()));
     }
 
-    private static final PreparableReloadListener lissy = new ReloadListener();
 
-    private static class ReloadListener implements PreparableReloadListener
+
+    private static class ReloadListener implements ResourceManagerReloadListener //PreparableReloadListener
     {
-        @Override
-        public CompletableFuture<Void> reload(PreparationBarrier p_10638_, ResourceManager p_10639_, ProfilerFiller p_10640_, ProfilerFiller p_10641_, Executor p_10642_, Executor p_10643_)
+        private ReloadListener(RecipeManager recipeManager, RegistryAccess registryAccess)
         {
-            if (ServerLifecycleHooks.getCurrentServer() != null) // will be null one during load
+            this.recipeManager = recipeManager;
+            this.registryAccess = registryAccess;
+        }
+        private final RecipeManager recipeManager;  private final RegistryAccess registryAccess;
+
+        @Override
+        public void onResourceManagerReload(ResourceManager resourceManager)
+        {
+            if (ServerLifecycleHooks.getCurrentServer() != null)
             {
-                RecipeManagerMain.beforeSync(ServerLifecycleHooks.getCurrentServer());
+                RecipeManagerMain.beforeSync(this.recipeManager, this.registryAccess);
             }
-            return p_10638_.wait(null);
         }
     }
 }

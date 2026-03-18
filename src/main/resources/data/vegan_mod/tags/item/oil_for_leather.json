@@ -1,14 +1,10 @@
 {
   "values": [
-    "vegan_mod:plant_oil",
     { "id": "oritech:polymer_resin", "required": false },
     { "id": "techreborn:sap", "required": false },
-    { "id": "immersiveengineering:creosote_bucket", "required": false },
-    { "id": "hearthandharvest:sap_bucket", "required": false },
     { "id": "forbidden_arcanus:edelwood_oil", "required": false },
     { "id": "productivetrees:sandalwood_oil", "required": false },
     { "id": "productivetrees:date_palm_juice", "required": false },
-    { "id": "productivetrees:dracaena_sap", "required": false },
-    { "id": "productivetrees:maple_sap_bucket", "required": false }
+    { "id": "productivetrees:dracaena_sap", "required": false }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "type": "twilightforest:drying",
+  "filter_time": 1020000,
+  "input": {
+    "tag": "c:foods/cooked_meat"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:leather"
+  },
+   "neoforge:conditions": [
+    {
+      "type": "neoforge:false"
+    }
+  ]
+}

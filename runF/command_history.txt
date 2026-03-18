@@ -1,3 +1,0 @@
-/reload
-/re
-/reload

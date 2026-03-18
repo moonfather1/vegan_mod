@@ -7,6 +7,10 @@
     "minecraft:kelp": {
       "output": "minecraft:dried_kelp",
       "time_in_minutes": 8
+    },
+    "minecraft:wet_sponge": {
+      "output": "minecraft:sponge",
+      "time_in_minutes": 6
     }
   }
 }

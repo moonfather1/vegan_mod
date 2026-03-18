@@ -5,6 +5,7 @@ import moonfather.vegan_mod.another_attempt_at_fluid.FluidRegistries;
 import moonfather.vegan_mod.blocks.DataMapManager;
 import moonfather.vegan_mod.blocks.DryingRackBlock;
 import moonfather.vegan_mod.blocks.DryingRackBlockEntity;
+import moonfather.vegan_mod.blocks.LitterBlock;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
@@ -13,6 +14,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
@@ -46,12 +48,21 @@ public class VeganMod
     public static final Logger LOGGER = LogUtils.getLogger();
 
 
+    // todo pre 1: rabbit hide
+    // todo: pre 1: litter       /   make look ok   / lang  /  test water  / test below gone !-  /EAST-4  looks the same // EAST-1 invisible
+    // todo: pre 1: litter       /   decay   /  pickup1  / test destroy   / make flamable / make rack flamable (less)  / make accept shedding
+    //
+    // todo: oil:  fluid density?, viscosity?, flammability, distance
+    // todo: oil:  maybe - hardened oil
+    // todo: rack:  covered rack?(+msg),            check water next to tack?
 
-    // todo: fluid density?, viscosity?, flammability, distance
-    // todo: maybe - hardened oil
-    // todo: maybe config for hiding fluid bucket (if no industry mods?)
-    // todo: covered rack?(+msg),            check water next to tack?
+    // todo: remove ~~ messages
 
+    // todo:  cdp tag
+    // todo:     frycook
+    ///////////////
+    // todo more feathers? why 50% of scutes?
+    // TF hide upgrades not work  don't care that much
 
     public VeganMod(IEventBus modEventBus, ModContainer modContainer)
     {
@@ -64,18 +75,12 @@ public class VeganMod
         FluidRegistries.init(modEventBus);
 
         modEventBus.addListener(DataMapManager::registerDataMapTypes);
-        NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_cows_._serverconfig.toml");
         NeoForge.EVENT_BUS.addListener(SheddingHandler::onEntityTick);
         NeoForge.EVENT_BUS.addListener(SheddingHandler::onEntityRightClick);
     }
 
     private void commonSetup(FMLCommonSetupEvent event)
-    {
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
     {
     }
 
@@ -118,6 +123,8 @@ public class VeganMod
         public static final DeferredItem<Item> DRYING_RACK_ITEM = ITEMS.register("drying_rack", () -> new BlockItem(DRYING_RACK.get(), new Item.Properties()));
         public static final Supplier<BlockEntityType<DryingRackBlockEntity>> DRYING_RACK_BE = BLOCK_ENTITIES.register("drying_rack_be", () -> BlockEntityType.Builder.of(DryingRackBlockEntity::new, DRYING_RACK.get()).build(null));
 
+        public static final DeferredBlock<Block> LITTER_OF_FEATHERS = BLOCKS.register("litter_of_feathers", ()->new LitterBlock(net.minecraft.world.item.Items.FEATHER));
+
         private static void addCreative(BuildCreativeModeTabContentsEvent event)
         {
             if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
@@ -141,6 +148,7 @@ public class VeganMod
         public static final DeferredItem<Item> GLOWING_INK = ITEMS.register("glowing_ink", FullBottleItem::new);
         public static final DeferredItem<Item> HARDENED_FABRIC = ITEMS.register("hardened_fabric", () -> new Item(new Item.Properties()));
         public static final DeferredItem<Item> RAW_FABRIC = ITEMS.register("raw_fabric", () -> new Item(new Item.Properties()));
+        public static final DeferredItem<Item> THICK_OIL = ITEMS.register("thick_oil", FullBottleItem::new);
         private static void addCreative(BuildCreativeModeTabContentsEvent event)
         {
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
@@ -148,8 +156,9 @@ public class VeganMod
                 event.accept(HARDENED_FABRIC);
                 event.accept(RAW_FABRIC);
                 event.accept(PLANT_INK);
-                event.accept(PLANT_OIL);
                 event.accept(GLOWING_INK);
+                event.accept(PLANT_OIL);
+                event.accept(THICK_OIL);
             }
         }
     }

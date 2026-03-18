@@ -4,6 +4,7 @@
   "item.vegan_mod.glowing_ink": "Glowing Ink Bottle",
   "item.vegan_mod.hardened_fabric": "Hardened Fabric",
   "item.vegan_mod.raw_fabric": "Raw Plant Fabric",
+  "item.vegan_mod.thick_oil": "Thick Oil",
 
   "item.vegan_mod.plant_oil_bucket": "Bucket of Plant Oil",
   "block.vegan_mod.plant_oil_fluid": "Plant Oil",
@@ -15,9 +16,11 @@
   "tag.item.vegan_mod.oil_for_ink_bottled": "Oil usable for making ink",
   "tag.item.vegan_mod.oil_for_ink_no_bottle": "Substances usable for making ink",
   "tag.item.vegan_mod.oil_for_leather": "Oil usable for making leather-like materials",
+  "tag.item.vegan_mod.oil_for_leather_in_buckets": "Oil usable for making leather-like materials",
   "tag.item.vegan_mod.plants_for_leather": "Usable for making leather-like materials",
+  "tag.item.vegan_mod.fabric_for_leather": "Usable for making leather-like materials",
 
-  "block.vegan_mod.litter_feathers": "Feathers",
+  "block.vegan_mod.litter_of_feathers": "Feathers",
   "block.vegan_mod.drying_rack": "Drying Rack",
   "item.vegan_mod.drying_rack": "Drying Rack",
   "message.vegan_mod.invalid_item_for_rack": "That doesn't look like something that needs to be on the rack.",

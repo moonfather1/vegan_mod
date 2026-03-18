@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "vegan_mod:oil_for_leather_in_buckets"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "id": "vegan_mod:thick_oil",
+    "count": 4
+  },
+   "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value":
+      {
+        "type": "neoforge:tag_empty",
+        "tag": "vegan_mod:oil_for_leather_in_buckets"
+      }
+    }
+  ]
+}

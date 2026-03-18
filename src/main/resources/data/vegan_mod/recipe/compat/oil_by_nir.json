@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    },
+    {
+      "item": "nirvana:hemp_seeds"
+    }
+  ],
+  "result": {
+    "id": "vegan_mod:plant_oil",
+    "count": 1
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "nirvana"
+    }
+  ]
+}

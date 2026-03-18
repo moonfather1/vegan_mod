@@ -3,29 +3,31 @@ package moonfather.vegan_mod.changes;
 
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.Collection;
 
 public class RecipeManagerForInk
 {
-    public static void joined(MinecraftServer server)
+    public static void joined(RecipeManager recipeManager, RegistryAccess registryAccess)
     {
-        if (server == null) { return; }
+        if (recipeManager == null) { return; }
         ItemStack inkVan = new ItemStack(Items.INK_SAC), inkOur = new ItemStack(VeganMod.Items.PLANT_INK.get());
         ItemStack ink2Van = new ItemStack(Items.GLOW_INK_SAC), ink2Our = new ItemStack(VeganMod.Items.GLOWING_INK.get());
-        Collection<RecipeHolder<?>> all = server.getRecipeManager().getRecipes();
+        Collection<RecipeHolder<?>> all = recipeManager.getRecipes();
         for (RecipeHolder<?> recipe : all)
         {
             if (recipe.value().getType().equals(RecipeType.CRAFTING))
             {
-                ItemStack output = recipe.value().getResultItem(server.overworld().registryAccess());
+                ItemStack output = recipe.value().getResultItem(registryAccess);
                 if (output.has(DataComponents.FOOD))
                 {
                     continue; // FD adds some food with squid ink

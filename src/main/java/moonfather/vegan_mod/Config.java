@@ -38,7 +38,7 @@ public class Config {
 
     private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
             .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
-            .define("shedding", "minecraft:chicken=minecraft:feather=900, minecraft:armadillo=minecraft:armadillo_scute=1800");
+            .define("shedding", "minecraft:chicken=minecraft:feather=720, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=60");
 
     static final ModConfigSpec SPEC = BUILDER.build();
 

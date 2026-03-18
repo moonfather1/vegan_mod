@@ -1,22 +1,24 @@
 package moonfather.vegan_mod.changes;
 
 import moonfather.vegan_mod.VeganMod;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.*;
 
 public class RecipeManagerForLeather
 {
-    public static void joined(MinecraftServer server)
+    public static void joined(RecipeManager recipeManager, RegistryAccess registryAccess)
     {
-        if (server == null) { return; }
+        if (recipeManager == null) { return; }
         ItemStack leaVan = new ItemStack(Items.LEATHER), leaOur = new ItemStack(VeganMod.Items.HARDENED_FABRIC.get());
-        Collection<RecipeHolder<?>> all = server.getRecipeManager().getRecipes();
+        Collection<RecipeHolder<?>> all = recipeManager.getRecipes();
         for (RecipeHolder<?> recipe : all)
         {
             if (recipe.value().getType().equals(RecipeType.CRAFTING))

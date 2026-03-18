@@ -1,0 +1,6 @@
+{
+  "values": [
+    { "id": "immersiveengineering:hemp_fabric", "required": false },
+    { "id": "nirvana:hemp_cloth", "required": false }
+  ]
+}
