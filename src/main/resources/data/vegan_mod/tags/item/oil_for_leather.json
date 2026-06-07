@@ -5,6 +5,7 @@
     { "id": "forbidden_arcanus:edelwood_oil", "required": false },
     { "id": "productivetrees:sandalwood_oil", "required": false },
     { "id": "productivetrees:date_palm_juice", "required": false },
-    { "id": "productivetrees:dracaena_sap", "required": false }
+    { "id": "productivetrees:dracaena_sap", "required": false },
+    { "id": "minecraft:resin_clump", "required": false }
   ]
 }

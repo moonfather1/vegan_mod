@@ -2,22 +2,22 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "c:seeds/hemp"
+      "tag": "c:seeds/sunflower"
     },
     {
-      "tag": "c:seeds/hemp"
+      "tag": "c:seeds/sunflower"
     },
     {
-      "tag": "c:seeds/hemp"
+      "tag": "c:seeds/sunflower"
     },
     {
-      "tag": "c:seeds/hemp"
+      "tag": "c:seeds/sunflower"
     },
     {
       "item": "minecraft:glass_bottle"
     },
     {
-      "tag": "c:seeds/hemp"
+      "tag": "c:seeds/sunflower"
     }
   ],
   "result": {
@@ -30,7 +30,7 @@
       "value":
       {
         "type": "neoforge:tag_empty",
-        "tag": "c:seeds/hemp"
+        "tag": "c:seeds/sunflower"
       }
     }
   ]

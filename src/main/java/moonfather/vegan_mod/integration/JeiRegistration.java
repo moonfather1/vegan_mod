@@ -9,6 +9,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.blocks.DataMapManager;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -42,6 +43,10 @@ public class JeiRegistration implements IModPlugin
     @Override
     public void registerRecipes(IRecipeRegistration registration)
     {
+        if (! Config.leather_make_on_drying_rack())
+        {
+            return;
+        }
         if (BuiltInRegistries.ITEM instanceof BaseMappedRegistry bmr)
         {
             List<JeiCategory.DryingRecipeForJei> list = new ArrayList<>();

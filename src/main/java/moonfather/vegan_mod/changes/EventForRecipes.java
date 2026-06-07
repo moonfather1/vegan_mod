@@ -15,7 +15,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 public class EventForRecipes
 {
     @SubscribeEvent
-    public static void OnServerStarting(ServerStartingEvent event)
+    public static void onServerStarting(ServerStartingEvent event)
     {
         RecipeManagerMain.beforeSync(event.getServer().getRecipeManager(), event.getServer().overworld().registryAccess());
     }
@@ -23,15 +23,9 @@ public class EventForRecipes
     //-----------------------------------
 
     @SubscribeEvent
-    public static void OnAddReloadListener(AddReloadListenerEvent event)
+    public static void onAddReloadListener(AddReloadListenerEvent event)
     {
-        for (Object listener: event.getListeners())
-        {
-            if (listener instanceof ReloadListener)
-            {
-                return;
-            }
-        }
+        // i checked, there won't be an existing on in collection.
         event.addListener(new ReloadListener(event.getServerResources().getRecipeManager(), event.getRegistryAccess()));
     }
 

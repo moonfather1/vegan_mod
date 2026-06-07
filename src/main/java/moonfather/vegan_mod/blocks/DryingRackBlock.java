@@ -2,6 +2,7 @@ package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -74,6 +75,15 @@ public class DryingRackBlock extends Block implements EntityBlock
     private static final VoxelShape LEG3 = Block.box(0,0,14,3,11,16);
     private static final VoxelShape LEG4 = Block.box(13,0,14,16,11,16);
     private static final VoxelShape TABLE = Shapes.or(TOP, LEG1, LEG2, LEG3, LEG4);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return true; }
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return 40; }
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return 20; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -187,7 +197,9 @@ public class DryingRackBlock extends Block implements EntityBlock
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        ((DryingRackBlockEntity) level.getBlockEntity(pos)).onRandomBlockTick();
-        ;
+        if (level.getBlockEntity(pos) instanceof DryingRackBlockEntity rack)
+        {
+            rack.onRandomBlockTick();
+        }
     }
 }

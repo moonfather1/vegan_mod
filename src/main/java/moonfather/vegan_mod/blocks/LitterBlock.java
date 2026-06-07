@@ -1,5 +1,6 @@
 package moonfather.vegan_mod.blocks;
 
+import moonfather.vegan_mod.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,8 +14,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -29,23 +30,24 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.time.LocalTime;
 import java.util.List;
 
 public class LitterBlock extends Block
 {
     private static final int MIN_PIECES = 1;
     private static final int MAX_PIECES = 4;
-    private static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    private static final IntegerProperty AMOUNT = IntegerProperty.create("amount", MIN_PIECES, MAX_PIECES);
+    public  static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public  static final IntegerProperty AMOUNT = IntegerProperty.create("amount", MIN_PIECES, MAX_PIECES);
     private static final VoxelShape SIMPLE_SHAPE = Block.box(1,0,1,15,1,15);
     private final Item madeOutOf;
+    private final boolean flammable;
 
-    public LitterBlock(Item madeOutOf)
+    public LitterBlock(Item madeOutOf, boolean flammable)
     {
-        super(Properties.of().strength(0.8f, 0.0f).sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.DESTROY).ignitedByLava().noCollission().noOcclusion().replaceable().randomTicks());
+        super(Properties.of().strength(0.2f, 0.0f).sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.DESTROY).ignitedByLava().noCollission().noOcclusion().replaceable().randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AMOUNT, Integer.valueOf(1)));
         this.madeOutOf = madeOutOf;
+        this.flammable = flammable;
     }
 
     @Override
@@ -91,8 +93,14 @@ public class LitterBlock extends Block
     @Override
     public boolean canBeReplaced(BlockState p_272922_, BlockPlaceContext p_273534_) { return  true; }
 
-    ///////////////////////////////////////////////////////////////
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable && ! (level instanceof Level level1 && level1.isRaining() && level1.canSeeSky(pos)); }
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable ? 40 : 0; }
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable ? 20 : 0; }
 
+    ///////////////////////////////////////////////////////////////
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
@@ -108,17 +116,53 @@ public class LitterBlock extends Block
         return List.of(toDrop);
     }
 
+
+
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
-        System.out.printf("~~ |%d:%d:%d|  use at %d,%d %n", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), pos.getX(), pos.getZ());
-        return super.useWithoutItem(state, level, pos, player, hitResult);
+        int amount = state.getValue(AMOUNT);
+        if (amount > 1)
+        {
+            level.setBlockAndUpdate(pos, state.setValue(AMOUNT, amount - 1));
+        }
+        else
+        {
+            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+        }
+        if (! level.isClientSide())
+        {
+            player.addItem(this.madeOutOf.getDefaultInstance());
+            return InteractionResult.CONSUME;
+        }
+        return InteractionResult.SUCCESS_NO_ITEM_USED;
     }
+
+
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        System.out.printf("~~ |%d:%d:%d|  ranfom tick at %d,%d %n", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), pos.getX(), pos.getZ());
-        super.randomTick(state, level, pos, random);
+        if (this.random == null)
+        {
+            this.random = level.getRandom().fork();
+        }
+        boolean willDecay = this.random.nextInt(Config.litterDecayTarget()) == 0;   // 1/6 to decay
+        if (level.isClientSide() || ! willDecay)
+        {
+            //System.out.printf("~~ |%d:%d:%d|  random tick N at %d,%d %n", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), pos.getX(), pos.getZ());
+            return;
+        }
+        //System.out.printf("~~ |%d:%d:%d|  random tick Y at %d,%d %n", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), pos.getX(), pos.getZ());
+        int amount = state.getValue(AMOUNT);
+        if (amount > 1)
+        {
+            level.setBlockAndUpdate(pos, state.setValue(AMOUNT, amount - 1));
+        }
+        else
+        {
+            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+        }
     }
+    private RandomSource random = null;
 }

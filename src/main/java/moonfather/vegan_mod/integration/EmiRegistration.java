@@ -7,6 +7,7 @@ import dev.emi.emi.api.recipe.EmiWorldInteractionRecipe;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.blocks.DataMapManager;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,15 +28,18 @@ public class EmiRegistration implements dev.emi.emi.api.EmiPlugin
     public void register(EmiRegistry emiRegistry)
     {
         // drying rack
-        if (BuiltInRegistries.ITEM instanceof BaseMappedRegistry bmr)
+        if (Config.leather_make_on_drying_rack())
         {
-            emiRegistry.addCategory(RACK_RECIPE_CATEGORY);
-            emiRegistry.addWorkstation(RACK_RECIPE_CATEGORY, RACK_RECIPE_WORKSTATION);
-            Map<ResourceKey<Item>, DataMapManager.DryingRecipe> map = bmr.getDataMap(DataMapManager.DRYING_RECIPE);
-            for (Map.Entry<ResourceKey<Item>, DataMapManager.DryingRecipe> entry : map.entrySet())
+            if (BuiltInRegistries.ITEM instanceof BaseMappedRegistry bmr)
             {
-                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "/" + entry.getKey().location().getNamespace() + "_" + entry.getKey().location().getPath());
-                emiRegistry.addRecipe(new EmiRackRecipe(id, (Item) bmr.get(entry.getKey()), entry.getValue().output().value(), entry.getValue().timeInMinutes()));
+                emiRegistry.addCategory(RACK_RECIPE_CATEGORY);
+                emiRegistry.addWorkstation(RACK_RECIPE_CATEGORY, RACK_RECIPE_WORKSTATION);
+                Map<ResourceKey<Item>, DataMapManager.DryingRecipe> map = bmr.getDataMap(DataMapManager.DRYING_RECIPE);
+                for (Map.Entry<ResourceKey<Item>, DataMapManager.DryingRecipe> entry : map.entrySet())
+                {
+                    ResourceLocation id = ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "/" + entry.getKey().location().getNamespace() + "_" + entry.getKey().location().getPath());
+                    emiRegistry.addRecipe(new EmiRackRecipe(id, (Item) bmr.get(entry.getKey()), entry.getValue().output().value(), entry.getValue().timeInMinutes()));
+                }
             }
         }
         // feathers

@@ -2,19 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "adorablehamsterpets:sunflower_seed"
+      "item": "adorablehamsterpets:green_beans"
     },
     {
-      "item": "adorablehamsterpets:sunflower_seed"
+      "item": "adorablehamsterpets:green_beans"
     },
     {
-      "item": "adorablehamsterpets:sunflower_seed"
-    },
-    {
-      "item": "adorablehamsterpets:sunflower_seed"
-    },
-    {
-      "item": "adorablehamsterpets:sunflower_seed"
+      "item": "adorablehamsterpets:green_beans"
     },
     {
       "item": "minecraft:glass_bottle"

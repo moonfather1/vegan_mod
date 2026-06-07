@@ -17,12 +17,16 @@
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:not",
-      "value":
-      {
-        "type": "neoforge:mod_loaded",
-        "modid": "immersiveengineering"
-      }
+      "type": "neoforge:tag_empty",
+      "tag": "c:seeds/hemp"
+    },
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:seeds/sunflower"
+    },
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:seeds/canola"
     }
   ]
 }

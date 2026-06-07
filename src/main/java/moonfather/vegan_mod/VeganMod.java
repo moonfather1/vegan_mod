@@ -2,19 +2,14 @@ package moonfather.vegan_mod;
 
 import com.mojang.serialization.MapCodec;
 import moonfather.vegan_mod.another_attempt_at_fluid.FluidRegistries;
-import moonfather.vegan_mod.blocks.DataMapManager;
-import moonfather.vegan_mod.blocks.DryingRackBlock;
-import moonfather.vegan_mod.blocks.DryingRackBlockEntity;
-import moonfather.vegan_mod.blocks.LitterBlock;
+import moonfather.vegan_mod.blocks.*;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
-import moonfather.vegan_mod.stupid_fluid.FluidRegistration;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
@@ -30,14 +25,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 import java.util.function.Supplier;
 
@@ -49,20 +42,19 @@ public class VeganMod
 
 
     // todo pre 1: rabbit hide
-    // todo: pre 1: litter       /   make look ok   / lang  /  test water  / test below gone !-  /EAST-4  looks the same // EAST-1 invisible
-    // todo: pre 1: litter       /   decay   /  pickup1  / test destroy   / make flamable / make rack flamable (less)  / make accept shedding
+    // todo: pre 1: litter       /   make look ok
     //
     // todo: oil:  fluid density?, viscosity?, flammability, distance
     // todo: oil:  maybe - hardened oil
-    // todo: rack:  covered rack?(+msg),            check water next to tack?
+    // todo: rack:  covered rack?(+msg),            check water next to rack?
 
-    // todo: remove ~~ messages
 
     // todo:  cdp tag
-    // todo:     frycook
     ///////////////
     // todo more feathers? why 50% of scutes?
     // TF hide upgrades not work  don't care that much
+    //////////////
+    // post 1.1: entity tag for dropping feathers? add the_great_outdoors:mountain_bluebird
 
     public VeganMod(IEventBus modEventBus, ModContainer modContainer)
     {
@@ -82,6 +74,10 @@ public class VeganMod
 
     private void commonSetup(FMLCommonSetupEvent event)
     {
+        if (Config.litterEnabled())
+        {
+            NeoForge.EVENT_BUS.addListener(LitterManager::onEntityTick);
+        }
     }
 
     public static class Other

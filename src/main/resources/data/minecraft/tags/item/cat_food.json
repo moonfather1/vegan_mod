@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     { "id": "#growthcraft_milk:cheese_slices", "required": false }
   ]

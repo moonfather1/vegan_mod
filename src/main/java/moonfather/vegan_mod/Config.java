@@ -11,8 +11,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.HashMap;
 import java.util.Map;
 
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Neo's config APIs
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
@@ -39,6 +37,14 @@ public class Config {
     private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
             .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
             .define("shedding", "minecraft:chicken=minecraft:feather=720, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=60");
+
+    private static final ModConfigSpec.IntValue _feather_litter_decay_target = BUILDER
+            .comment("How long on average does feather litter last? Default 6 means 1/6 chance every minute for one leaf in litter to decay. That makes them last somewhat longer than normal but with no ticks.")
+            .defineInRange("feather_litter_decay_target", 6, 1, 20);
+
+    private static final ModConfigSpec.BooleanValue _feather_litter_enabled = BUILDER
+            .comment("Is feather litter enabled? If yes feathers on the ground became small piles (that don't tick all the time like dropped items. If not enabled, feathers wait on the ground as normal.")
+            .define("feather_litter_enabled", false);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -67,6 +73,14 @@ public class Config {
     public static double leather_multiplier()
     {
         return _leather_multiplier.get();
+    }
+    public static int litterDecayTarget()
+    {
+        return _feather_litter_decay_target.get();
+    }
+    public static boolean litterEnabled()
+    {
+        return _feather_litter_enabled.get();
     }
 
     //-----------------------------------------//
