@@ -1,33 +1,15 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    },
-    {
-      "item": "pamhc2foodcore:sunflowerseedsitem"
-    }
+    "pamhc2foodcore:sunflowerseedsitem",
+    "pamhc2foodcore:sunflowerseedsitem",
+    "pamhc2foodcore:sunflowerseedsitem",
+    "pamhc2foodcore:sunflowerseedsitem",
+    "minecraft:glass_bottle",
+    "pamhc2foodcore:sunflowerseedsitem",
+    "pamhc2foodcore:sunflowerseedsitem",
+    "pamhc2foodcore:sunflowerseedsitem",
+    "pamhc2foodcore:sunflowerseedsitem"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",

@@ -1,24 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "c:seeds/sunflower"
-    },
-    {
-      "tag": "c:seeds/sunflower"
-    },
-    {
-      "tag": "c:seeds/sunflower"
-    },
-    {
-      "tag": "c:seeds/sunflower"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "tag": "c:seeds/sunflower"
-    }
+    "#c:seeds/sunflower",
+    "#c:seeds/sunflower",
+    "#c:seeds/sunflower",
+    "#c:seeds/sunflower",
+    "minecraft:glass_bottle",
+    "#c:seeds/sunflower"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",

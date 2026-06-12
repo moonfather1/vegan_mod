@@ -2,7 +2,7 @@
   "type": "farmersdelight:cutting",
   "neoforge:conditions": [
     {
-      "type": "neoforge:false"
+      "type": "neoforge:never"
     }
   ]
 }

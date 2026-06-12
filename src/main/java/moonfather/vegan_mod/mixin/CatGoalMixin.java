@@ -5,7 +5,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Ocelot;
+import net.minecraft.world.entity.animal.feline.Ocelot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -41,7 +41,7 @@ public abstract class CatGoalMixin extends Animal
         CatGoalAccessor accessor = ((CatGoalAccessor) (Object) this);
         if ((this.temptGoal2 == null || this.temptGoal2.isRunning()) && ! accessor.invokeIsTrusting() && itemstack.is(Items.MILK_BUCKET) && player.distanceToSqr(this) < 7.0) {
             if (this.random.nextInt(6) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
-            if (! this.level().isClientSide)
+            if (! this.level().isClientSide())
             {
                 if (this.random.nextInt(3) == 0 && ! net.neoforged.neoforge.event.EventHooks.onAnimalTame(this, player))
                 {
@@ -55,7 +55,7 @@ public abstract class CatGoalMixin extends Animal
                     this.level().broadcastEntityEvent(this, (byte)40);
                 }
             }
-            cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide));
+            cir.setReturnValue(this.level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER);
         }
     }
 }

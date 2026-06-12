@@ -2,30 +2,35 @@ package moonfather.vegan_mod;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+
+import java.util.Optional;
 
 public record ThirdPartyRecipeCondition(String targetType, String targetContent, boolean valueIfModMotPresent) implements ICondition
 {
     @Override
     public boolean test(IContext iContext)
     {
-        ResourceLocation conditionId = ResourceLocation.parse(this.targetType);
+        Identifier conditionId = Identifier.parse(this.targetType);
         if (NeoForgeRegistries.CONDITION_SERIALIZERS.containsKey(conditionId))
         {
-            MapCodec<? extends ICondition> codec = NeoForgeRegistries.CONDITION_SERIALIZERS.get(conditionId);
-            JsonObject jsonObject = JsonParser.parseString(this.targetContent).getAsJsonObject();
-            var result = codec.codec().decode(JsonOps.INSTANCE, jsonObject);
-            if (result.isSuccess())
+            Optional<Holder.Reference<MapCodec<? extends ICondition>>> op = NeoForgeRegistries.CONDITION_SERIALIZERS.get(conditionId);
+            if (op.isPresent())
             {
-                return result.getOrThrow().getFirst().test(iContext);
+                MapCodec<? extends ICondition> codec = op.get().value();
+                JsonObject jsonObject = JsonParser.parseString(this.targetContent).getAsJsonObject();
+                var result = codec.codec().decode(JsonOps.INSTANCE, jsonObject);
+                if (result.isSuccess())
+                {
+                    return result.getOrThrow().getFirst().test(iContext);
+                }
             }
         }
         return this.valueIfModMotPresent;

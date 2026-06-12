@@ -24,7 +24,7 @@
       "modid": "create_enchantment_industry_plus"
     },
     {
-      "type": "neoforge:false"
+      "type": "neoforge:never"
     }
   ]
 }

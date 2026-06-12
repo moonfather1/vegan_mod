@@ -20,6 +20,7 @@ public class OilFluidType extends FluidType
                 .canHydrate(false)
                 .density(300)
                 .viscosity(2000)
+                .canDrown(true)
         );
     }
 }

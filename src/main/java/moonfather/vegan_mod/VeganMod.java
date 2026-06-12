@@ -5,13 +5,13 @@ import moonfather.vegan_mod.another_attempt_at_fluid.FluidRegistries;
 import moonfather.vegan_mod.blocks.*;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
-import moonfather.vegan_mod.items.FullBottleItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.common.conditions.ICondition;
@@ -39,6 +39,15 @@ public class VeganMod
 {
     public static final String MODID = "vegan_mod";
     public static final Logger LOGGER = LogUtils.getLogger();
+    // oil fluid        CAN BREATHE, FAST FALL
+    // leather armor + cactus = wtf
+    // did not test drying           HEIGHT OFF         NO MSG FOR WATER AND COVER          DRIES REGARDLESS OF COVER AND WATER
+
+
+    // did not feed milk to cats
+    // ocelots uninterested
+    // cat taming works, tempting not.   milk desyncs!!!!
+    //1.21.1 check meka, nirv, drown, config texts
 
 
     // todo pre 1: rabbit hide
@@ -67,7 +76,7 @@ public class VeganMod
         FluidRegistries.init(modEventBus);
 
         modEventBus.addListener(DataMapManager::registerDataMapTypes);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_cows_._serverconfig.toml");
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_them_._serverconfig.toml");
         NeoForge.EVENT_BUS.addListener(SheddingHandler::onEntityTick);
         NeoForge.EVENT_BUS.addListener(SheddingHandler::onEntityRightClick);
     }
@@ -86,7 +95,7 @@ public class VeganMod
         private static final DeferredRegister.DataComponents DATA_COMPONENT_TYPES = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, VeganMod.MODID);
         private static final DeferredRegister<MapCodec<? extends ICondition>> CONDITIONS = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, VeganMod.MODID);
 
-        public static final Supplier<RecipeSerializer<ArmorUncraftingRecipe>> ARMOR_RECIPE = RECIPES.register("armor_cutting", () -> new SimpleCraftingRecipeSerializer<ArmorUncraftingRecipe>(ArmorUncraftingRecipe::new));
+        public static final Supplier<RecipeSerializer<ArmorUncraftingRecipe>> ARMOR_RECIPE = RECIPES.register("armor_cutting", () -> ArmorUncraftingRecipe.SERIALIZER);
 
         public static final Supplier<MapCodec<? extends ICondition>> OPTIONAL = CONDITIONS.register("optional", () -> OptionalRecipeCondition.CODEC);
         public static final Supplier<MapCodec<? extends ICondition>> THIRD_PARTY = CONDITIONS.register("third_party_condition", () -> ThirdPartyRecipeCondition.CODEC);
@@ -115,11 +124,23 @@ public class VeganMod
             BLOCK_ENTITIES.register(modEventBus);
             modEventBus.addListener(Blocks::addCreative);
         }
-        public static final DeferredBlock<Block> DRYING_RACK = BLOCKS.register("drying_rack", DryingRackBlock::new);
-        public static final DeferredItem<Item> DRYING_RACK_ITEM = ITEMS.register("drying_rack", () -> new BlockItem(DRYING_RACK.get(), new Item.Properties()));
-        public static final Supplier<BlockEntityType<DryingRackBlockEntity>> DRYING_RACK_BE = BLOCK_ENTITIES.register("drying_rack_be", () -> BlockEntityType.Builder.of(DryingRackBlockEntity::new, DRYING_RACK.get()).build(null));
 
-        public static final DeferredBlock<Block> LITTER_OF_FEATHERS = BLOCKS.register("litter_of_feathers", ()->new LitterBlock(net.minecraft.world.item.Items.FEATHER));
+        public static final DeferredBlock<Block> DRYING_RACK;
+        public static final DeferredItem<Item> DRYING_RACK_ITEM;
+        public static final Supplier<BlockEntityType<DryingRackBlockEntity>> DRYING_RACK_BE;
+        public static final DeferredBlock<Block> LITTER_OF_FEATHERS;
+
+        static
+        {
+            final String shortName1 = "drying_rack";
+            DRYING_RACK = BLOCKS.register(shortName1, () -> new DryingRackBlock(shortName1));
+            DRYING_RACK_ITEM = ITEMS.register(shortName1, () -> new BlockItem(DRYING_RACK.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MODID, shortName1)))));
+            DRYING_RACK_BE = BLOCK_ENTITIES.register(shortName1 + "_be", () -> new BlockEntityType<>(DryingRackBlockEntity::new, DRYING_RACK.get()));
+            final String shortName2 = "litter_of_feathers";
+            LITTER_OF_FEATHERS = BLOCKS.register(shortName2, () -> new LitterBlock(net.minecraft.world.item.Items.FEATHER, true, shortName2));
+        }
+
+
 
         private static void addCreative(BuildCreativeModeTabContentsEvent event)
         {
@@ -139,12 +160,13 @@ public class VeganMod
             ITEMS.register(modEventBus);
             modEventBus.addListener(Items::addCreative);
         }
-        public static final DeferredItem<Item> PLANT_OIL = ITEMS.register("plant_oil", FullBottleItem::new);
-        public static final DeferredItem<Item> PLANT_INK = ITEMS.register("plant_ink", FullBottleItem::new);
-        public static final DeferredItem<Item> GLOWING_INK = ITEMS.register("glowing_ink", FullBottleItem::new);
-        public static final DeferredItem<Item> HARDENED_FABRIC = ITEMS.register("hardened_fabric", () -> new Item(new Item.Properties()));
-        public static final DeferredItem<Item> RAW_FABRIC = ITEMS.register("raw_fabric", () -> new Item(new Item.Properties()));
-        public static final DeferredItem<Item> THICK_OIL = ITEMS.register("thick_oil", FullBottleItem::new);
+        public static final DeferredItem<Item> PLANT_OIL = registerBottleItem("plant_oil");
+        public static final DeferredItem<Item> PLANT_INK = registerBottleItem("plant_ink");
+        public static final DeferredItem<Item> GLOWING_INK = registerBottleItem("glowing_ink");
+        public static final DeferredItem<Item> HARDENED_FABRIC = registerItem("hardened_fabric");
+        public static final DeferredItem<Item> RAW_FABRIC = registerItem("raw_fabric");
+        public static final DeferredItem<Item> THICK_OIL = registerBottleItem("thick_oil");
+
         private static void addCreative(BuildCreativeModeTabContentsEvent event)
         {
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
@@ -156,6 +178,19 @@ public class VeganMod
                 event.accept(PLANT_OIL);
                 event.accept(THICK_OIL);
             }
+        }
+
+        private static DeferredItem<Item> registerItem(String id)
+        {
+            ResourceKey<Item> bigId = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MODID, id));
+            Item.Properties prop = new Item.Properties().setId(bigId);
+            return ITEMS.register(id, () -> new Item(prop));
+        }
+        private static DeferredItem<Item> registerBottleItem(String id)
+        {
+            ResourceKey<Item> bigId = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MODID, id));
+            Item.Properties prop = new Item.Properties().setId(bigId).craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE).stacksTo(16);
+            return ITEMS.register(id, () -> new Item(prop));
         }
     }
 

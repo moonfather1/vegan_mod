@@ -1,7 +1,7 @@
 package moonfather.vegan_mod.mixin;
 
 import moonfather.vegan_mod.VeganMod;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,14 +22,14 @@ import java.util.Optional;
 public abstract class CDP_BulkColoringMixin
 {
     @Unique
-    private static final ResourceLocation ourRecipe = ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "ink1_as_coloring");
+    private static final Identifier ourRecipe = Identifier.fromNamespaceAndPath(VeganMod.MODID, "ink1_as_coloring");
 
-    @Inject(at = @At("HEAD"), method = "convert2x1(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/world/item/DyeColor;Ljava/util/List;Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;", cancellable = true)
-    private static void addGoal(ResourceLocation id, DyeColor color, List<Ingredient> ingredients, ItemStack result, CallbackInfoReturnable<Optional<RecipeHolder<?>>> cir)
-    {
-        if (id.equals(ourRecipe))
-        {
-            cir.setReturnValue(Optional.empty());
-        }
-    }
+//    @Inject(at = @At("HEAD"), method = "convert2x1(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/world/item/DyeColor;Ljava/util/List;Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;", cancellable = true)
+//    private static void addGoal(Identifier id, DyeColor color, List<Ingredient> ingredients, ItemStack result, CallbackInfoReturnable<Optional<RecipeHolder<?>>> cir)
+//    {
+//        if (id.equals(ourRecipe))
+//        {
+//            cir.setReturnValue(Optional.empty());
+//        }
+//    }
 }

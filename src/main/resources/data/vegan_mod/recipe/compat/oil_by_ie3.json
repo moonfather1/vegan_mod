@@ -1,24 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "tag": "c:seeds/hemp"
-    }
+    "#c:seeds/hemp",
+    "#c:seeds/hemp",
+    "#c:seeds/hemp",
+    "#c:seeds/hemp",
+    "minecraft:glass_bottle",
+    "#c:seeds/hemp"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",

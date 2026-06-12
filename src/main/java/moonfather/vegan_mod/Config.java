@@ -1,7 +1,7 @@
 package moonfather.vegan_mod;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -15,7 +15,7 @@ public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     private static final ModConfigSpec.DoubleValue _leather_multiplier = BUILDER
-            .comment("How much leather to recover from undamaged armor? 0.5 means half (4 leather from undamaged tunic (8 was the input), 2 from 50% durability tunic.")
+            .comment("How much leather to recover from undamaged armor? 0.5 means half (4 leather from undamaged tunic (8 was the input), 2 from 50% durability tunic).")
             .defineInRange("leather_multiplier", 0.51d, 0.2d, 1.0d);
 
     private static final ModConfigSpec.BooleanValue _leather_make_on_crafting_table = BUILDER
@@ -43,7 +43,7 @@ public class Config {
             .defineInRange("feather_litter_decay_target", 6, 1, 20);
 
     private static final ModConfigSpec.BooleanValue _feather_litter_enabled = BUILDER
-            .comment("Is feather litter enabled? If yes feathers on the ground became small piles (that don't tick all the time like dropped items. If not enabled, feathers wait on the ground as normal.")
+            .comment("Is feather litter enabled? If yes, feathers on the ground became small piles (that don't tick all the time like dropped items). If not enabled, feathers wait on the ground as normal.")
             .define("feather_litter_enabled", false);
 
     static final ModConfigSpec SPEC = BUILDER.build();
@@ -114,18 +114,18 @@ public class Config {
                 VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (bad format)");
                 continue;
             }
-            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(ResourceLocation.parse(parts[0])))
+            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(parts[0])))
             {
                 VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (entity not present in game)");
                 continue;
             }
-            if (! BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(parts[1])))
+            if (! BuiltInRegistries.ITEM.containsKey(Identifier.parse(parts[1])))
             {
                 VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (item not present in game)");
                 continue;
             }
-            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(parts[0]));
-            sheddingResults.put(key, BuiltInRegistries.ITEM.get(ResourceLocation.parse(parts[1])));
+            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(parts[0])).get().value();
+            sheddingResults.put(key, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value());
             sheddingTime.put(key, parseInt(parts[2], 900));
         }
     }

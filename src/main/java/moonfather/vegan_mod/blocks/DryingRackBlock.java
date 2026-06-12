@@ -3,9 +3,10 @@ package moonfather.vegan_mod.blocks;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -13,7 +14,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -32,16 +32,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.registries.BaseMappedRegistry;
 
 import javax.annotation.Nullable;
-import java.util.Map;
 
 public class DryingRackBlock extends Block implements EntityBlock
 {
-    public DryingRackBlock()
+    public DryingRackBlock(String id)
     {
-        super(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.BAMBOO_WOOD_HANGING_SIGN).strength(0.8f, 0.5f));
+        ResourceKey<Block> bigId = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MODID, id));
+        super(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.BAMBOO_WOOD_HANGING_SIGN).strength(0.8f, 0.5f).setId(bigId));
     }
 
     @Override
@@ -57,10 +56,7 @@ public class DryingRackBlock extends Block implements EntityBlock
     }
 
     @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos)
-    {
-        return TABLE;
-    }
+    protected VoxelShape getOcclusionShape(BlockState state) { return TABLE; }
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
@@ -101,21 +97,6 @@ public class DryingRackBlock extends Block implements EntityBlock
         return null;
     }
 
-    @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving)
-    {
-        if (state.getBlock() != newState.getBlock())
-        {
-            BlockEntity be = worldIn.getBlockEntity(pos);
-            if (be instanceof DryingRackBlockEntity rack)
-            {
-                rack.dropAll();
-            }
-            super.onRemove(state, worldIn, pos, newState, isMoving);
-        }
-    }
-
-
     //////////////////////////////////////////////////////////////////////////
 
     private final MutableComponent RackMessage = Component.translatable("message.vegan_mod.invalid_item_for_rack");
@@ -128,7 +109,7 @@ public class DryingRackBlock extends Block implements EntityBlock
     @Override
     public InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult)
     {
-        if (level.isClientSide)
+        if (level.isClientSide())
         {
             return InteractionResult.SUCCESS;
         }
@@ -140,7 +121,7 @@ public class DryingRackBlock extends Block implements EntityBlock
         {
             if (! this.canDepositItem(itemInMainHand))
             {
-                player.displayClientMessage(RackMessage, true);
+                player.sendSystemMessage(RackMessage);
                 return InteractionResult.CONSUME;
             }
             //System.out.println("~~~~~ADDED FROM MAIN");
@@ -158,7 +139,7 @@ public class DryingRackBlock extends Block implements EntityBlock
         {
             if (! this.canDepositItem(itemInOffHand))
             {
-                player.displayClientMessage(RackMessage, true);
+                player.sendSystemMessage(RackMessage);
                 return InteractionResult.CONSUME;
             }
             //System.out.println("~~~~~ADDED FROM OFFHAND");

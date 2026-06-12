@@ -1,8 +1,12 @@
 package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.Config;
+import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
@@ -19,16 +23,18 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -36,15 +42,16 @@ public class LitterBlock extends Block
 {
     private static final int MIN_PIECES = 1;
     private static final int MAX_PIECES = 4;
-    public  static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public  static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public  static final IntegerProperty AMOUNT = IntegerProperty.create("amount", MIN_PIECES, MAX_PIECES);
     private static final VoxelShape SIMPLE_SHAPE = Block.box(1,0,1,15,1,15);
     private final Item madeOutOf;
     private final boolean flammable;
 
-    public LitterBlock(Item madeOutOf, boolean flammable)
+    public LitterBlock(Item madeOutOf, boolean flammable, String id)
     {
-        super(Properties.of().strength(0.2f, 0.0f).sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.DESTROY).ignitedByLava().noCollission().noOcclusion().replaceable().randomTicks());
+        ResourceKey<Block> bigId = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MODID, id));
+        super(Properties.of().strength(0.2f, 0.0f).sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.DESTROY).ignitedByLava().noCollision().noOcclusion().replaceable().randomTicks().setId(bigId));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AMOUNT, Integer.valueOf(1)));
         this.madeOutOf = madeOutOf;
         this.flammable = flammable;
@@ -62,7 +69,7 @@ public class LitterBlock extends Block
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
     @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) { return Shapes.empty(); }
+    protected VoxelShape getOcclusionShape(BlockState state) { return Shapes.empty(); }
 
     ////////////////////////////////////////////////////////////
 
@@ -74,22 +81,22 @@ public class LitterBlock extends Block
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos pos2, boolean movedByPiston)
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston)
     {
-        super.neighborChanged(state, level, pos, block, pos2, movedByPiston);
-        if (pos2.getY() == pos.getY() - 1)
+        super.neighborChanged(state, level, pos, block, orientation, movedByPiston);
+        //if (pos2.getY() == pos.getY() - 1)
+        if (! level.isClientSide() && ! this.canSurvive(state,  level, pos))
         {
-            if (! level.isClientSide && ! this.canSurvive(state,  level, pos))
-            {
-                level.destroyBlock(pos, true);
-            }
+            level.destroyBlock(pos, true);
         }
     }
+
+
 
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) { return true; }
     @Override
-    protected boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) { return true; }
+    protected boolean propagatesSkylightDown(BlockState state) { return true; }
     @Override
     public boolean canBeReplaced(BlockState p_272922_, BlockPlaceContext p_273534_) { return  true; }
 
@@ -103,7 +110,7 @@ public class LitterBlock extends Block
     ///////////////////////////////////////////////////////////////
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
     {
         return this.madeOutOf.getDefaultInstance();
     }
@@ -135,7 +142,7 @@ public class LitterBlock extends Block
             player.addItem(this.madeOutOf.getDefaultInstance());
             return InteractionResult.CONSUME;
         }
-        return InteractionResult.SUCCESS_NO_ITEM_USED;
+        return InteractionResult.SUCCESS;
     }
 
 

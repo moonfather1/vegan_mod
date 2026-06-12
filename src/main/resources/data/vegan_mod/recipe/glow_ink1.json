@@ -1,15 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:glow_berries"
-    },
-    {
-      "item": "minecraft:glow_berries"
-    },
-    {
-      "tag": "vegan_mod:oil_for_ink_bottled"
-    }
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "#vegan_mod:oil_for_ink_bottled"
   ],
   "result": {
     "id": "vegan_mod:glowing_ink",

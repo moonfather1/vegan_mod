@@ -6,12 +6,8 @@
         " F "
     ],
     "key": {
-        "F": {
-                "tag": "vegan_mod:fabric_for_leather"
-             },
-        "O": {
-                "tag": "vegan_mod:oil_for_leather"
-             }
+        "F": "#vegan_mod:fabric_for_leather",
+        "O": "#vegan_mod:oil_for_leather"
     },
     "result": {
         "id": "vegan_mod:raw_fabric",

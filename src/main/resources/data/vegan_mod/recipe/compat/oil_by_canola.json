@@ -1,24 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "c:seeds/canola"
-    },
-    {
-      "tag": "c:seeds/canola"
-    },
-    {
-      "tag": "c:seeds/canola"
-    },
-    {
-      "tag": "c:seeds/canola"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "tag": "c:seeds/canola"
-    }
+    "#c:seeds/canola",
+    "#c:seeds/canola",
+    "#c:seeds/canola",
+    "#c:seeds/canola",
+    "minecraft:glass_bottle",
+    "#c:seeds/canola"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",

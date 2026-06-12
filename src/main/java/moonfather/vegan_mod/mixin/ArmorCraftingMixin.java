@@ -2,7 +2,6 @@ package moonfather.vegan_mod.mixin;
 
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Unit;
@@ -23,8 +22,8 @@ import java.util.List;
 @Mixin(ShapedRecipe.class)
 public class ArmorCraftingMixin
 {
-	@Inject(at = @At("RETURN"), method = "assemble", cancellable = true)
-	private void addComponents(CraftingInput craftingInput, HolderLookup.Provider provider, CallbackInfoReturnable<ItemStack> cir)
+	@Inject(at = @At("RETURN"), method = "assemble", cancellable = false)
+	private void addComponents(CraftingInput craftingInput, CallbackInfoReturnable<ItemStack> cir)
 	{
 		ItemStack result = cir.getReturnValue();
 		if (result.is(Items.LEATHER_HELMET) || result.is(Items.LEATHER_CHESTPLATE) || result.is(Items.LEATHER_LEGGINGS) || result.is(Items.LEATHER_BOOTS))
@@ -43,7 +42,7 @@ public class ArmorCraftingMixin
 					}
 				}
 				result.set(DataComponents.LORE, new ItemLore(List.of(lore_line)));
-				result.set(DataComponents.DYED_COLOR, new DyedItemColor(armor_color, false));
+				result.set(DataComponents.DYED_COLOR, new DyedItemColor(armor_color));
 				result.set(VeganMod.Other.VEGAN_MARKER, Unit.INSTANCE);
 			}
 		}

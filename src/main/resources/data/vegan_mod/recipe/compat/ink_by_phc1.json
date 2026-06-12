@@ -1,20 +1,16 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "tag": "c:dyes/black"
-    },
+    "#c:dyes/black",
     [
-      {  "item": "pamhc2foodextended:mushroomoilitem"  },
-      {  "item": "pamhc2foodextended:sesameoilitem"  }
+      "pamhc2foodextended:mushroomoilitem",
+      "pamhc2foodextended:sesameoilitem"
     ],
     [
-      {  "item": "pamhc2foodextended:mushroomoilitem"  },
-      {  "item": "pamhc2foodextended:sesameoilitem"  }
+      "pamhc2foodextended:mushroomoilitem",
+      "pamhc2foodextended:sesameoilitem"
     ],
-    {
-      "item": "minecraft:glass_bottle"
-    }
+    "minecraft:glass_bottle"
   ],
   "result": {
     "id": "vegan_mod:plant_ink",

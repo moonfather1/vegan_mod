@@ -33,14 +33,18 @@
   "vegan_mod.configuration.ink_accepts_blue_dye": "Ink accepts blue dye",
   "vegan_mod.configuration.shedding": "Shedding",
   "vegan_mod.configuration.oil_bucket_always_craftable": "Oil bucket always craftable",
+  "vegan_mod.configuration.feather_litter_decay_target": "Feather litter: decay target",
+  "vegan_mod.configuration.feather_litter_enabled": "Feather litter: enabled",
 
   "vegan_mod.configuration.leather_armor_color.tooltip": "What color is the leather armor made from plant materials? You can prefix with # or 0x if you want to use hex numbers.",
   "vegan_mod.configuration.shedding.tooltip": "What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.",
   "vegan_mod.configuration.leather_make_on_crafting_table.tooltip": "Can you make our hardened fabric (leather substitute) on crafting table? If false you need drying rack (same thing but needs some time to be made).",
   "vegan_mod.configuration.ink_accepts_blue_dye.tooltip": "Does ink recipe accept blue dye? If false, it needs to be black dye.",
-  "vegan_mod.configuration.leather_multiplier.tooltip": "How much leather to recover from undamaged armor? 0.5 means half (4 leather from undamaged tunic (8 was the input), 2 from 50% durability tunic.",
+  "vegan_mod.configuration.leather_multiplier.tooltip": "How much leather to recover from undamaged armor? 0.5 means half (4 leather from undamaged tunic (8 was the input), 2 from 50% durability tunic).",
   "vegan_mod.configuration.oil_bucket_always_craftable.tooltip": "Normally, oil bucket (and fluid in-world) is accessible if Immersive Engineering or Create are present. Otherwise, you just have bottles. This setting can force the buckets craftable regardless of industry mods.",
+  "vegan_mod.configuration.feather_litter_decay_target.tooltip": "How long on average does feather litter last? Default 6 means 1/6 chance every minute for one leaf in litter to decay. That makes them last somewhat longer than normal but with no ticks.",
+  "vegan_mod.configuration.feather_litter_enabled.tooltip": "Is feather litter enabled? If yes, feathers on the ground became small piles (that don't tick all the time like dropped items). If not enabled, feathers wait on the ground as normal.",
   "vegan_mod.configuration.title": "Config",
-  "vegan_mod.configuration.section.i.dont.want.to.kill.cows.serverconfig.toml.title": "Configure the mod! Love the mod!",
-  "vegan_mod.configuration.section.i.dont.want.to.kill.cows.serverconfig.toml": "Config"
+  "vegan_mod.configuration.section.i.dont.want.to.kill.them.serverconfig.toml.title": "Configure the mod! Love the mod!",
+  "vegan_mod.configuration.section.i.dont.want.to.kill.them.serverconfig.toml": "Config"
 }

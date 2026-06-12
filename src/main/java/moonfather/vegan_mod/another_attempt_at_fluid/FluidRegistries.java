@@ -4,6 +4,9 @@ import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -53,6 +56,7 @@ public class FluidRegistries
 
     public static final DeferredHolder<FluidType, OilFluidType> OIL_TYPE = FLUID_TYPES.register("plant_oil", OilFluidType::new );
 
+    private static final ResourceKey<Block> blockId = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MODID, "plant_oil_fluid"));
     public static final DeferredHolder<Block, LiquidBlock> OIL_BLOCK = FLUID_BLOCKS.register(
             "plant_oil_fluid",
             () -> new LiquidBlock(
@@ -60,12 +64,13 @@ public class FluidRegistries
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.SAND)
                             .replaceable()
-                            .noCollission()
+                            .noCollision()
                             .strength(100.0f)
                             .pushReaction(PushReaction.DESTROY)
                             .noLootTable()
                             .liquid()
                             .sound(SoundType.FROGSPAWN)
+                            .setId(blockId)
             )
             {
                 @Override
@@ -86,12 +91,14 @@ public class FluidRegistries
             }
     );
 
+    private static final ResourceKey<Item> itemId = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MODID, "plant_oil_bucket"));
     public static final DeferredHolder<Item, BucketItem> OIL_BUCKET = ITEMS.register(
             "plant_oil_bucket",
             () -> new BucketItem(
                     OIL_SOURCE.get(), new Item.Properties()
                     .stacksTo(1)
                     .craftRemainder(Items.BUCKET)
+                    .setId(itemId)
             )
     );
 }

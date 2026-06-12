@@ -6,12 +6,8 @@
         "VVV"
     ],
     "key": {
-        "V": {
-                "tag": "vegan_mod:plants_for_leather"
-             },
-        "O": {
-                "tag": "vegan_mod:oil_for_leather"
-             }
+        "V": "#vegan_mod:plants_for_leather",
+        "O": "#vegan_mod:oil_for_leather"
     },
     "result": {
         "id": "vegan_mod:raw_fabric",

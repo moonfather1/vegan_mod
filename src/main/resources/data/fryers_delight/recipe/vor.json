@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "vegan_mod:plant_oil"
-    },
-    {
-      "item": "vegan_mod:plant_oil"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    }
+    "vegan_mod:plant_oil",
+    "vegan_mod:plant_oil",
+    "minecraft:glass_bottle"
   ],
   "result": {
     "id": "fryers_delight:vegoil",
