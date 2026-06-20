@@ -51,15 +51,15 @@ public abstract class CatGoalMixin2 extends Animal
                     { cat.playSound(SoundEvents.CAT_EAT, 1.0F, 1.0F); }
                     else
                     { cat.playSound(SoundEvents.CAT_PURREOW, 1.0F, 1.0F); }
+                    if (this.random.nextInt(7) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                 }
-                if (this.random.nextInt(7) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
-                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide));
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
             else
             {
                 if (! this.level().isClientSide())
                 {
-                    if (cat.getRandom().nextInt(3) == 0 && !net.neoforged.neoforge.event.EventHooks.onAnimalTame(cat, player)) {
+                    if (cat.getRandom().nextInt(6) > 0 && !net.neoforged.neoforge.event.EventHooks.onAnimalTame(cat, player)) {
                         cat.tame(player);
                         cat.setOrderedToSit(true);
                         cat.level().broadcastEntityEvent(this, (byte)7);
@@ -72,9 +72,9 @@ public abstract class CatGoalMixin2 extends Animal
                         cat.playSound(SoundEvents.CAT_HISS, 1.0F, 1.0F);
                     }
                     cat.setPersistenceRequired();
+                    if (this.random.nextInt(5) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                 }
-                if (this.random.nextInt(5) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
-                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide));
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
         }
     }

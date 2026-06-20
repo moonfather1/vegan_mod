@@ -1,0 +1,42 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " F ",
+        "OFO",
+        " F "
+    ],
+    "key": {
+        "F": {
+                "tag": "vegan_mod:fabric_for_leather"
+             },
+        "O": {
+                "tag": "vegan_mod:oil_for_leather_rare"
+             }
+    },
+    "result": {
+        "id": "vegan_mod:raw_fabric",
+        "count": 1
+    },
+   "neoforge:conditions": [
+    {
+      "type": "vegan_mod:optional",
+      "flag": "make_leather_on_drying_rack"
+    },
+    {
+      "type": "neoforge:not",
+      "value":
+      {
+        "type": "neoforge:tag_empty",
+        "tag": "vegan_mod:oil_for_leather_rare"
+      }
+    },
+    {
+      "type": "neoforge:not",
+      "value":
+      {
+        "type": "neoforge:tag_empty",
+        "tag": "vegan_mod:fabric_for_leather"
+      }
+    }
+  ]
+}
