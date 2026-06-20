@@ -9,5 +9,11 @@
   "result": {
     "id": "fryers_delight:vegoil",
     "count": 1
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "fryers_delight"
+    }
+  ]
 }

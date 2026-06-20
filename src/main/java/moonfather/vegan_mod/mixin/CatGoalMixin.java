@@ -40,10 +40,10 @@ public abstract class CatGoalMixin extends Animal
         ItemStack itemstack = player.getItemInHand(hand);
         CatGoalAccessor accessor = ((CatGoalAccessor) (Object) this);
         if ((this.temptGoal2 == null || this.temptGoal2.isRunning()) && ! accessor.invokeIsTrusting() && itemstack.is(Items.MILK_BUCKET) && player.distanceToSqr(this) < 7.0) {
-            if (this.random.nextInt(6) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
             if (! this.level().isClientSide())
             {
-                if (this.random.nextInt(3) == 0 && ! net.neoforged.neoforge.event.EventHooks.onAnimalTame(this, player))
+                player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());
+                if (this.random.nextInt(6) > 0 && ! net.neoforged.neoforge.event.EventHooks.onAnimalTame(this, player))
                 {
                     accessor.invokeSetTrusting(true);
                     accessor.invokeSpawnTrustingParticles(true);

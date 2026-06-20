@@ -18,9 +18,10 @@ public class OilFluidType extends FluidType
                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                 .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH)
                 .canHydrate(false)
-                .density(300)
+                .density(2000)
                 .viscosity(2000)
                 .canDrown(true)
+                .motionScale(0.5d)
         );
     }
 }

@@ -65,23 +65,6 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         ItemStackRenderState itemStack = state.item;
         if (itemStack != null)
         {
-            //poseStack.pushPose();
-            //poseStack.translate(0.5D, 0.44921875D, 0.5D);              //poseStack.translate(0.5D, 0.44921875D, 0.5D);
-            //Direction direction = state.direction;
-//            float f = -direction.toYRot();
-//            poseStack.mulPose(Axis.YP.rotationDegrees(f));
-//            poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-//            if (direction.getAxis().equals(Direction.Axis.Z))
-//            {
-//                poseStack.translate(0.0d + direction.getStepZ() * +0.5d, direction.getStepZ() * +0.5D, -10 / 16D - 1 / 64d);   //poseStack.translate(-0.3125D, -0.3125D, 0.0D);     // Z is height    y0.75->0
-//            }
-//            else
-//            {
-//                poseStack.translate(direction.getStepX() * -0.5, direction.getStepX() * +0.5, -10 / 16D - 1 / 64d);
-//            }
-//            poseStack.scale(0.5F, 0.5F, 0.5F);     //was 0.375
-//            itemStack.submit(poseStack, nodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
-//            poseStack.popPose();-----------------------------------------
             poseStack.pushPose();
             poseStack.translate(0, 10.1/16f, 0);   // on top
             poseStack.translate(0.5D, 0, 0.5D); // center
@@ -91,8 +74,16 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
             poseStack.scale(itemScale, itemScale, itemScale / 1.03f); // last part flattens them a little. i don't know how else to deal with blocks
             if (state.is3d)
             {
-                poseStack.translate(0, 0, -3.75/16d); // center
+                if (state.item.usesBlockLight())
+                {
+                    poseStack.translate(0, 0, -3.50/16d); // cubes are centered. lift them up a lot.
+                }
+                else
+                {
+                    // kelp like block items. nothing here
+                }
             }
+            poseStack.translate(0, 0, -0.25/16d); // nudge everything up a little.
             itemStack.submit(poseStack, nodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }

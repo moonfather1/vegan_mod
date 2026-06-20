@@ -72,7 +72,7 @@ public class DryingRackBlockEntity extends BlockEntity
     public void preRemoveSideEffects(BlockPos pos, BlockState state)
     {
         super.preRemoveSideEffects(pos, state);
-        //this.dropAll();
+        this.dropAll();
     }
 
     /////////////////////////////////////////////////

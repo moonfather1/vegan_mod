@@ -49,15 +49,15 @@ public abstract class CatGoalMixin2 extends Animal
                     { cat.makeSound( ((CatSoundAccessor) cat).invokeGetSoundSet().eatSound().value()  ); }
                     else
                     { cat.makeSound( ((CatSoundAccessor) cat).invokeGetSoundSet().purreowSound().value()  ); }
+                    if (this.random.nextInt(7) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                 }
-                if (this.random.nextInt(7) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                 cir.setReturnValue(this.level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
             }
             else
             {
                 if (! this.level().isClientSide())
                 {
-                    if (cat.getRandom().nextInt(3) == 0 && !net.neoforged.neoforge.event.EventHooks.onAnimalTame(cat, player)) {
+                    if (cat.getRandom().nextInt(6) > 0 && !net.neoforged.neoforge.event.EventHooks.onAnimalTame(cat, player)) {
                         cat.tame(player);
                         cat.setOrderedToSit(true);
                         cat.level().broadcastEntityEvent(this, (byte)7);
@@ -65,13 +65,14 @@ public abstract class CatGoalMixin2 extends Animal
                         { cat.makeSound( ((CatSoundAccessor) cat).invokeGetSoundSet().eatSound().value()  ); }
                         else
                         { cat.makeSound( ((CatSoundAccessor) cat).invokeGetSoundSet().purreowSound().value()  ); }
+                        if (this.random.nextInt(4) >= 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                     } else {
                         cat.level().broadcastEntityEvent(this, (byte)6);
                         cat.hiss();
                     }
                     cat.setPersistenceRequired();
+                    if (this.random.nextInt(4) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                 }
-                if (this.random.nextInt(5) == 0) { player.setItemInHand(hand, Items.BUCKET.getDefaultInstance());}
                 cir.setReturnValue(this.level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
             }
         }

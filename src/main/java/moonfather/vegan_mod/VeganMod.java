@@ -39,24 +39,21 @@ public class VeganMod
 {
     public static final String MODID = "vegan_mod";
     public static final Logger LOGGER = LogUtils.getLogger();
+    // + todo - pre 1.0 - resin separate added to recipe next to thick oil tag
+    // todo - 1.1 - kiln, tar, creosote oil. separate oil or merged into thick? merged - pick up thick into bottle, pick up ie oil into bucket if ie present and 4 bottles
     // oil fluid        CAN BREATHE, FAST FALL
-    // leather armor + cactus = wtf
-    // did not test drying           HEIGHT OFF         NO MSG FOR WATER AND COVER          DRIES REGARDLESS OF COVER AND WATER
+    // - leather armor + cactus = wtf
+    // + leather armor merge2 -> non vegan variant
 
 
-    // did not feed milk to cats
-    // ocelots uninterested
-    // cat taming works, tempting not.   milk desyncs!!!!
-    //1.21.1 check meka, nirv, drown, config texts
+    // known issue - litter model sucks
+    // known issue - no rotation on drying rack
+
+    //1.21.1 check meka, nirv, drown, config texts,      fix resin, fryers
 
 
-    // todo pre 1: rabbit hide
-    // todo: pre 1: litter       /   make look ok
-    //
-    // todo: oil:  fluid density?, viscosity?, flammability, distance
-    // todo: oil:  maybe - hardened oil
-    // todo: rack:  covered rack?(+msg),            check water next to rack?
-
+    // todo backburner: oil:  fluid density?, viscosity?, flammability, distance
+    // todo backburner: oil:  maybe - hardened oil
 
     // todo:  cdp tag
     ///////////////
