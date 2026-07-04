@@ -35,7 +35,7 @@ repositories {
 }
 
 base {
-    archivesName = "i-dont-want-to-kill-them--${mod_version}--neoforge-"
+    archivesName = "i-dont-want-to-kill-them--mc${minecraft_version}--neoforge-"
 }
 
 // Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
@@ -127,10 +127,18 @@ configurations {
 dependencies {
     compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
     compileOnly "curse.maven:jei-238222:7416540"
-    runtimeOnly "curse.maven:jei-238222:7416540"
+    //runtimeOnly "curse.maven:jei-238222:7416540"
 
     compileOnly "curse.maven:emi-580555:6420931"
-    //runtimeOnly "curse.maven:emi-580555:6420931"
+    runtimeOnly "curse.maven:emi-580555:6420931"
+
+    compileOnly "curse.maven:jade-324717:5846105"
+    //runtimeOnly "curse.maven:jade-324717:5846105"
+
+    compileOnly "curse.maven:the-one-probe-245211:6106998"
+    runtimeOnly "curse.maven:the-one-probe-245211:6106998"
+
+    compileOnly "maven.modrinth:xQPESMXS:pLBz0rqb"   // SIU
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

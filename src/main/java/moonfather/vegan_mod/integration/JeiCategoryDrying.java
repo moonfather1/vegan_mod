@@ -15,9 +15,9 @@ import net.minecraft.world.item.Item;
 
 import java.util.List;
 
-public class JeiCategory extends AbstractRecipeCategory<JeiCategory.DryingRecipeForJei>
+public class JeiCategoryDrying extends AbstractRecipeCategory<JeiCategoryDrying.DryingRecipeForJei>
 {
-    public JeiCategory(IGuiHelper guiHelper)
+    public JeiCategoryDrying(IGuiHelper guiHelper)
     {
         super(DRYING_RECIPE_TYPE, VeganMod.Blocks.DRYING_RACK.get().getName(), guiHelper.createDrawableItemLike(VeganMod.Blocks.DRYING_RACK.get()), 125, 52);
     }

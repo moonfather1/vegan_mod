@@ -46,6 +46,26 @@ public class Config {
             .comment("Is feather litter enabled? If yes, feathers on the ground became small piles (that don't tick all the time like dropped items. If not enabled, feathers wait on the ground as normal.")
             .define("feather_litter_enabled", false);
 
+    private static final ModConfigSpec.BooleanValue _kiln_enabled = BUILDER
+            .comment("Is charcoal kiln block enabled? If yes, logs are turned to charcoal in it. As a byproduct, it will give you some creosote oil (useful for hardened fabric) and tar (black dye). If this is disabled, you need other ways to make black ink and hardened fabric.")
+            .define("charcoal_kiln_enabled", true);
+
+    private static final ModConfigSpec.DoubleValue _kiln_time_multiplier = BUILDER
+            .comment("How long does kiln take to make charcoal from logs? 1.0 means author's default (10 min). 0.5 means half of that (twice as fast), 2 means double the time.")
+            .defineInRange("charcoal_kiln_time_multiplier", 1d, 0.1d, 10.0d);
+
+    private static final ModConfigSpec.BooleanValue _kiln_gives_tar = BUILDER
+            .comment("Does charcoal kiln give tar paint as a byproduct? Disable this if you want black dye to be hard to obtain.")
+            .define("charcoal_kiln_gives_tar_paint", false);
+
+    private static final ModConfigSpec.DoubleValue _kiln_xp_multiplier = BUILDER
+            .comment("How much xp does kiln give? 1.0 means author's default (1.8 for charcoal, 0.3 for byproducts). 0.5 means half of that, 2 means double, 0 means no xp.")
+            .defineInRange("charcoal_kiln_xp_multiplier", 1d, 0.0d, 10.0d);
+
+    private static final ModConfigSpec.IntValue _kiln_multiples_at_once = BUILDER
+            .comment("How many logs does kiln smelt at the same time? (all of them require separate fuel though)")
+            .defineInRange("charcoal_kiln__multiples_at_once", 2, 1, 6);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     //-----------------------------------------//
@@ -82,6 +102,14 @@ public class Config {
     {
         return _feather_litter_enabled.get();
     }
+    public static boolean kiln_enabled() { return _kiln_enabled.get(); }
+    public static boolean kiln_gives_tar_paint() { return _kiln_gives_tar.get(); }
+    public static double kiln_time_multiplier()
+    {
+        return _kiln_time_multiplier.get();
+    }
+    public static double kiln_xp_multiplier() { return _kiln_xp_multiplier.get(); }
+    public static int kiln_multiples_at_once() { return _kiln_multiples_at_once.get(); }
 
     //-----------------------------------------//
 
