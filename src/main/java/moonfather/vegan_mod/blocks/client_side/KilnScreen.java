@@ -44,7 +44,7 @@ public class KilnScreen extends AbstractContainerScreen<KilnMenu>
         super.extractTooltip(graphics, mouseX, mouseY);
         if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && ! this.hoveredSlot.hasItem() && this.hoveredSlot.index == KilnMenu.SLOT_BYPRODUCT)
         {
-            if (this.minecraft.screen != null)
+            if (this.minecraft.gui.screen() != null)
             {
                 List<Component> list;
                 if (this.getMenu().getOilAmount() < 250)

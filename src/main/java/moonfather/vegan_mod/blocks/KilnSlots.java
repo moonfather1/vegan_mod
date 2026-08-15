@@ -81,7 +81,7 @@ public class KilnSlots
         @Override
         public int getMaxStackSize(ItemStack stack)
         {
-            return stack.is(Items.BLACK_DYE) ? 8 : 1;
+            return stack.is(Items.DYE.black()) ? 8 : 1;
         }
 
         @Override

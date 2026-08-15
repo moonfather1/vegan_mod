@@ -71,7 +71,7 @@ public class JeiRegistration implements IModPlugin
         {
             ItemStack bottle = VeganMod.Items.THICK_OIL.toStack();
             bottle.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.thick_oil2"));
-            ItemStack tar = new ItemStack(Items.BLACK_DYE);
+            ItemStack tar = new ItemStack(Items.DYE.black());
             tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
             ItemStack bucket = ImmersiveEngineeringHelper.getBucketItem().getDefaultInstance();
 

@@ -126,14 +126,14 @@ configurations {
 }
 
 dependencies {
-    compileOnly "curse.maven:jei-238222:8108851"
-    runtimeOnly "curse.maven:jei-238222:8108851"
+    compileOnly "curse.maven:jei-238222:8648480"
+    runtimeOnly "curse.maven:jei-238222:8648480"
     // emi and cdp are 1.21.1
     compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
     //compileOnly "curse.maven:emi-580555:6420931"
 
-    compileOnly "curse.maven:jade-324717:8326300"
-    runtimeOnly "curse.maven:jade-324717:8326300"
+    compileOnly "curse.maven:jade-324717:8650925"
+    runtimeOnly "curse.maven:jade-324717:8650925"
 
     // top is on 1.21.1
     //compileOnly "curse.maven:the-one-probe-245211:6106998"

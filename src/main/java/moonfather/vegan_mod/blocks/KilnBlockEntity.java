@@ -196,7 +196,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                         {
                             if (byproduct.isEmpty())
                             {
-                                byproduct = new ItemStack(Items.BLACK_DYE, tarToStore);
+                                byproduct = new ItemStack(Items.DYE.black(), tarToStore);
                                 byproduct.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
                                 kbe.getContainer().setItem(KilnMenu.SLOT_BYPRODUCT, byproduct);
                             }

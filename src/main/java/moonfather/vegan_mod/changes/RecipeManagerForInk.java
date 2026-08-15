@@ -47,7 +47,7 @@ public class RecipeManagerForInk  extends RecipeManagerBase
         {
             return true; // FD adds some food with squid ink
         }
-        if (output.is(Items.BLACK_DYE) && Config.ink_accepts_blue_dye())
+        if (output.is(Items.DYE.black()) && Config.ink_accepts_blue_dye())
         {
             return true; // can't give black dye if we accept multiple dyes
         }
