@@ -44,7 +44,7 @@ repositories {
 }
 
 base {
-    archivesName = "i-dont-want-to-kill-them--mc26.1--neoforge-"
+    archivesName = "i-dont-want-to-kill-them--mc${minecraft_version}--neoforge-"
 }
 
 // Mojang ships Java 25 to end users in 26.1.2, so mods should target Java 25.
