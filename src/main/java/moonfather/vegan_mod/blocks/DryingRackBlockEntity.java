@@ -31,7 +31,7 @@ public class DryingRackBlockEntity extends BlockEntity
     }
     public DryingRackBlockEntity(BlockPos pos, BlockState blockState)
     {
-        super(VeganMod.Blocks.DRYING_RACK_BE.get(), pos, blockState);
+        super(VeganMod.BlockEntities.DRYING_RACK_BE.get(), pos, blockState);
     }
 
     ////////////////////////////////////

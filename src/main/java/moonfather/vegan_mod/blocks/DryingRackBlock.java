@@ -87,7 +87,7 @@ public class DryingRackBlock extends Block implements EntityBlock
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState blockState)
     {
-        return VeganMod.Blocks.DRYING_RACK_BE.get().create(pos, blockState);
+        return VeganMod.BlockEntities.DRYING_RACK_BE.get().create(pos, blockState);
     }
 
     @Nullable

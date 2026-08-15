@@ -10,11 +10,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Unit;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.*;
 import org.slf4j.Logger;
 
@@ -39,28 +41,6 @@ public class VeganMod
 {
     public static final String MODID = "vegan_mod";
     public static final Logger LOGGER = LogUtils.getLogger();
-    // + todo - pre 1.0 - resin separate added to recipe next to thick oil tag
-    // todo - 1.1 - kiln, tar, creosote oil. separate oil or merged into thick? merged - pick up thick into bottle, pick up ie oil into bucket if ie present and 4 bottles
-    // oil fluid        CAN BREATHE, FAST FALL
-    // - leather armor + cactus = wtf
-    // + leather armor merge2 -> non vegan variant
-
-
-    // known issue - litter model sucks
-    // known issue - no rotation on drying rack
-
-    //1.21.1 check meka, nirv, drown, config texts,      fix resin, fryers
-
-
-    // todo backburner: oil:  fluid density?, viscosity?, flammability, distance
-    // todo backburner: oil:  maybe - hardened oil
-
-    // todo:  cdp tag
-    ///////////////
-    // todo more feathers? why 50% of scutes?
-    // TF hide upgrades not work  don't care that much
-    //////////////
-    // post 1.1: entity tag for dropping feathers? add the_great_outdoors:mountain_bluebird
 
     public VeganMod(IEventBus modEventBus, ModContainer modContainer)
     {
@@ -69,6 +49,7 @@ public class VeganMod
         Blocks.init(modEventBus);
         Items.init(modEventBus);
         Other.init(modEventBus);
+        BlockEntities.init(modEventBus);
         //FluidRegistration.init(modEventBus);
         FluidRegistries.init(modEventBus);
 
@@ -113,28 +94,28 @@ public class VeganMod
         private Blocks() { }
         private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
         private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-        private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, VeganMod.MODID);
         public static void init(IEventBus modEventBus)
         {
             ITEMS.register(modEventBus);
             BLOCKS.register(modEventBus);
-            BLOCK_ENTITIES.register(modEventBus);
             modEventBus.addListener(Blocks::addCreative);
         }
 
         public static final DeferredBlock<Block> DRYING_RACK;
         public static final DeferredItem<Item> DRYING_RACK_ITEM;
-        public static final Supplier<BlockEntityType<DryingRackBlockEntity>> DRYING_RACK_BE;
         public static final DeferredBlock<Block> LITTER_OF_FEATHERS;
-
+        public static final DeferredBlock<Block> KILN;
+        public static final DeferredItem<Item> KILN_ITEM;
         static
         {
             final String shortName1 = "drying_rack";
             DRYING_RACK = BLOCKS.register(shortName1, () -> new DryingRackBlock(shortName1));
             DRYING_RACK_ITEM = ITEMS.register(shortName1, () -> new BlockItem(DRYING_RACK.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MODID, shortName1)))));
-            DRYING_RACK_BE = BLOCK_ENTITIES.register(shortName1 + "_be", () -> new BlockEntityType<>(DryingRackBlockEntity::new, DRYING_RACK.get()));
             final String shortName2 = "litter_of_feathers";
             LITTER_OF_FEATHERS = BLOCKS.register(shortName2, () -> new LitterBlock(net.minecraft.world.item.Items.FEATHER, true, shortName2));
+            final String shortName3 = "kiln";
+            KILN = BLOCKS.register(shortName3, () -> new KilnBlock(shortName3));
+            KILN_ITEM = ITEMS.register("kiln", () -> new KilnPlacerItem(KILN.get(), shortName3));
         }
 
 
@@ -144,9 +125,12 @@ public class VeganMod
             if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
             {
                 event.accept(DRYING_RACK_ITEM);
+                event.accept(KILN_ITEM);
             }
         }
     }
+
+
 
     public static class Items
     {
@@ -191,4 +175,22 @@ public class VeganMod
         }
     }
 
+
+
+    public static class BlockEntities
+    {
+        private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, VeganMod.MODID);
+        private static final DeferredRegister<MenuType<?>> CONTAINER_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, VeganMod.MODID);
+
+        public static final Supplier<BlockEntityType<KilnBlockEntity>> KILN_BE = BLOCK_ENTITIES.register("kiln_be", () -> new BlockEntityType<>(KilnBlockEntity::new, Blocks.KILN.get()));
+        public static final Supplier<MenuType<KilnMenu>> KILN_MENU_TYPE = CONTAINER_TYPES.register("crafting_single", () -> IMenuTypeExtension.create(KilnMenu::new));
+        public static final Supplier<BlockEntityType<DryingRackBlockEntity>> DRYING_RACK_BE = BLOCK_ENTITIES.register("drying_rack_be", () -> new BlockEntityType<>(DryingRackBlockEntity::new, Blocks.DRYING_RACK.get()));
+
+
+        public static void init(IEventBus modEventBus)
+        {
+            BLOCK_ENTITIES.register(modEventBus);
+            CONTAINER_TYPES.register(modEventBus);
+        }
+    }
 }

@@ -44,7 +44,7 @@ repositories {
 }
 
 base {
-    archivesName = "i-dont-want-to-kill-them--26.1--neoforge-"
+    archivesName = "i-dont-want-to-kill-them--mc26.1--neoforge-"
 }
 
 // Mojang ships Java 25 to end users in 26.1.2, so mods should target Java 25.
@@ -130,7 +130,13 @@ dependencies {
     runtimeOnly "curse.maven:jei-238222:8108851"
     // emi and cdp are 1.21.1
     compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
-    compileOnly "curse.maven:emi-580555:6420931"
+    //compileOnly "curse.maven:emi-580555:6420931"
+
+    compileOnly "curse.maven:jade-324717:8326300"
+    runtimeOnly "curse.maven:jade-324717:8326300"
+
+    // top is on 1.21.1
+    //compileOnly "curse.maven:the-one-probe-245211:6106998"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

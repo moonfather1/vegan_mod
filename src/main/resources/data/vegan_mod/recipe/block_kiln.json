@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C C",
+    "CFC",
+    "S S"
+  ],
+  "key": {
+    "F": "minecraft:furnace",
+    "C": "minecraft:clay_ball",
+    "S": "#minecraft:stone_tool_materials"
+  },
+  "result": {
+    "id": "vegan_mod:kiln",
+    "count": 1
+  },
+  "neoforge:conditions": [
+    {
+      "type": "vegan_mod:optional",
+      "flag": "charcoal_kiln_enabled"
+    }
+  ]
+}

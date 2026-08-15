@@ -7,21 +7,21 @@ import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.gui.widgets.ITextWidget;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
 import java.util.List;
 
-public class JeiCategory extends AbstractRecipeCategory<JeiCategory.DryingRecipeForJei>
+public class JeiCategoryDrying extends AbstractRecipeCategory<JeiCategoryDrying.DryingRecipeForJei>
 {
-    public JeiCategory(IGuiHelper guiHelper)
+    public JeiCategoryDrying(IGuiHelper guiHelper)
     {
         super(DRYING_RECIPE_TYPE, VeganMod.Blocks.DRYING_RACK.get().getName(), guiHelper.createDrawableItemLike(VeganMod.Blocks.DRYING_RACK.get()), 125, 52);
     }
-    public static final RecipeType<DryingRecipeForJei> DRYING_RECIPE_TYPE = RecipeType.create(VeganMod.MODID, "recipe_type", DryingRecipeForJei.class);
+    public static final IRecipeType<DryingRecipeForJei> DRYING_RECIPE_TYPE = IRecipeType.create(VeganMod.MODID, "recipe_type", DryingRecipeForJei.class);
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, DryingRecipeForJei dryingRecipe, IFocusGroup focusGroup)

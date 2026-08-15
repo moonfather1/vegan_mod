@@ -19,12 +19,22 @@
       "flag": "make_leather_on_crafting_table"
     },
     {
-      "type": "neoforge:not",
-      "value":
-      {
-        "type": "neoforge:tag_empty",
-        "tag": "vegan_mod:oil_for_leather_in_buckets"
-      }
+      "type": "neoforge:or",
+      "values":
+      [
+        {
+          "type": "vegan_mod:optional",
+          "flag": "charcoal_kiln_enabled"
+        },
+        {
+          "type": "neoforge:not",
+          "value":
+          {
+            "type": "neoforge:tag_empty",
+            "tag": "vegan_mod:oil_for_leather_in_buckets"
+          }
+        }
+      ]
     }
   ]
 }
