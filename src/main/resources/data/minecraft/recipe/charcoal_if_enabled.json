@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "cookingtime": 200,
+  "cookingtime": 400,
   "experience": 0.15,
   "ingredient": "#minecraft:logs_that_burn",
   "result": {
@@ -9,7 +9,12 @@
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:never"
+      "type": "neoforge:not",
+      "value":
+      {
+        "type": "vegan_mod:optional",
+        "flag": "charcoal_kiln_enabled"
+      }
     }
   ]
 }

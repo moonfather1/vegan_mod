@@ -13,13 +13,16 @@ public class KilnRelatedTooltips
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event)
     {
-        if (event.getItemStack().is(ItemTags.LOGS_THAT_BURN))
+        if (Config.kiln_enabled())
         {
-            if (event.getEntity() != null && event.getEntity().containerMenu instanceof AbstractFurnaceMenu)
+            if (event.getItemStack().is(ItemTags.LOGS_THAT_BURN))
             {
-                event.getToolTip().add(infp);
+                if (event.getEntity() != null && event.getEntity().containerMenu instanceof AbstractFurnaceMenu)
+                {
+                    event.getToolTip().add(info);
+                }
             }
         }
     }
-    private static final Component infp = Component.translatable("message.vegan_mod.logs_in_furnace").withColor(0xffddbb66);
+    private static final Component info = Component.translatable("message.vegan_mod.logs_in_furnace").withColor(0xffddbb66);
 }
