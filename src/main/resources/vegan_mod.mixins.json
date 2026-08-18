@@ -9,7 +9,8 @@
     "CatGoalMixin",
     "CatGoalMixin2",
     "CDP_BulkColoringMixin",
-    "PotionMixin"
+    "PotionMixin",
+    "SmeltingPreventionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
