@@ -15,7 +15,8 @@
     "ShapedRecipeAccessor",
     "ShapedRecipePatternAccessor",
     "ShapelessRecipeAccessor",
-    "SingleItemRecipeAccessor"
+    "SingleItemRecipeAccessor",
+    "SmeltingPreventionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
