@@ -121,7 +121,7 @@ public class DryingRackBlock extends Block implements EntityBlock
         {
             if (! this.canDepositItem(itemInMainHand))
             {
-                player.sendSystemMessage(RackMessage);
+                player.sendOverlayMessage(RackMessage);
                 return InteractionResult.CONSUME;
             }
             //System.out.println("~~~~~ADDED FROM MAIN");
@@ -139,7 +139,7 @@ public class DryingRackBlock extends Block implements EntityBlock
         {
             if (! this.canDepositItem(itemInOffHand))
             {
-                player.sendSystemMessage(RackMessage);
+                player.sendOverlayMessage(RackMessage);
                 return InteractionResult.CONSUME;
             }
             //System.out.println("~~~~~ADDED FROM OFFHAND");

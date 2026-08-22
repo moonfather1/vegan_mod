@@ -19,12 +19,13 @@ public abstract class SmeltingPreventionMixin
     private boolean checkForLeather(boolean originalResult)
     {
         if (originalResult == false) { return false; }
+        if (unwantedInput == null) { unwantedInput = Items.ROTTEN_FLESH.getDefaultInstance(); }
         if (result.is(Items.LEATHER) && input.test(unwantedInput)) { return false; }
         return true;
     }
 
     @Unique
-    private final ItemStack unwantedInput = Items.ROTTEN_FLESH.getDefaultInstance();
+    private ItemStack unwantedInput = null;
 
     @Final
     @Shadow

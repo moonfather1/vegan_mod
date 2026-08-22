@@ -30,7 +30,7 @@ public class SheddingHandler
         {
             if (Config.doesEntityShed(event.getTarget()) || event.getTarget() instanceof Armadillo)
             {
-                event.getEntity().sendSystemMessage(MESSAGE);
+                event.getEntity().sendOverlayMessage(MESSAGE);
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.SUCCESS);
             }
