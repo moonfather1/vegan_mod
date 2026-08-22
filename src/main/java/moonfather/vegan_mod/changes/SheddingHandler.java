@@ -24,13 +24,13 @@ public class SheddingHandler
         }
     }
 
-    public static void onEntityRightClick(PlayerInteractEvent.EntityInteractSpecific event)
+    public static void onEntityRightClick(PlayerInteractEvent.EntityInteract event)
     {
-        if (event.getItemStack().is(Tags.Items.TOOLS_BRUSH))
+        if (event.getLevel().isClientSide() && event.getItemStack().is(Tags.Items.TOOLS_BRUSH))
         {
             if (Config.doesEntityShed(event.getTarget()) || event.getTarget() instanceof Armadillo)
             {
-                event.getEntity().sendSystemMessage(MESSAGE);
+                event.getEntity().sendOverlayMessage(MESSAGE);
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.SUCCESS);
             }

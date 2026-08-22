@@ -15,16 +15,17 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(SingleItemRecipe.class)
 public abstract class SmeltingPreventionMixin
 {
-    @ModifyReturnValue(method = "matches", at = @At("RETURN"))
+    @ModifyReturnValue(method = "matches*", at = @At("RETURN"))
     private boolean checkForLeather(boolean originalResult)
     {
         if (originalResult == false) { return false; }
+        if  (unwantedInput == null) { unwantedInput = Items.ROTTEN_FLESH.getDefaultInstance(); }
         if (result.is(Items.LEATHER) && input.test(unwantedInput)) { return false; }
         return true;
     }
 
     @Unique
-    private final ItemStack unwantedInput = Items.ROTTEN_FLESH.getDefaultInstance();
+    private ItemStack unwantedInput = null;
 
     @Final
     @Shadow
