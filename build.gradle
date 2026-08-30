@@ -127,10 +127,10 @@ configurations {
 dependencies {
     compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
     compileOnly "curse.maven:jei-238222:7416540"
-    //runtimeOnly "curse.maven:jei-238222:7416540"
+    runtimeOnly "curse.maven:jei-238222:7416540"
 
     compileOnly "curse.maven:emi-580555:6420931"
-    runtimeOnly "curse.maven:emi-580555:6420931"
+    //runtimeOnly "curse.maven:emi-580555:6420931"
 
     compileOnly "curse.maven:jade-324717:5846105"
     //runtimeOnly "curse.maven:jade-324717:5846105"
