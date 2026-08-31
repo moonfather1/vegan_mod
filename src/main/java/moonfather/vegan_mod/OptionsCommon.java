@@ -14,21 +14,32 @@ public class OptionsCommon
 {
     public static double leather_multiplier()
     {
-        return backend.getModOptions().leather_multiplier_value;
+        double result = backend.getModOptions().leather_multiplier_value;
+        result = Math.max(result, 0.1);
+        result = Math.min(result, 1.0);
+        return result;
     }
     public static boolean leather_make_on_crafting_table() { return backend.getModOptions().leather_make_on_crafting_table_value; }
     public static boolean leather_make_on_drying_rack()
     {
         return ! leather_make_on_crafting_table();
     }
+    public static String leather_armor_color() { return  backend.getModOptions().leather_armor_color_value; }
     public static boolean ink_accepts_blue_dye()
     {
         return backend.getModOptions().ink_accepts_blue_dye_value;
     }
-    public static boolean ink_simple_recipe()
+    public static String shedding() { return  backend.getModOptions().shedding_value; }
+    public static boolean feather_litter_enabled() { return backend.getModOptions().feather_litter_enabled_value; }
+    public static int feather_litter_decay_target()
     {
-        return backend.getModOptions().ink_simple_recipe_value;
+        int result = backend.getModOptions().feather_litter_decay_target_value;
+        result = Math.max(result, 1);
+        result = Math.min(result, 25);
+        return result;
     }
+
+
 
     ///////////////////
 

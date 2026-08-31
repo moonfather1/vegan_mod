@@ -1,0 +1,270 @@
+{
+    "multipart":
+    [
+        {
+          "apply": [
+              {
+                "model": "vegan_mod:block/feather1",
+                "y": 0
+              },
+              {
+                "model": "vegan_mod:block/feather3",
+                "y": 180
+              },
+              {
+                "model": "vegan_mod:block/feather4",
+                "y": 90
+              },
+              {
+                "model": "vegan_mod:block/feather2",
+                "y": 270
+              }
+          ],
+          "when": {
+              "OR": [
+                {
+                  "facing": "north"
+                },
+                {
+                  "AND": [
+                    {
+                      "facing": "east"
+                    },
+                    {
+                      "OR": [
+                        { "amount": 2 }, { "amount": 3 }, { "amount": 4 }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "AND": [
+                    {
+                      "facing": "south"
+                    },
+                    {
+                      "OR": [
+                        { "amount": 3 }, { "amount": 4 }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "AND": [
+                    {
+                      "facing": "west"
+                    },
+                    { "amount": 4 }
+                  ]
+                }
+             ]
+          }
+
+        },
+
+
+
+
+      {
+        "apply": [
+          {
+            "model": "vegan_mod:block/feather1",
+            "y": 90
+          },
+          {
+            "model": "vegan_mod:block/feather3",
+            "y": 270
+          },
+          {
+            "model": "vegan_mod:block/feather4",
+            "y": 180
+          },
+          {
+            "model": "vegan_mod:block/feather2",
+            "y": 0
+          }
+        ],
+        "when": {
+          "OR": [
+            {
+              "AND": [
+                {
+                  "facing": "north"
+                },
+                {
+                  "OR": [
+                    { "amount": 2 }, { "amount": 3 }, { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "AND": [
+                {
+                  "facing": "east"
+                },
+                {
+                  "OR": [
+                    { "amount": 3 }, { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "AND": [
+                {
+                  "facing": "south"
+                },
+                {
+                  "OR": [
+                    { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "facing": "west"
+            }
+          ]
+        }
+      },
+
+
+
+
+      {
+        "apply": [
+          {
+            "model": "vegan_mod:block/feather1",
+            "y": 180
+          },
+          {
+            "model": "vegan_mod:block/feather3",
+            "y": 0
+          },
+          {
+            "model": "vegan_mod:block/feather4",
+            "y": 270
+          },
+          {
+            "model": "vegan_mod:block/feather2",
+            "y": 90
+          }
+        ],
+        "when": {
+          "OR": [
+            {
+              "AND": [
+                {
+                  "facing": "north"
+                },
+                {
+                  "OR": [
+                    { "amount": 3 }, { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "AND": [
+                {
+                  "facing": "west"
+                },
+                {
+                  "OR": [
+                    { "amount": 2 }, { "amount": 3 }, { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "AND": [
+                {
+                  "facing": "east"
+                },
+                {
+                  "OR": [
+                    { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "facing": "south"
+            }
+          ]
+        }
+      },
+
+
+
+
+      {
+        "apply": [
+          {
+            "model": "vegan_mod:block/feather1",
+            "y": 270
+          },
+          {
+            "model": "vegan_mod:block/feather3",
+            "y": 90
+          },
+          {
+            "model": "vegan_mod:block/feather4",
+            "y": 0
+          },
+          {
+            "model": "vegan_mod:block/feather2",
+            "y": 180
+          }
+        ],
+        "when": {
+          "OR": [
+            {
+              "AND": [
+                {
+                  "facing": "north"
+                },
+                {
+                  "OR": [
+                    { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "AND": [
+                {
+                  "facing": "west"
+                },
+                {
+                  "OR": [
+                    { "amount": 3 }, { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "AND": [
+                {
+                  "facing": "south"
+                },
+                {
+                  "OR": [
+                    { "amount": 2 }, { "amount": 3 }, { "amount": 4 }
+                  ]
+                }
+              ]
+            },
+            {
+              "facing": "east"
+            }
+          ]
+        }
+      }
+
+    ]
+
+
+
+}

@@ -2,12 +2,13 @@
 	"schemaVersion": 1,
 	"id": "vegan_mod",
 	"version": "${version}",
-	"name": "I dont want to kill cows",
-	"description": "Vegan solutions for leather",
+	"name": "I dont want to kill them!!",
+	"description": "Vegan and family-friendly solutions for leather, feathers, ink sacs, etc. You no longer need to slaughter cows/rabbits/etc. to make something as mundane as book and quill.",
 	"authors": [ "MoonFather" ],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/i-dont-want-to-kill-them",
+		"sources": "https://github.com/moonfather1/vegan_mod/",
+		"issues": "https://discord.gg/2VayYKktvx"
 	},
 	"license": "MLL",
 	"icon": "assets/vegan_mod/icon.png",

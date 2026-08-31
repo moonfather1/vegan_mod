@@ -1,5 +1,6 @@
 package moonfather.vegan_mod;
 
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import moonfather.vegan_mod.changes.RecipeManagerMain;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
@@ -12,16 +13,14 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Unit;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,9 +50,14 @@ public class VeganMod implements ModInitializer
 		ResourceConditionType<?> conditionTypeForOptionalRecipes2 = ResourceConditionType.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "tag_not_empty"), TagNotEmptyRecipeCondition.CODEC);
 		TagNotEmptyRecipeCondition.setType(conditionTypeForOptionalRecipes2);
 		ResourceConditions.register(conditionTypeForOptionalRecipes2);
+		//////////
+		ResourceConditionType<?> conditionTypeForOptionalRecipes3 = ResourceConditionType.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "tag_empty"), TagEmptyRecipeCondition.CODEC);
+		TagNotEmptyRecipeCondition.setType(conditionTypeForOptionalRecipes3);
+		ResourceConditions.register(conditionTypeForOptionalRecipes3);
 		//////////////////
 		UseEntityCallback.EVENT.register(SheddingHandler::onRightClickEntity);
-
+        /////////////////////
+        NeoForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_them_._serverconfig.toml");
 	}
 
 	///////////////////////////////////////
@@ -61,7 +65,9 @@ public class VeganMod implements ModInitializer
 	public static class Items
 	{
 		public static final Item HARDENED_FABRIC = new Item(new Item.Properties());
+		public static final Item RAW_FABRIC = new Item(new Item.Properties());
 		public static final Item PLANT_OIL = new FullBottleItem();
+		public static final Item THICK_OIL = new FullBottleItem();
 		public static final Item PLANT_INK = new FullBottleItem();
 		public static final Item GLOWING_INK = new FullBottleItem();
 
@@ -70,8 +76,10 @@ public class VeganMod implements ModInitializer
 		public static void initialize()
 		{
 			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "hardened_fabric"), HARDENED_FABRIC);
-			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "plant_ink"), PLANT_INK);
-			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "plant_oil"), PLANT_OIL);
+			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "raw_fabric"), RAW_FABRIC);
+            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "plant_oil"), PLANT_OIL);
+            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "thick_oil"), THICK_OIL);
+            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "plant_ink"), PLANT_INK);
 			Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "glowing_ink"), GLOWING_INK);
 
 			ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(Items::addToCreativeTabs);
@@ -82,8 +90,10 @@ public class VeganMod implements ModInitializer
 		private static void addToCreativeTabs(FabricItemGroupEntries entries)
 		{
 			entries.accept(HARDENED_FABRIC);
-			entries.accept(PLANT_INK);
-			entries.accept(PLANT_OIL);
+			entries.accept(RAW_FABRIC);
+            entries.accept(PLANT_OIL);
+            entries.accept(THICK_OIL);
+            entries.accept(PLANT_INK);
 			entries.accept(GLOWING_INK);
 		}
 

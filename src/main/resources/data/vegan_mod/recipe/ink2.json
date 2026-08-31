@@ -14,7 +14,13 @@
   "result": {
     "id": "vegan_mod:plant_ink",
     "count": 1
-  }
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "vegan_mod:tag_not_empty",
+      "tag_id": "vegan_mod:oil_for_ink_no_bottle"
+    }
+  ]
 }
 
 

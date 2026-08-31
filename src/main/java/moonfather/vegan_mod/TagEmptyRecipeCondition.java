@@ -15,11 +15,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public record TagNotEmptyRecipeCondition(String tag_id) implements ResourceCondition
+public record TagEmptyRecipeCondition(String tag_id) implements ResourceCondition
 {
-    public static final MapCodec<TagNotEmptyRecipeCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.STRING.fieldOf("tag_id").orElse("missing").forGetter(TagNotEmptyRecipeCondition::tag_id)
-    ).apply(instance, TagNotEmptyRecipeCondition::new));
+    public static final MapCodec<TagEmptyRecipeCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.STRING.fieldOf("tag_id").orElse("missing").forGetter(TagEmptyRecipeCondition::tag_id)
+    ).apply(instance, TagEmptyRecipeCondition::new));
 
     @Override
     public ResourceConditionType<?> getType()
@@ -38,7 +38,7 @@ public record TagNotEmptyRecipeCondition(String tag_id) implements ResourceCondi
         if (this.tag_id == null) return false;
         TagKey<Item> key = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.parse(this.tag_id));
         Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(key);
-        if (tag.isEmpty()) return false;
-        return tag.get().size() > 0;
+        if (tag.isEmpty()) return true;
+        return tag.get().size() == 0;
     }
 }

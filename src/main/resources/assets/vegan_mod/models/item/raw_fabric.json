@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures":
+  {
+    "layer0": "vegan_mod:item/leather_cut2____by__futureazoo"
+  }
+}

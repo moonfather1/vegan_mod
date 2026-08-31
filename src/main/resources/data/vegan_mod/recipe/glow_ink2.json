@@ -15,14 +15,10 @@
     "id": "vegan_mod:glowing_ink",
     "count": 1
   },
-  "neoforge:conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "neoforge:not",
-      "value":
-      {
-        "type": "neoforge:tag_empty",
-        "tag": "vegan_mod:oil_for_ink_no_bottle"
-      }
+      "condition": "vegan_mod:tag_not_empty",
+      "tag_id": "vegan_mod:oil_for_ink_no_bottle"
     }
   ]
 }

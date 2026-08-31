@@ -14,5 +14,19 @@
   "result": {
     "id": "vegan_mod:plant_oil",
     "count": 1
-  }
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "vegan_mod:tag_empty",
+      "tag_id": "c:seeds/hemp"
+    },
+    {
+      "condition": "vegan_mod:tag_empty",
+      "tag_id": "c:seeds/sunflower"
+    },
+    {
+      "condition": "vegan_mod:tag_empty",
+      "tag_id": "c:seeds/canola"
+    }
+  ]
 }

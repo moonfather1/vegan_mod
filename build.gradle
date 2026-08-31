@@ -22,6 +22,29 @@ repositories {
 			includeGroup "curse.maven"
 		}
 	}
+/////////
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        // forRepositories(fg.repository) // Uncomment when using ForgeGradle
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+    ////////////
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+    ///////////
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
 }
 
 loom {
@@ -46,6 +69,11 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modCompileOnly "curse.maven:farmers-delight-refabricated-993166:6955339"
+
+    modImplementation "maven.modrinth:ohNO6lps:N5qzq0XV"  // FCAP  ne radi
+    modApi("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.6")
+
+    //compileOnly("com.terraformersmc:modmenu:11.0.4")
 }
 
 processResources {
