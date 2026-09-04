@@ -29,12 +29,12 @@ public record OptionalRecipeCondition(String flag) implements ResourceCondition
     public boolean test(HolderLookup.@Nullable Provider registryLookup)
     {
         if (flag == null) { return false; }
-        if (flag.equals("make_leather_on_crafting_table")) { return OptionsCommon.leather_make_on_crafting_table(); }
-        if (flag.equals("make_leather_on_drying_rack")) { return OptionsCommon.leather_make_on_drying_rack(); }
-        if (flag.equals("ink_accepts_blue_dye")) { return OptionsCommon.ink_accepts_blue_dye(); }
-        //if (flag.equals("oil_bucket_forced_craftable")) { return OptionsCommon.oil_bucket_always_craftable(); }
-        //if (flag.equals("charcoal_kiln_enabled")) { return OptionsCommon.kiln_enabled(); }
-        //if (flag.equals("charcoal_kiln_disabled")) { return ! OptionsCommon.kiln_enabled(); }
+        if (flag.equals("make_leather_on_crafting_table")) { return Config.leather_make_on_crafting_table(); }
+        if (flag.equals("make_leather_on_drying_rack")) { return Config.leather_make_on_drying_rack(); }
+        if (flag.equals("ink_accepts_blue_dye")) { return Config.ink_accepts_blue_dye(); }
+        //if (flag.equals("oil_bucket_forced_craftable")) { return Config.oil_bucket_always_craftable(); }
+        if (flag.equals("charcoal_kiln_enabled")) { return Config.kiln_enabled(); }
+        if (flag.equals("charcoal_kiln_disabled")) { return ! Config.kiln_enabled(); }
         return false;
     }
 }

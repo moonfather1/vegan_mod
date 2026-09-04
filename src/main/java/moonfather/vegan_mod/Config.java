@@ -47,7 +47,7 @@ public class Config {
             .define("Feathers.feather_litter_enabled", false);
 
     private static final ModConfigSpec.BooleanValue _kiln_enabled = BUILDER
-            .comment("Is charcoal kiln block enabled? If yes, logs are turned to charcoal in it. As a byproduct, it will give you some creosote oil (useful for hardened fabric) and tar (black dye). If this is disabled, you need other ways to make black ink and hardened fabric.")
+            .comment("Is charcoal kiln block enabled? If yes, logs are turned to charcoal in it. As a byproduct, it will give you some creosote oil (useful for hardened fabric) and tar (black dye). If this is disabled, you need other ways to make black ink and hardened fabric.").worldRestart()
             .define("Leather.Kiln.charcoal_kiln_enabled", true);
 
     private static final ModConfigSpec.DoubleValue _kiln_time_multiplier = BUILDER

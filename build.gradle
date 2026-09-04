@@ -68,9 +68,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modCompileOnly "curse.maven:farmers-delight-refabricated-993166:6955339"
-
-    modImplementation "maven.modrinth:ohNO6lps:N5qzq0XV"  // FCAP  ne radi
+    //modImplementation "maven.modrinth:ohNO6lps:N5qzq0XV"  // FCAPI
     modApi("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.6")
 
     //compileOnly("com.terraformersmc:modmenu:11.0.4")

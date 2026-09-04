@@ -1,7 +1,7 @@
 
 package moonfather.vegan_mod.changes;
 
-import moonfather.vegan_mod.OptionsCommon;
+import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,7 +30,7 @@ public class RecipeManagerForInk
                 {
                     continue; // FD adds some food with squid ink
                 }
-                if (output.is(Items.BLACK_DYE) && OptionsCommon.ink_accepts_blue_dye())
+                if (output.is(Items.BLACK_DYE) && Config.ink_accepts_blue_dye())
                 {
                     continue; // can't give black dye if we accept multiple dyes
                 }

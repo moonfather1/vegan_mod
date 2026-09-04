@@ -1,6 +1,6 @@
 package moonfather.vegan_mod.mixin;
 
-import moonfather.vegan_mod.OptionsCommon;
+import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +16,7 @@ public class SheddingMixin
 	private void checkForShedding(Entity entity, CallbackInfo info)
 	{
 		if (entity.tickCount % SheddingHandler.SHEDDING_CHECK_INTERVAL != SheddingHandler.SHEDDING_CHECK_INTERVAL - 3) { return; } // 2 seconds
-		if (OptionsCommon.doesEntityShed(entity))
+		if (Config.doesEntityShed(entity))
 		{
 			SheddingHandler.maybeShed(entity);
 		}

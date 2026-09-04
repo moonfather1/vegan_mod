@@ -1,6 +1,6 @@
 package moonfather.vegan_mod.items;
 
-import moonfather.vegan_mod.OptionsCommon;
+import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +37,7 @@ public class ArmorUncraftingRecipe extends CustomRecipe
         if (initialLeatherAmount == 0) { return ItemStack.EMPTY; } // should never happen
         double resultAmount = initialLeatherAmount;
         resultAmount *= (input.getMaxDamage() - input.getDamageValue()) / (double) input.getMaxDamage();
-        resultAmount *= OptionsCommon.leather_multiplier(); // half
+        resultAmount *= Config.leather_multiplier(); // half
         if (resultAmount < 1)  { return ItemStack.EMPTY; }
         int resultAmountAsInt = (int) Math.floor(resultAmount);
         ItemStack result = new ItemStack(input.has(VeganMod.Other.VEGAN_MARKER) ? VeganMod.Items.HARDENED_FABRIC : Items.LEATHER);

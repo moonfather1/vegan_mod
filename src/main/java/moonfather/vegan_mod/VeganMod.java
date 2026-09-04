@@ -4,6 +4,7 @@ import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import moonfather.vegan_mod.changes.RecipeManagerMain;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
+import moonfather.vegan_mod.items.CharcoalReplacementRecipe;
 import moonfather.vegan_mod.items.FullBottleItem;
 import net.fabricmc.api.ModInitializer;
 
@@ -20,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +37,8 @@ public class VeganMod implements ModInitializer
 	{
 		Items.initialize();
 		Other.initialize();
-		OptionsCommon.initialize();
-		// remove 4 cutting.
-		// logo
 		// ink2 dead or weird
 		// create crushing  --- 1.20.1
-		// 1.21.8  models, recipes different,  resin
 		///////////////////////
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
 		//////////
@@ -106,9 +105,18 @@ public class VeganMod implements ModInitializer
 	{
 		public static final DataComponentType<Unit> VEGAN_MARKER = DataComponentType.<Unit>builder().persistent(Unit.CODEC).build();
 
-		public static void initialize()
+        private static final String OUR_SMELTING_RECIPE_ID = "smelting2";
+        public static final RecipeType<CharcoalReplacementRecipe> OUR_SMELTING_RECIPE_TYPE = Registry.register(BuiltInRegistries.RECIPE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, OUR_SMELTING_RECIPE_ID),
+                new RecipeType<CharcoalReplacementRecipe>() {
+                    public String toString() { return OUR_SMELTING_RECIPE_ID; }
+                }
+            );
+        public static final SimpleCookingSerializer<CharcoalReplacementRecipe> OUR_SMELTING_RECIPE_SERIALIZER = new SimpleCookingSerializer<>(CharcoalReplacementRecipe::new, 2000);;
+
+        public static void initialize()
 		{
 			Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, "vegan_made"), VEGAN_MARKER);
+            Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, OUR_SMELTING_RECIPE_ID, OUR_SMELTING_RECIPE_SERIALIZER);
 		}
 		private Other() {}
 	}
