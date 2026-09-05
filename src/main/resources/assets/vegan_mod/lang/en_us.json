@@ -27,7 +27,7 @@
   "block.vegan_mod.kiln": "Charcoal Kiln",
   "message.vegan_mod.no_room_for_kiln_1": "No room for kiln.",
   "message.vegan_mod.no_room_for_kiln_2": "No room for kiln (something's in the way).",
-  "message.vegan_mod.logs_in_furnace": "Obtaining charcoal works differently. \nIt needs a special kiln that will \nkeep the wood heated without actually burning it. \nDue to allowing inflow of air, this \nfurnace won't do.",
+  "message.vegan_mod.logs_in_furnace": "Obtaining charcoal works differently. \nIt needs a special kiln that will \nkeep the wood heated without \nactually burning it. Due to allowing \ninflow of air, this furnace won't do.",
   "message.vegan_mod.kiln_byproduct_slot_0": "Kiln has a compartment where \nbyproducts are available. \nCurrently there is not \nenough oil to collect.",
   "message.vegan_mod.kiln_byproduct_slot_1": "Kiln has a compartment where \nbyproducts are available. \nCurrently there is roughly \none bottle of oil in there.",
   "message.vegan_mod.kiln_byproduct_slot_2": "Kiln has a compartment where \nbyproducts are available. \nCurrently there are a few \nbottles of oil to collect.",

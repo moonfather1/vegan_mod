@@ -4,6 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ArmorCraftingMixin",
+    "ArmorRepairMixin",
+    "CatGoalAccessor",
+    "CatGoalMixin",
+    "CatGoalMixin2",
     "PotionMixin",
     "RecipeHolderAccessor",
     "SheddingMixin"

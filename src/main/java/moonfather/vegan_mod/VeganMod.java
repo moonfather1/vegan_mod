@@ -39,6 +39,7 @@ public class VeganMod implements ModInitializer
 		Other.initialize();
 		// ink2 dead or weird
 		// create crushing  --- 1.20.1
+        // anvil repair mat on both platforn.  minor issue.
 		///////////////////////
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
 		//////////
