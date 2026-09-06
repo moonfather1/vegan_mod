@@ -43,14 +43,15 @@ public class VeganMod implements ModInitializer
 		Items.initialize();
 		Other.initialize();
         Blocks.initialize();
-		// ink2 dead or weird  !!!
 		// create crushing  --- 1.20.1
         // todo: isFlammable on rack   handleUpdateTag on rack BE
         // todo: isFlammable on litter
         // todo: in 26.1, replace item with ItemStackTemplate in recipe
         // integration
         // pickaxe
-        // pumpkin
+        // rei?
+        // rrv on 26.1
+        // create on 26.1
 		///////////////////////
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
 		//////////

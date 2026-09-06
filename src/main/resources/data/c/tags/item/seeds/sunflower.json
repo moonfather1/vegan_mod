@@ -1,6 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    { "id": "minecraft:pumpkin_seeds", "required": false }
-  ]
-}

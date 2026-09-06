@@ -72,6 +72,10 @@ dependencies {
     modApi("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.6")
 
     //compileOnly("com.terraformersmc:modmenu:11.0.4")
+
+    //modCompileOnly "maven.modrinth:u6dRKJwZ:7rxlZfso"  // jei
+    modCompileOnly "maven.modrinth:u6dRKJwZ:VO5u0wi4"  // jei
+    modCompileOnly "maven.modrinth:fRiHVvU7:Qp9J2Yu5"   //emi
 }
 
 processResources {

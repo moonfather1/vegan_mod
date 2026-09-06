@@ -19,7 +19,13 @@
 		],
 		"client": [
 			"moonfather.vegan_mod.ClientEntryPoint"
-		]
+		],
+        "emi": [
+          "moonfather.vegan_mod.integration.EmiRegistration"
+        ],
+        "jei_mod_plugin": [
+          "moonfather.vegan_mod.integration.JeiRegistration"
+        ]
 	},
 	"mixins": [
 		"vegan_mod.mixins.json",
