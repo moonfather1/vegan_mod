@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#minecraft:spruce_logs",
+    { "id": "#biomeswevegone:pine_logs", "required": false },
+    { "id": "#biomesoplenty:pine_logs", "required": false },
+    { "id": "#biomesoplenty:umbran_logs", "required": false },
+    { "id": "regions_unexplored:blackwood_log", "required": false },
+    { "id": "regions_unexplored:blackwood_wood", "required": false },
+    { "id": "regions_unexplored:pine_log", "required": false },
+    { "id": "regions_unexplored:pine_wood", "required": false }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "values": [
+    { "id": "forbidden_arcanus:edelwood_oil", "required": false },
+    { "id": "minecraft:resin_clump", "required": false }
+  ]
+}

@@ -1,6 +1,10 @@
 package moonfather.vegan_mod;
 
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
+import moonfather.vegan_mod.blocks.DryingRackBlock;
+import moonfather.vegan_mod.blocks.DryingRackBlockEntity;
+import moonfather.vegan_mod.blocks.DryingRecipe;
+import moonfather.vegan_mod.blocks.DryingRecipeManager;
 import moonfather.vegan_mod.changes.RecipeManagerMain;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
@@ -19,10 +23,14 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleCookingSerializer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +45,14 @@ public class VeganMod implements ModInitializer
 	{
 		Items.initialize();
 		Other.initialize();
-		// ink2 dead or weird
+        Blocks.initialize();
+		// ink2 dead or weird  !!! 
 		// create crushing  --- 1.20.1
-        // anvil repair mat on both platforn.  minor issue.
+        // anvil repair mat on both platform.  minor issue.
+        // todo: isFlammable on rack   handleUpdateTag on rack BE
+        // todo: in 26.1, replace item with ItemStackTemplate in recipe
+        // integration
+        // pickaxe
 		///////////////////////
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
 		//////////
@@ -58,6 +71,8 @@ public class VeganMod implements ModInitializer
 		UseEntityCallback.EVENT.register(SheddingHandler::onRightClickEntity);
         /////////////////////
         NeoForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_them_._serverconfig.toml");
+        //////////////////////
+        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(DryingRecipeManager::initialize);
 	}
 
 	///////////////////////////////////////
@@ -114,6 +129,20 @@ public class VeganMod implements ModInitializer
             );
         public static final SimpleCookingSerializer<CharcoalReplacementRecipe> OUR_SMELTING_RECIPE_SERIALIZER = new SimpleCookingSerializer<>(CharcoalReplacementRecipe::new, 2000);;
 
+        public static final RecipeSerializer<DryingRecipe> DRYING_RECIPE_SERIALIZER = Registry.register(
+                BuiltInRegistries.RECIPE_SERIALIZER,
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "drying"),
+                DryingRecipe.SERIALIZER
+        );
+
+        public static final RecipeType<DryingRecipe> DRYING_RECIPE_TYPE = Registry.register(
+                BuiltInRegistries.RECIPE_TYPE,
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "drying"),
+                new RecipeType<DryingRecipe>() { }
+        );
+
+
+
         public static void initialize()
 		{
 			Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, "vegan_made"), VEGAN_MARKER);
@@ -121,4 +150,32 @@ public class VeganMod implements ModInitializer
 		}
 		private Other() {}
 	}
+
+    ////////////////////////////////////////////////////////
+
+    public static class Blocks
+    {
+        public static final Block DRYING_RACK_BLOCK = new DryingRackBlock();
+        public static final Item DRYING_RACK_BLOCK_ITEM = new BlockItem(DRYING_RACK_BLOCK, new Item.Properties());;
+        public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY = BlockEntityType.Builder.<DryingRackBlockEntity>of(DryingRackBlockEntity::new, DRYING_RACK_BLOCK).build();
+
+
+
+        private static void addToCreativeTabs(FabricItemGroupEntries entries)
+        {
+            entries.accept(DRYING_RACK_BLOCK_ITEM);
+        }
+
+        public static void initialize()
+        {
+            ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(Blocks::addToCreativeTabs);
+
+            ResourceLocation id1 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "drying_rack");
+            ResourceLocation id2 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "drying_rack_be");
+            Registry.register(BuiltInRegistries.BLOCK, id1, DRYING_RACK_BLOCK);
+            Registry.register(BuiltInRegistries.ITEM, id1, DRYING_RACK_BLOCK_ITEM);
+            Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id2, DRYING_RACK_BLOCK_ENTITY);
+        }
+        private Blocks() {}
+    }
 }

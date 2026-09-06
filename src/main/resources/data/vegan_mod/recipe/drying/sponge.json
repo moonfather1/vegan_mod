@@ -1,0 +1,11 @@
+{
+  "type": "vegan_mod:drying",
+  "base_item": {
+    "item": "minecraft:wet_sponge"
+  },
+  "time_in_minutes": 3,
+  "result": {
+    "id": "minecraft:sponge"
+  }
+}
+

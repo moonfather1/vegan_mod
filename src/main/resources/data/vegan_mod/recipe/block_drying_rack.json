@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "SSS",
+        "PSP"
+    ],
+    "key": {
+        "S": {
+                "tag": "c:rods/wooden"
+             },
+        "P": {
+                "tag": "minecraft:planks"
+             }
+    },
+    "result": {
+        "id": "vegan_mod:drying_rack",
+        "count": 1
+    },
+  "fabric:load_conditions": [
+    {
+      "condition": "vegan_mod:optional",
+      "flag": "make_leather_on_drying_rack"
+    }
+  ]
+}

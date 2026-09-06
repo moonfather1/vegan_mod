@@ -2,32 +2,29 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
+      "item": "pneumaticcraft:vegetable_oil_bucket"
     },
     {
       "item": "minecraft:glass_bottle"
     },
     {
-      "tag": "c:seeds/hemp"
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
     }
   ],
   "result": {
     "id": "vegan_mod:plant_oil",
-    "count": 1
+    "count": 4
   },
   "fabric:load_conditions": [
     {
-      "condition": "vegan_mod:tag_not_empty",
-      "tag_id": "c:seeds/hemp"
+      "condition": "fabric:all_mods_loaded",
+      "values": [ "pneumaticcraft" ]
     }
   ]
 }

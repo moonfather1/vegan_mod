@@ -2,22 +2,16 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "c:seeds/hemp"
+      "item": "adorablehamsterpets:green_beans"
     },
     {
-      "tag": "c:seeds/hemp"
+      "item": "adorablehamsterpets:green_beans"
     },
     {
-      "tag": "c:seeds/hemp"
-    },
-    {
-      "tag": "c:seeds/hemp"
+      "item": "adorablehamsterpets:green_beans"
     },
     {
       "item": "minecraft:glass_bottle"
-    },
-    {
-      "tag": "c:seeds/hemp"
     }
   ],
   "result": {
@@ -26,8 +20,8 @@
   },
   "fabric:load_conditions": [
     {
-      "condition": "vegan_mod:tag_not_empty",
-      "tag_id": "c:seeds/hemp"
+      "condition": "fabric:all_mods_loaded",
+      "values": [ "adorablehamsterpets" ]
     }
   ]
 }

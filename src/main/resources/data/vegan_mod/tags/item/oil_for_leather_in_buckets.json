@@ -1,0 +1,8 @@
+{
+  "values": [
+    { "id": "immersiveengineering:creosote_bucket", "required": false },
+    { "id": "hearthandharvest:sap_bucket", "required": false },
+    { "id": "productivetrees:maple_sap_bucket", "required": false },
+    { "id": "modern_industrialization:syntetic_oil_bucket", "required": false }
+  ]
+}

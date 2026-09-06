@@ -12,18 +12,15 @@
     },
     {
       "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
     }
   ],
   "result": {
     "id": "vegan_mod:plant_oil",
-    "count": 3
+    "count": 4
   },
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:mod_loaded",
-      "modid": "immersiveengineering"
-    }
-  ],
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",

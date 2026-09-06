@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " F ",
+        "OFO",
+        " F "
+    ],
+    "key": {
+        "F": {
+                "tag": "vegan_mod:fabric_for_leather"
+             },
+        "O": {
+                "tag": "vegan_mod:oil_for_leather"
+             }
+    },
+    "result": {
+        "id": "vegan_mod:hardened_fabric",
+        "count": 1
+    },
+   "fabric:load_conditions": [
+    {
+      "condition": "vegan_mod:optional",
+      "flag": "make_leather_on_crafting_table"
+    },
+    {
+      "condition": "vegan_mod:tag_not_empty",
+      "tag_id": "vegan_mod:oil_for_leather"
+    },
+    {
+      "condition": "vegan_mod:tag_not_empty",
+      "tag_id": "vegan_mod:fabric_for_leather"
+    }
+  ]
+}

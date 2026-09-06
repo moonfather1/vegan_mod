@@ -2,28 +2,32 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:glow_berries"
+      "tag": "c:seeds/canola"
     },
     {
-      "item": "minecraft:glow_berries"
+      "tag": "c:seeds/canola"
     },
     {
-      "tag": "vegan_mod:oil_for_ink_no_bottle"
+      "tag": "c:seeds/canola"
+    },
+    {
+      "tag": "c:seeds/canola"
     },
     {
       "item": "minecraft:glass_bottle"
+    },
+    {
+      "tag": "c:seeds/canola"
     }
   ],
   "result": {
-    "id": "vegan_mod:glowing_ink",
+    "id": "vegan_mod:plant_oil",
     "count": 1
   },
   "fabric:load_conditions": [
     {
       "condition": "vegan_mod:tag_not_empty",
-      "tag_id": "vegan_mod:oil_for_ink_no_bottle"
+      "tag_id": "c:seeds/canola"
     }
   ]
 }
-
-

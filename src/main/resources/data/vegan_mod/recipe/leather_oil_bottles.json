@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "vegan_mod:oil_for_leather_in_buckets"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "id": "vegan_mod:thick_oil",
+    "count": 4
+  },
+   "fabric:load_conditions": [
+    {
+      "condition": "vegan_mod:tag_not_empty",
+      "tag_id": "vegan_mod:oil_for_leather_in_buckets"
+    }
+  ]
+}
