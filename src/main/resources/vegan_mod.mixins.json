@@ -11,6 +11,7 @@
     "FeatherLayingMixin",
     "PotionMixin",
     "RecipeHolderAccessor",
+    "ResourceConditionSupportMixin",
     "SheddingMixin"
   ],
   "injectors": {

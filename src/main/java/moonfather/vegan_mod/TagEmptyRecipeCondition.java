@@ -36,9 +36,11 @@ public record TagEmptyRecipeCondition(String tag_id) implements ResourceConditio
     public boolean test(HolderLookup.@Nullable Provider registryLookup)
     {
         if (this.tag_id == null) return false;
-        TagKey<Item> key = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.parse(this.tag_id));
-        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(key);
-        if (tag.isEmpty()) return true;
-        return tag.get().size() == 0;
+//        TagKey<Item> key = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.parse(this.tag_id));
+//        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(key);
+//        if (tag.isEmpty()) return true;
+//        return tag.get().size() == 0;
+        int count = TagConditionSupport.INSTANCE.getCount(ResourceLocation.parse(this.tag_id));
+        return count == 0;
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagManager;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,9 +37,11 @@ public record TagNotEmptyRecipeCondition(String tag_id) implements ResourceCondi
     public boolean test(HolderLookup.@Nullable Provider registryLookup)
     {
         if (this.tag_id == null) return false;
-        TagKey<Item> key = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.parse(this.tag_id));
-        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(key);
-        if (tag.isEmpty()) return false;
-        return tag.get().size() > 0;
+//        TagKey<Item> key = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.parse(this.tag_id));
+//        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(key);
+//        if (tag.isEmpty()) return false;
+//        return tag.get().size() > 0;
+        int count = TagConditionSupport.INSTANCE.getCount(ResourceLocation.parse(this.tag_id));
+        return count > 0;
     }
 }
