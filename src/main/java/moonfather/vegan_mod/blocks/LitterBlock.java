@@ -93,17 +93,17 @@ public class LitterBlock extends Block
     @Override
     public boolean canBeReplaced(BlockState p_272922_, BlockPlaceContext p_273534_) { return  true; }
 
-    @Override
-    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable && ! (level instanceof Level level1 && level1.isRaining() && level1.canSeeSky(pos)); }
-    @Override
-    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable ? 40 : 0; }
-    @Override
-    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable ? 20 : 0; }
+//    @Override
+//    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable && ! (level instanceof Level level1 && level1.isRaining() && level1.canSeeSky(pos)); }
+//    @Override
+//    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable ? 40 : 0; }
+//    @Override
+//    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return this.flammable ? 20 : 0; }
 
     ///////////////////////////////////////////////////////////////
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+    public ItemStack getCloneItemStack(LevelReader levelReader, BlockPos blockPos, BlockState blockState)
     {
         return this.madeOutOf.getDefaultInstance();
     }

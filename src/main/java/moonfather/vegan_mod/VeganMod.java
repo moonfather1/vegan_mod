@@ -1,10 +1,7 @@
 package moonfather.vegan_mod;
 
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
-import moonfather.vegan_mod.blocks.DryingRackBlock;
-import moonfather.vegan_mod.blocks.DryingRackBlockEntity;
-import moonfather.vegan_mod.blocks.DryingRecipe;
-import moonfather.vegan_mod.blocks.DryingRecipeManager;
+import moonfather.vegan_mod.blocks.*;
 import moonfather.vegan_mod.changes.RecipeManagerMain;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.ArmorUncraftingRecipe;
@@ -46,13 +43,14 @@ public class VeganMod implements ModInitializer
 		Items.initialize();
 		Other.initialize();
         Blocks.initialize();
-		// ink2 dead or weird  !!! 
+		// ink2 dead or weird  !!!
 		// create crushing  --- 1.20.1
-        // anvil repair mat on both platform.  minor issue.
         // todo: isFlammable on rack   handleUpdateTag on rack BE
+        // todo: isFlammable on litter
         // todo: in 26.1, replace item with ItemStackTemplate in recipe
         // integration
         // pickaxe
+        // pumpkin
 		///////////////////////
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MOD_ID, "armor_cutting"), ArmorUncraftingRecipe.getSerializerForRegistration());
 		//////////
@@ -159,6 +157,7 @@ public class VeganMod implements ModInitializer
         public static final Item DRYING_RACK_BLOCK_ITEM = new BlockItem(DRYING_RACK_BLOCK, new Item.Properties());;
         public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY = BlockEntityType.Builder.<DryingRackBlockEntity>of(DryingRackBlockEntity::new, DRYING_RACK_BLOCK).build();
 
+        public static final Block LITTER_OF_FEATHERS = new LitterBlock(net.minecraft.world.item.Items.FEATHER, true);
 
 
         private static void addToCreativeTabs(FabricItemGroupEntries entries)
@@ -175,6 +174,9 @@ public class VeganMod implements ModInitializer
             Registry.register(BuiltInRegistries.BLOCK, id1, DRYING_RACK_BLOCK);
             Registry.register(BuiltInRegistries.ITEM, id1, DRYING_RACK_BLOCK_ITEM);
             Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id2, DRYING_RACK_BLOCK_ENTITY);
+
+            ResourceLocation id3 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "litter_of_feathers");
+            Registry.register(BuiltInRegistries.BLOCK, id3, LITTER_OF_FEATHERS);
         }
         private Blocks() {}
     }

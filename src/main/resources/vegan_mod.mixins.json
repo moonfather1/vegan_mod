@@ -8,6 +8,7 @@
     "CatGoalAccessor",
     "CatGoalMixin",
     "CatGoalMixin2",
+    "FeatherLayingMixin",
     "PotionMixin",
     "RecipeHolderAccessor",
     "SheddingMixin"

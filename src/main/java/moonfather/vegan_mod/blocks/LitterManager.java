@@ -9,38 +9,37 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public class LitterManager
 {
-    public static void onEntityTick(EntityTickEvent.Post event)
+    public static void onEntityTick(ItemEntity itemEntity)
     {
-        if (! event.getEntity().level().isClientSide())
+        if (! itemEntity.level().isClientSide())
         {
-            if (event.getEntity().tickCount % 20 == 13 && event.getEntity().tickCount > 10 * 20)  // every second
+            if (itemEntity.tickCount % 20 == 13 && itemEntity.tickCount > 10 * 20)  // every second
             {
-                if (event.getEntity().getDeltaMovement().x() > 1e-5 || event.getEntity().getDeltaMovement().z() > 1e-5)
+                if (itemEntity.getDeltaMovement().x() > 1e-5 || itemEntity.getDeltaMovement().z() > 1e-5)
                 {
                     return; //todo delta movement on contraptions is zero
                 }
-                if (event.getEntity() instanceof ItemEntity ie && ie.getItem().is(Items.FEATHER))
+                if (itemEntity.getItem().is(Items.FEATHER))
                 {
                     boolean placed = false;
-                    if (! placed) { placed = tryPlace(ie.level(), ie.getOnPos()); }
-                    Direction direction = Direction.fromYRot(ie.level().getRandom().nextInt(360));
-                    if (! placed) { placed = tryPlace(ie.level(), ie.getOnPos().relative(direction)); }
-                    if (! placed) { placed = tryPlace(ie.level(), ie.getOnPos().relative(direction.getClockWise())); }
-                    if (! placed) { placed = tryPlace(ie.level(), ie.getOnPos().relative(direction.getOpposite())); }
-                    if (! placed) { placed = tryPlace(ie.level(), ie.getOnPos().relative(direction.getCounterClockWise())); }
+                    if (! placed) { placed = tryPlace(itemEntity.level(), itemEntity.getOnPos()); }
+                    Direction direction = Direction.fromYRot(itemEntity.level().getRandom().nextInt(360));
+                    if (! placed) { placed = tryPlace(itemEntity.level(), itemEntity.getOnPos().relative(direction)); }
+                    if (! placed) { placed = tryPlace(itemEntity.level(), itemEntity.getOnPos().relative(direction.getClockWise())); }
+                    if (! placed) { placed = tryPlace(itemEntity.level(), itemEntity.getOnPos().relative(direction.getOpposite())); }
+                    if (! placed) { placed = tryPlace(itemEntity.level(), itemEntity.getOnPos().relative(direction.getCounterClockWise())); }
                     if (placed)
                     {
-                        if (ie.getItem().getCount() == 1)
+                        if (itemEntity.getItem().getCount() == 1)
                         {
-                            ie.remove(Entity.RemovalReason.DISCARDED);
+                            itemEntity.remove(Entity.RemovalReason.DISCARDED);
                         }
                         else
                         {
-                            ie.getItem().shrink(1);
+                            itemEntity.getItem().shrink(1);
                         }
                     }
                 }
@@ -70,14 +69,14 @@ public class LitterManager
         if (state.isAir() && stateBelow.isFaceSturdy(level, below, Direction.UP))
         {
             Direction facing= Direction.fromYRot(random.nextInt(360));
-            level.setBlockAndUpdate(below.above(), VeganMod.Blocks.LITTER_OF_FEATHERS.get().defaultBlockState().setValue(LitterBlock.AMOUNT, 1).setValue(LitterBlock.FACING, facing));
+            level.setBlockAndUpdate(below.above(), VeganMod.Blocks.LITTER_OF_FEATHERS.defaultBlockState().setValue(LitterBlock.AMOUNT, 1).setValue(LitterBlock.FACING, facing));
             return true;
         }
         BlockPos below2 = below.below();
         if (state.isAir() && stateBelow.isAir() && level.getBlockState(below2).isFaceSturdy(level, below2, Direction.UP))
         {
             Direction facing= Direction.fromYRot(random.nextInt(360));
-            level.setBlockAndUpdate(below, VeganMod.Blocks.LITTER_OF_FEATHERS.get().defaultBlockState().setValue(LitterBlock.AMOUNT, 1).setValue(LitterBlock.FACING, facing));
+            level.setBlockAndUpdate(below, VeganMod.Blocks.LITTER_OF_FEATHERS.defaultBlockState().setValue(LitterBlock.AMOUNT, 1).setValue(LitterBlock.FACING, facing));
             return true;
         }
         return false;
