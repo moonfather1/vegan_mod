@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
@@ -20,6 +21,8 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -27,7 +30,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,12 +51,6 @@ public class VeganMod implements ModInitializer
 		Other.initialize();
         Blocks.initialize();
 		// create crushing  --- 1.20.1
-        // todo: isFlammable on rack   handleUpdateTag on rack BE
-        // todo: isFlammable on litter
-        // todo: in 26.1, replace item with ItemStackTemplate in recipe
-        // integration
-        // pickaxe
-        // rei?
         // rrv on 26.1
         // create on 26.1
 		///////////////////////
@@ -160,10 +161,18 @@ public class VeganMod implements ModInitializer
 
         public static final Block LITTER_OF_FEATHERS = new LitterBlock(net.minecraft.world.item.Items.FEATHER, true);
 
+        public static final Block KILN_BLOCK = new KilnBlock();
+        public static final Item KILN_ITEM = new KilnPlacerItem(KILN_BLOCK, new Item.Properties());;
+        public static final BlockEntityType<KilnBlockEntity> KILN_BLOCK_ENTITY = BlockEntityType.Builder.<KilnBlockEntity>of(KilnBlockEntity::new, KILN_BLOCK).build();
+
+        public static final MenuType<KilnMenu> KILN_MENU_TYPE = new MenuType<>(KilnMenu::new, FeatureFlagSet.of());
+
+
 
         private static void addToCreativeTabs(FabricItemGroupEntries entries)
         {
             entries.accept(DRYING_RACK_BLOCK_ITEM);
+            entries.accept(KILN_ITEM);
         }
 
         public static void initialize()
@@ -178,6 +187,19 @@ public class VeganMod implements ModInitializer
 
             ResourceLocation id3 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "litter_of_feathers");
             Registry.register(BuiltInRegistries.BLOCK, id3, LITTER_OF_FEATHERS);
+
+            ((FireBlock) net.minecraft.world.level.block.Blocks.FIRE).setFlammable(DRYING_RACK_BLOCK, 60, 20);
+            ((FireBlock) net.minecraft.world.level.block.Blocks.FIRE).setFlammable(LITTER_OF_FEATHERS, 20, 60);
+
+            ResourceLocation id4 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "kiln");
+            ResourceLocation id5 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "kiln_be");
+            ResourceLocation id6 = ResourceLocation.fromNamespaceAndPath(MOD_ID, "kiln_menu");
+            Registry.register(BuiltInRegistries.BLOCK, id4, KILN_BLOCK);
+            Registry.register(BuiltInRegistries.ITEM, id4, KILN_ITEM);
+            Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id5, KILN_BLOCK_ENTITY);
+            Registry.register(BuiltInRegistries.MENU, id6, KILN_MENU_TYPE);
+
+            FuelRegistry.INSTANCE.add(DRYING_RACK_BLOCK_ITEM, 300*4);
         }
         private Blocks() {}
     }

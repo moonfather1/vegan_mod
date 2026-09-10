@@ -7,7 +7,7 @@ version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = "i-dont-want-to-kill-them--mc1.21.1--fabric-"
 }
 
 repositories {
@@ -75,7 +75,9 @@ dependencies {
 
     //modCompileOnly "maven.modrinth:u6dRKJwZ:7rxlZfso"  // jei
     modCompileOnly "maven.modrinth:u6dRKJwZ:VO5u0wi4"  // jei
-    modCompileOnly "maven.modrinth:fRiHVvU7:Qp9J2Yu5"   //emi
+    modCompileOnly "maven.modrinth:fRiHVvU7:Qp9J2Yu5"   // emi
+    modCompileOnly "maven.modrinth:nfn13YXA:aWzTESNC"    // rei
+    modCompileOnly "maven.modrinth:9s6osm5g:XMYFN6Zc"  // clo
 }
 
 processResources {

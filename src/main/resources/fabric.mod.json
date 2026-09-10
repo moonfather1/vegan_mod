@@ -25,7 +25,10 @@
         ],
         "jei_mod_plugin": [
           "moonfather.vegan_mod.integration.JeiRegistration"
-        ]
+        ],
+      "rei_client": [
+        "moonfather.vegan_mod.integration.ReiRegistration"
+      ]
 	},
 	"mixins": [
 		"vegan_mod.mixins.json",

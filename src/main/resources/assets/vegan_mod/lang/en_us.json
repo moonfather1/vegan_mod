@@ -19,6 +19,7 @@
   "tag.item.vegan_mod.fabric_for_leather": "Usable for making leather-like materials",
   "tag.item.vegan_mod.logs_that_give_more_charcoal": "Logs that give more charcoal",
   "tag.item.vegan_mod.logs_that_give_more_tar": "Logs that give more tar",
+  "tag.item.minecraft.repairs_leather_armor": "Things that repair leather gear",
 
   "block.vegan_mod.litter_of_feathers": "Feathers",
   "block.vegan_mod.drying_rack": "Drying Rack",
@@ -28,6 +29,7 @@
   "message.vegan_mod.no_room_for_kiln_1": "No room for kiln.",
   "message.vegan_mod.no_room_for_kiln_2": "No room for kiln (something's in the way).",
   "message.vegan_mod.logs_in_furnace": "Obtaining charcoal works differently. \nIt needs a special kiln that will \nkeep the wood heated without \nactually burning it. Due to allowing \ninflow of air, this furnace won't do.",
+  "message.vegan_mod.logs_in_kiln":    "Some types of wood will give more \ncharcoal or byproducts than other \ntypes of wood.",
   "message.vegan_mod.kiln_byproduct_slot_0": "Kiln has a compartment where \nbyproducts are available. \nCurrently there is not \nenough oil to collect.",
   "message.vegan_mod.kiln_byproduct_slot_1": "Kiln has a compartment where \nbyproducts are available. \nCurrently there is roughly \none bottle of oil in there.",
   "message.vegan_mod.kiln_byproduct_slot_2": "Kiln has a compartment where \nbyproducts are available. \nCurrently there are a few \nbottles of oil to collect.",
@@ -35,6 +37,7 @@
 
   "emi.category.vegan_mod.emi_category1": "Drying",
   "emi.category.vegan_mod.emi_category2": "Charcoal production",
+  "emi.category.vegan_mod.time": "(%d minutes)",
 
   "config.jade.plugin_vegan_mod.jade_plugin1": "Jade config for IDWTKT!! mod",
   "gui.jade.plugin_vegan_mod.msg_empty": "Nothing to collect.",

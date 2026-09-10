@@ -9,21 +9,17 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
-import moonfather.vegan_mod.blocks.DryingRecipe;
 import moonfather.vegan_mod.blocks.DryingRecipeManager;
+import moonfather.vegan_mod.blocks.KilnBlockEntity;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 @EmiEntrypoint
 public class EmiRegistration implements dev.emi.emi.api.EmiPlugin
@@ -51,27 +47,19 @@ public class EmiRegistration implements dev.emi.emi.api.EmiPlugin
                 .id(ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "/shedding_recipe_" + (counter++)))
                 .build());
         // kiln
-//        if (Config.kiln_enabled())
-//        {
-//            ItemStack bottle = VeganMod.Items.THICK_OIL.getDefaultInstance();
-//            bottle.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.thick_oil2"));
-//            ItemStack tar = new ItemStack(Items.BLACK_DYE);
-//            tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
-//            ItemStack bucket = ImmersiveEngineeringHelper.getBucketItem().getDefaultInstance();
-//            emiRegistry.addCategory(KILN_RECIPE_CATEGORY);
-//            emiRegistry.addWorkstation(KILN_RECIPE_CATEGORY, KILN_RECIPE_WORKSTATION);
-//            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "/kiln_rec_1");
-//            ArrayList<ItemStack> list = new ArrayList<>(3);  list.add(bottle);  if (ImmersiveEngineeringHelper.loaded()) { list.add(bucket); }  if (Config.kiln_gives_tar_paint()) { list.add(tar); }
-//            int time = (int) (KilnBlockEntity.BASE_TIME_IN_SECONDS * Config.kiln_time_multiplier() / 60);
-//            emiRegistry.addRecipe(new EmiKilnRecipe(id, ItemTags.LOGS_THAT_BURN, Items.CHARCOAL, list, time));
-//            if (ImmersiveEngineeringHelper.loaded())
-//            {
-//                ResourceLocation id2 = ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "/kiln_rec_2");
-//                list = new ArrayList<>(2);  list.add(bottle);  list.add(bucket);
-//                time = (int) (KilnBlockEntity.BASE_TIME_IN_SECONDS * Config.kiln_time_multiplier() * 1.5 / 60);
-//                emiRegistry.addRecipe(new EmiKilnRecipe(id2, Items.COAL, ImmersiveEngineeringHelper.getCoalItem(), list, time));
-//            }
-//        }
+        if (Config.kiln_enabled())
+        {
+            ItemStack bottle = VeganMod.Items.THICK_OIL.getDefaultInstance();
+            bottle.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.thick_oil2"));
+            ItemStack tar = new ItemStack(Items.BLACK_DYE);
+            tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+            emiRegistry.addCategory(KILN_RECIPE_CATEGORY);
+            emiRegistry.addWorkstation(KILN_RECIPE_CATEGORY, KILN_RECIPE_WORKSTATION);
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "/kiln_rec_1");
+            ArrayList<ItemStack> list = new ArrayList<>(3);  list.add(bottle);    if (Config.kiln_gives_tar_paint()) { list.add(tar); }
+            int time = (int) (KilnBlockEntity.BASE_TIME_IN_SECONDS * Config.kiln_time_multiplier() / 60);
+            emiRegistry.addRecipe(new EmiKilnRecipe(id, ItemTags.LOGS_THAT_BURN, Items.CHARCOAL, list, time));
+        }
     }
 
 
@@ -82,6 +70,6 @@ public class EmiRegistration implements dev.emi.emi.api.EmiPlugin
     private static final EmiStack RACK_RECIPE_WORKSTATION = EmiStack.of(VeganMod.Blocks.DRYING_RACK_BLOCK);
     public static final EmiRecipeCategory RACK_RECIPE_CATEGORY = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "emi_category1"), RACK_RECIPE_WORKSTATION, DUMMY_SPRITE);
 
-//    private static final EmiStack KILN_RECIPE_WORKSTATION = EmiStack.of(VeganMod.Blocks.KILN_ITEM.get());
-//    public static final EmiRecipeCategory KILN_RECIPE_CATEGORY = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "emi_category2"), KILN_RECIPE_WORKSTATION, DUMMY_SPRITE);
+    private static final EmiStack KILN_RECIPE_WORKSTATION = EmiStack.of(VeganMod.Blocks.KILN_ITEM);
+    public static final EmiRecipeCategory KILN_RECIPE_CATEGORY = new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "emi_category2"), KILN_RECIPE_WORKSTATION, DUMMY_SPRITE);
 }
