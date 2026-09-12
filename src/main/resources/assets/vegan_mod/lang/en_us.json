@@ -38,6 +38,9 @@
   "emi.category.vegan_mod.emi_category1": "Drying",
   "emi.category.vegan_mod.emi_category2": "Charcoal production",
   "emi.category.vegan_mod.time": "(%d minutes)",
+  "gui.jei.category.smelting.experience": "%d XP",
+  "gui.jei.category.smelting.time.seconds": "(%d seconds)",
+
 
   "config.jade.plugin_vegan_mod.jade_plugin1": "Jade config for IDWTKT!! mod",
   "gui.jade.plugin_vegan_mod.msg_empty": "Nothing to collect.",
