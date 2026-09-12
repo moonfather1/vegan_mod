@@ -8,11 +8,19 @@
     "CatGoalAccessor",
     "CatGoalMixin",
     "CatGoalMixin2",
+    "CatSoundAccessor",
     "FeatherLayingMixin",
+    "IngredientAccessor",
+    "NormalCraftingRecipeAccessor",
     "PotionMixin",
     "RecipeHolderAccessor",
     "ResourceConditionSupportMixin",
-    "SheddingMixin"
+    "ShapedRecipeAccessor",
+    "ShapedRecipePatternAccessor",
+    "ShapelessRecipeAccessor",
+    "SheddingMixin",
+    "SingleItemRecipeAccessor",
+    "SmeltingPreventionMixin"
   ],
   "injectors": {
     "defaultRequire": 1

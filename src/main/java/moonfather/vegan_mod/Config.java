@@ -1,7 +1,7 @@
 package moonfather.vegan_mod;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -139,21 +139,21 @@ public class Config {
             String[] parts = entry.split("\\s*=\\s*");
             if (parts.length != 3)
             {
-                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (bad format)");
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (bad format)");
                 continue;
             }
-            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(ResourceLocation.parse(parts[0])))
+            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(parts[0])))
             {
-                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (entity not present in game)");
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (entity not present in game)");
                 continue;
             }
-            if (! BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(parts[1])))
+            if (! BuiltInRegistries.ITEM.containsKey(Identifier.parse(parts[1])))
             {
-                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (item not present in game)");
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (item not present in game)");
                 continue;
             }
-            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(parts[0]));
-            sheddingResults.put(key, BuiltInRegistries.ITEM.get(ResourceLocation.parse(parts[1])));
+            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(parts[0])).get().value();
+            sheddingResults.put(key, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value());
             sheddingTime.put(key, parseInt(parts[2], 900));
         }
     }

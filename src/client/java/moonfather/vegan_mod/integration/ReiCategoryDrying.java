@@ -1,32 +1,33 @@
 package moonfather.vegan_mod.integration;
 
 import me.shedaniel.math.Point;
-import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.client.entry.ItemEntryDefinition;
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.blocks.DryingRecipe;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ReiCategoryDrying implements DisplayCategory<ReiCategoryDrying.DryingRecipeDisplay>
 {
-    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "rei_plugin1");
+    private static final Identifier ID = Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "rei_plugin1");
 
 
     @Override
@@ -35,13 +36,11 @@ public class ReiCategoryDrying implements DisplayCategory<ReiCategoryDrying.Dryi
     public Component getTitle() { return Component.translatable("emi.category.vegan_mod.emi_category1"); }
     @Override
     public Renderer getIcon() { return ICON; }
-    public static final EntryStack<ItemStack> ICON = EntryStack.of(new ItemEntryDefinition(), VeganMod.Blocks.DRYING_RACK_BLOCK_ITEM.getDefaultInstance());
-
-    /////////////////////////////////
+    public static final EntryStack<ItemStack> ICON = EntryStacks.of(VeganMod.Blocks.DRYING_RACK_BLOCK_ITEM.getDefaultInstance());
 
     // Here is an example of the stone cutting category
     @Override
-    public List<Widget> setupDisplay(ReiCategoryDrying.DryingRecipeDisplay display, Rectangle bounds)
+    public List<Widget> setupDisplay(ReiCategoryDrying.DryingRecipeDisplay display, me.shedaniel.math.Rectangle bounds)
     {
         Point startPoint = new Point(bounds.getCenterX() - 41, bounds.getCenterY() - 20);
         List<Widget> widgets = new ArrayList();
@@ -70,6 +69,10 @@ public class ReiCategoryDrying implements DisplayCategory<ReiCategoryDrying.Dryi
         // We return the list of widgets for REI to display
         return widgets;
     }
+
+    /////////////////////////////////
+
+
 
     @Override
     public int getDisplayHeight()
@@ -109,5 +112,10 @@ public class ReiCategoryDrying implements DisplayCategory<ReiCategoryDrying.Dryi
         {
             return CategoryIdentifier.of(ID);
         }
+
+        @Override
+        public Optional<Identifier> getDisplayLocation() { return Optional.empty(); }
+        @Override
+        public @Nullable DisplaySerializer<? extends Display> getSerializer() { return null; }
     }
 }

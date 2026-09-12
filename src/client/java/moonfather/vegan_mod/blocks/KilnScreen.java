@@ -1,14 +1,13 @@
 package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.VeganMod;
-import moonfather.vegan_mod.blocks.KilnMenu;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -23,34 +22,29 @@ public class KilnScreen extends AbstractContainerScreen<KilnMenu>
 
 
 
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
+
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
     {
+        super.extractBackground(graphics, mouseX, mouseY, a); // renders gray shading in the back, then calls renderBg
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        guiGraphics.blit(BG_LOCATION, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, BG_LOCATION, x, y, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
         if (this.getMenu().getProgressPosition() > 0)
         {
             int yLine = 14 - (Mth.ceil(13f /*fire is 14x14*/ * this.menu.getProgressPosition() / this.menu.getProgressTarget()) + 1);
             yLine = 14; // just give me the whole fire;
-            guiGraphics.blitSprite(LIT_PROGRESS_SPRITE, 14, 14, 0, 14 - yLine, x + 56, y + 36 + 14 - yLine, 14, yLine);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, LIT_PROGRESS_SPRITE, 14, 14, 0, 14 - yLine, x + 56, y + 36 + 14 - yLine, 14, yLine);
             /// ////////////
             int xSize = Mth.ceil(24.0F * this.menu.getProgressPosition() / this.menu.getProgressTarget()); // arrow is 24
-            guiGraphics.blitSprite(BURN_PROGRESS_SPRITE, 24, 16, 0, 0, x + 79, y + 34, xSize, 16);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BURN_PROGRESS_SPRITE, 24, 16, 0, 0, x + 79, y + 34, xSize, 16);
         }
     }
 
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
-    }
-
-    @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y)
-    {
+        super.extractTooltip(graphics, mouseX, mouseY);
         if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && ! this.hoveredSlot.hasItem() && this.hoveredSlot.index == KilnMenu.SLOT_BYPRODUCT)
         {
             if (this.minecraft.screen != null)
@@ -80,10 +74,9 @@ public class KilnScreen extends AbstractContainerScreen<KilnMenu>
                         initTooltip(tooltipByproduct2, "2");
                     }
                 }
-                guiGraphics.renderTooltip(this.font, list, Optional.empty(), x, y);
+                graphics.setComponentTooltipForNextFrame(this.font, list, mouseX, mouseY);
             }
         }
-        super.renderTooltip(guiGraphics, x, y);
     }
 
     private static void initTooltip(List<Component> list, String suffix)
@@ -98,7 +91,7 @@ public class KilnScreen extends AbstractContainerScreen<KilnMenu>
     private static final List<Component> tooltipByproduct0 = new ArrayList<>(15), tooltipByproduct1 = new ArrayList<>(15), tooltipByproduct2 = new ArrayList<>(15);
     private static final Component title = Component.translatable(BYPRODUCT_SLOT_TEXT_KEY + "T").withColor(0xffaaa5a5);
 
-    private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "textures/gui/kiln.png");
-    private static final ResourceLocation LIT_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace("container/furnace/lit_progress");
-    private static final ResourceLocation BURN_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace("container/furnace/burn_progress");
+    private static final Identifier BG_LOCATION = Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "textures/gui/kiln.png");
+    private static final Identifier LIT_PROGRESS_SPRITE = Identifier.withDefaultNamespace("container/furnace/lit_progress");
+    private static final Identifier BURN_PROGRESS_SPRITE = Identifier.withDefaultNamespace("container/furnace/burn_progress");
 }

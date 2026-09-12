@@ -4,6 +4,9 @@ import com.mojang.serialization.MapCodec;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -30,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class KilnBlock extends BaseEntityBlock
 {
-    public KilnBlock()
+    public KilnBlock(String id)
     {
         super(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.STONE)
@@ -39,11 +43,13 @@ public class KilnBlock extends BaseEntityBlock
                 .strength(3.5F)
                 .lightLevel(KilnBlock::getLight)
                 .pushReaction(PushReaction.BLOCK)
-                .requiresCorrectToolForDrops());
+                .requiresCorrectToolForDrops()
+                .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, id)))
+        );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false));
     }
 
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
 
@@ -64,7 +70,7 @@ public class KilnBlock extends BaseEntityBlock
     {
         return CODEC;
     }
-    public static final MapCodec<KilnBlock> CODEC = simpleCodec((p) -> new KilnBlock());
+    public static final MapCodec<KilnBlock> CODEC = simpleCodec((p) -> new KilnBlock("ybtktnprv"));
 
     //---------------------------------//
 
@@ -92,30 +98,9 @@ public class KilnBlock extends BaseEntityBlock
         }
     }
 
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
-    {
-        if (! state.is(newState.getBlock()))
-        {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof KilnBlockEntity kbe)
-            {
-                if (level instanceof ServerLevel)
-                {
-                    kbe.dropAll();
-                }
-                super.onRemove(state, level, pos, newState, isMoving);
-                //level.updateNeighbourForOutputSignal(pos, this);
-            }
-            else
-            {
-                super.onRemove(state, level, pos, newState, isMoving);
-            }
-        }
-    }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @org.jspecify.annotations.Nullable Orientation orientation, boolean movedByPiston)
     {
         if (state.is(VeganMod.Blocks.KILN_BLOCK))
         {
@@ -130,11 +115,11 @@ public class KilnBlock extends BaseEntityBlock
                 return;
             }
         }
-        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+        super.neighborChanged(state, level, pos, block, orientation, movedByPiston);
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData)
     {
         return VeganMod.Blocks.KILN_ITEM.getDefaultInstance();
     }

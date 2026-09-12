@@ -7,8 +7,8 @@ import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.gui.widgets.ITextWidget;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.network.chat.Component;
@@ -24,13 +24,13 @@ public class JeiCategoryCharcoal extends AbstractRecipeCategory<JeiCategoryCharc
     {
         super(CHARCOAL_RECIPE_TYPE, VeganMod.Blocks.KILN_BLOCK.getName(), guiHelper.createDrawableItemLike(VeganMod.Blocks.KILN_ITEM), 125, 52);
     }
-    public static final RecipeType<CharcoalRecipeForJei> CHARCOAL_RECIPE_TYPE = RecipeType.create(VeganMod.MOD_ID, "recipe_type2", CharcoalRecipeForJei.class);
+    public static final IRecipeType<CharcoalRecipeForJei> CHARCOAL_RECIPE_TYPE = IRecipeType.create(VeganMod.MOD_ID, "recipe_type2", CharcoalRecipeForJei.class);
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CharcoalRecipeForJei recipe, IFocusGroup focusGroup)
     {
-        builder.addInputSlot(8, 8).setStandardSlotBackground().addIngredients(recipe.input).setSlotName("leftSlot");
-        builder.addOutputSlot(62, 8).setOutputSlotBackground().addItemStack(recipe.output.getDefaultInstance());
+        builder.addInputSlot(8, 8).setStandardSlotBackground().add(recipe.input).setSlotName("leftSlot");
+        builder.addOutputSlot(62, 8).setOutputSlotBackground().add(recipe.output.getDefaultInstance());
         builder.addOutputSlot(86, 8).setStandardSlotBackground().addItemStacks(recipe.byproduct).setSlotName("rightSlot");
     }
 

@@ -3,6 +3,7 @@ package moonfather.vegan_mod.changes;
 import moonfather.vegan_mod.Config;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,8 +23,8 @@ public class SheddingHandler
         {
             if (Config.doesEntityShed(entity) || entity instanceof Armadillo)
             {
-                player.displayClientMessage(MESSAGE, true);
-                return InteractionResult.SUCCESS_NO_ITEM_USED;
+                player.sendOverlayMessage(MESSAGE);
+                return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
             }
         }
         return InteractionResult.PASS;
@@ -34,13 +35,14 @@ public class SheddingHandler
 
     public static void maybeShed(Entity entity)
     {
-        if (entity.level().isClientSide) { return; }
+        if (entity.level().isClientSide()) { return; }
+        if (! (entity.level() instanceof ServerLevel sl)) { return; }
         if (entity instanceof LivingEntity le && le.isBaby()) { return; }
         if (! entity.isAlive() || entity.isRemoved() || entity.isSpectator())  { return; }
         int randomTarget = Config.getEntityShedIntervalInSeconds(entity) * 20 / SHEDDING_CHECK_INTERVAL;  // 900s, 2s  ->  1/450 odds
         if (entity.getRandom().nextInt(randomTarget) != 6) { return; }
         entity.playSound(SoundEvents.ARMADILLO_BRUSH, 1.0F, (entity.getRandom().nextFloat() - entity.getRandom().nextFloat()) * 0.2F + 1.0F);
-        entity.spawnAtLocation(Config.getEntityShedItem(entity));
+        entity.spawnAtLocation(sl, Config.getEntityShedItem(entity));
         entity.gameEvent(GameEvent.ENTITY_PLACE);
     }
     public static final int SHEDDING_CHECK_INTERVAL = 2*20; // 2 sec

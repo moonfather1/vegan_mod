@@ -2,7 +2,6 @@ package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -10,7 +9,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -30,6 +29,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,12 +99,12 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
 
 
 
-    public void dropAll()
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state)
     {
+        super.preRemoveSideEffects(pos, state);
         this.dropEverything();
     }
-
-
 
     public static <T extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, T blockEntity)
     {
@@ -218,7 +219,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             int storingAValueForSimplerReturns = kbe.dataExcessFuelPaid;
             kbe.dataExcessFuelPaid = 0; // so that i can just return;
             if (input1.isEmpty()) { return; }
-            int fuelValue = getBurnTime(fuel) * fuel.getCount();
+            int fuelValue = kbe.getBurnTime(fuel) * fuel.getCount();
             if (fuelValue < FUEL_FOR_ONE_OPERATION && storingAValueForSimplerReturns == 0) { return; }
             if (! result.isEmpty() && result.getCount() == result.getMaxStackSize())  { return; }
             Item output = getRecipeOutput(input1);
@@ -288,7 +289,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             }
             // we know that this.dataCurrentFuelPaid == this.dataExcessFuelPaid.previous, but we can fit more...
 
-            int fuelTime1 = getBurnTime(fuel);
+            int fuelTime1 = this.getBurnTime(fuel);
             if (fuelTime1 <= FUEL_FOR_ONE_OPERATION)
             {
                 int fuelNeededForOneLog = (int) Math.ceil(FUEL_FOR_ONE_OPERATION * 1d / fuelTime1);
@@ -306,7 +307,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         else
         {
             // no excess
-            int fuelTime1 = getBurnTime(fuel);
+            int fuelTime1 = this.getBurnTime(fuel);
             if (fuelTime1 <= FUEL_FOR_ONE_OPERATION)
             {
                 int fuelNeededForOneLog = (int) Math.ceil(FUEL_FOR_ONE_OPERATION * 1d / fuelTime1);
@@ -334,14 +335,14 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         }
     }
 
-    private static int getBurnTime(ItemStack fuel)
+    private int getBurnTime(ItemStack fuel)
     {
-        Integer burnTime = FuelRegistry.INSTANCE.get(fuel.getItem());
-        return burnTime != null ? burnTime : 0;
+        if (this.level == null) { return 0; }
+        return this.level.fuelValues().burnDuration(fuel);
     }
 
-    private static final TagKey<Item> LOGS_THAT_GIVE_MORE_CHARCOAL = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "logs_that_give_more_charcoal"));
-    private static final TagKey<Item> LOGS_THAT_GIVE_MORE_TAR = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "logs_that_give_more_tar"));
+    private static final TagKey<Item> LOGS_THAT_GIVE_MORE_CHARCOAL = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "logs_that_give_more_charcoal"));
+    private static final TagKey<Item> LOGS_THAT_GIVE_MORE_TAR = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "logs_that_give_more_tar"));
 
     /////////////////////////////////////////////////////
 
@@ -351,33 +352,33 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
     protected Container getContainer() { return this.blockContainer; }
 
     @Override
-    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider lookupProvider)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(pTag, lookupProvider);
-        this.dataInputFlags = pTag.getInt("kiln_data8");
-        this.dataCurrentFuelPaid = pTag.getInt("kiln_data7");
-        this.dataXp2 = pTag.getInt("kiln_data6");
-        this.dataXp1 = pTag.getInt("kiln_data5");
-        this.dataExcessFuelPaid = pTag.getInt("kiln_data4");
-        this.dataOil = pTag.getInt("kiln_data3");
-        this.dataBigTicksTarget = pTag.getInt("kiln_data2");
-        this.dataBigTicksDone = pTag.getInt("kiln_data1");
-        this.dataStatus = pTag.getInt("kiln_data0");
+        super.loadAdditional(input);
+        this.dataInputFlags = input.getIntOr("kiln_data8", 0);
+        this.dataCurrentFuelPaid = input.getIntOr("kiln_data7", 0);
+        this.dataXp2 = input.getIntOr("kiln_data6", 0);
+        this.dataXp1 = input.getIntOr("kiln_data5", 0);
+        this.dataExcessFuelPaid = input.getIntOr("kiln_data4", 0);
+        this.dataOil = input.getIntOr("kiln_data3", 0);
+        this.dataBigTicksTarget = input.getIntOr("kiln_data2", 0);
+        this.dataBigTicksDone = input.getIntOr("kiln_data1", 0);
+        this.dataStatus = input.getIntOr("kiln_data0", 0);
     }
 
     @Override
-    protected CompoundTag saveInternal(CompoundTag pTag, HolderLookup.Provider lookupProvider)
+    protected void saveInternal(ValueOutput output)
     {
-        pTag.putInt("kiln_data8", this.dataInputFlags);
-        pTag.putInt("kiln_data7", this.dataCurrentFuelPaid);
-        pTag.putInt("kiln_data6", this.dataXp1);
-        pTag.putInt("kiln_data5", this.dataXp1);
-        pTag.putInt("kiln_data4", this.dataExcessFuelPaid);
-        pTag.putInt("kiln_data3", this.dataOil);
-        pTag.putInt("kiln_data2", this.dataBigTicksTarget);
-        pTag.putInt("kiln_data1", this.dataBigTicksDone);
-        pTag.putInt("kiln_data0", this.dataStatus);
-        return super.saveInternal(pTag, lookupProvider);
+        output.putInt("kiln_data8", this.dataInputFlags);
+        output.putInt("kiln_data7", this.dataCurrentFuelPaid);
+        output.putInt("kiln_data6", this.dataXp1);
+        output.putInt("kiln_data5", this.dataXp1);
+        output.putInt("kiln_data4", this.dataExcessFuelPaid);
+        output.putInt("kiln_data3", this.dataOil);
+        output.putInt("kiln_data2", this.dataBigTicksTarget);
+        output.putInt("kiln_data1", this.dataBigTicksDone);
+        output.putInt("kiln_data0", this.dataStatus);
+        super.saveInternal(output);
     }
 
     // these 3 are for Jade.

@@ -32,7 +32,7 @@ public class KilnMenu extends AbstractContainerMenu
         if (blockContainer == null) { blockContainer = new SimpleContainer(8); }
         this.addSlot(new KilnSlots.ResultSlot(inventory.player, blockContainer, SLOT_RESULT, 116, 35, this));
         this.addSlot(new KilnSlots.WoodSlot(blockContainer, SLOT_INPUT1, 56, 17, this)); // input 0
-        this.addSlot(new KilnSlots.FuelSlot(blockContainer, SLOT_FUEL, 56, 53, this)); // fuel
+        this.addSlot(new KilnSlots.FuelSlot(null, blockContainer, SLOT_FUEL, 56, 53, this)); // fuel
         this.addSlot(new KilnSlots.ByproductSlot(blockContainer, SLOT_BYPRODUCT, 152, 35, this)); // byprod
         //---player hotbar slots---
         for (int hor = 0; hor < 9; ++hor)

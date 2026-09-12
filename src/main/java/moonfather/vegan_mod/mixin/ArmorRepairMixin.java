@@ -2,7 +2,6 @@ package moonfather.vegan_mod.mixin;
 
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.items.ArmorManagement;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +30,7 @@ public class ArmorRepairMixin
     }
 
     @Inject(at = @At("RETURN"), method = "assemble", cancellable = false)
-    private void addComponents(CraftingInput craftingInput, HolderLookup.Provider registries, CallbackInfoReturnable<ItemStack> cir)
+    private void addComponents(CraftingInput craftingInput, CallbackInfoReturnable<ItemStack> cir)
     {
         ItemStack result = cir.getReturnValue();
         if (result.is(Items.LEATHER_HELMET) || result.is(Items.LEATHER_CHESTPLATE) || result.is(Items.LEATHER_LEGGINGS) || result.is(Items.LEATHER_BOOTS))
@@ -39,7 +38,7 @@ public class ArmorRepairMixin
             if (craftingInput.getItem(0).has(VeganMod.Other.VEGAN_MARKER))
             {
                 result.set(DataComponents.LORE, new ItemLore(List.of(ArmorManagement.getLore())));
-                result.set(DataComponents.DYED_COLOR, new DyedItemColor(ArmorManagement.getArmorColor(), true));
+                result.set(DataComponents.DYED_COLOR, new DyedItemColor(ArmorManagement.getArmorColor()));
                 result.set(VeganMod.Other.VEGAN_MARKER, Unit.INSTANCE);
             }
         }

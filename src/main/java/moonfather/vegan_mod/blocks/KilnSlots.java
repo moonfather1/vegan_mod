@@ -1,6 +1,5 @@
 package moonfather.vegan_mod.blocks;
 
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
@@ -9,7 +8,7 @@ import net.minecraft.world.inventory.FurnaceResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.FuelValues;
 
 public class KilnSlots
 {
@@ -52,15 +51,18 @@ public class KilnSlots
 
     public static class FuelSlot extends BaseSlot
     {
-        public FuelSlot(Container container, int index, int x, int y, KilnMenu host) { super(container, index, x, y, host); }
+        public FuelSlot(Player player, Container container, int index, int x, int y, KilnMenu host)
+        {
+            super(container, index, x, y, host);
+            //this.stupidDesignDecision = player.level().fuelValues();
+        }
+        //private final FuelValues stupidDesignDecision;
 
         @Override
         public boolean mayPlace(ItemStack stack)
         {
-            Integer burnTime = FuelRegistry.INSTANCE.get(stack.getItem());
-            //Integer fromMap = FurnaceBlockEntity.getFuel().get(stack.getItem());      return fromMap != null ? fromMap : 0;
-
-            return burnTime != null && burnTime > 0 && ! stack.is(ConventionalItemTags.BUCKETS);
+            //return stupidDesignDecision.isFuel(stack) && ! stack.is(ConventionalItemTags.BUCKETS);
+            return ! stack.is(ConventionalItemTags.BUCKETS);
         }
     }
 

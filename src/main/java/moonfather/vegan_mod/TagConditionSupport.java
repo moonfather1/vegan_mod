@@ -1,8 +1,12 @@
 package moonfather.vegan_mod;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagManager;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 import java.util.*;
 
@@ -10,35 +14,36 @@ public class TagConditionSupport
 {
     public static final TagConditionSupport INSTANCE = new TagConditionSupport();
 
-    private TagManager tagManager = null;
-    private Map<ResourceLocation, Integer> cache = new HashMap<>();
+    private final Map<TagKey<?>, List<? extends Holder<?>>> pendingContents;
+    private Map<Identifier, Integer> cache = new HashMap<>();
 
     private TagConditionSupport()
     {
+        this.pendingContents = new IdentityHashMap<>();
     }
-    public void  setTagManager(TagManager tagManager)
+    public void setTagCollection(List<Registry.PendingTags<?>> pendingTags)
     {
-        this.tagManager = tagManager;
+        this.pendingContents.clear();
+        for (Registry.PendingTags<?> tags : pendingTags)
+        {
+            //this.pendingContents.putAll(tags.contents());
+        }
+        cache.clear();
     }
 
-    public int getCount(ResourceLocation tagKey)
+    public int getCount(Identifier id)
     {
-        if (cache.containsKey(tagKey))
+        if (cache.containsKey(id))
         {
-            return cache.get(tagKey);
+            return cache.get(id);
         }
-        var tags = tagManager.getResult();
-        if (tags.isEmpty()) throw new IllegalStateException("Tags have not been loaded yet.");
-        for (var loadResult : tags)
-        {
-            if (loadResult.key().equals(Registries.ITEM))
-            {
-                var itemList = loadResult.tags().get(tagKey);
-                int count = itemList != null ? itemList.size() : 0;
-                cache.put(tagKey, count);
-                return count;
-            }
-        }
-        return 0;
+        TagKey<Item> tagKey = TagKey.create(Registries.ITEM, id);
+//        List<? extends Holder<?>> contents = this.pendingContents.get(tagKey);
+//        int result =  contents != null ? contents.size() : 0;
+        int result = BuiltInRegistries.ITEM.getTagOrEmpty(tagKey).iterator().hasNext() ? 2 : 0;
+
+
+        cache.put(id, result);
+        return result;
     }
 }

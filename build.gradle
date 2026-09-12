@@ -1,21 +1,13 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
-version = project.mod_version
-group = project.maven_group
-
-base {
-	archivesName = "i-dont-want-to-kill-them--mc1.21.1--fabric-"
-}
-
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+    repositories {
+        maven { url "https://maven.shedaniel.me/" }
+    }
+
 	maven {
 		url "https://www.cursemaven.com"
 		content {
@@ -45,6 +37,18 @@ repositories {
         name = "Terraformers"
         url = "https://maven.terraformersmc.com/"
     }
+    //////
+     exclusiveContent {
+        forRepository {
+            maven {
+                name = "ModMaven"
+                url = "https://modmaven.dev"
+            }
+        }
+        filter {
+            includeGroup "mezz.jei"
+        }
+    }
 }
 
 loom {
@@ -56,40 +60,39 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     //modImplementation "maven.modrinth:ohNO6lps:N5qzq0XV"  // FCAPI
-    modApi("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.6")
-
-    //compileOnly("com.terraformersmc:modmenu:11.0.4")
-
-    //modCompileOnly "maven.modrinth:u6dRKJwZ:7rxlZfso"  // jei
-    modCompileOnly "maven.modrinth:u6dRKJwZ:VO5u0wi4"  // jei
-    modCompileOnly "maven.modrinth:fRiHVvU7:Qp9J2Yu5"   // emi
-    modCompileOnly "maven.modrinth:nfn13YXA:aWzTESNC"    // rei
-    modCompileOnly "maven.modrinth:9s6osm5g:XMYFN6Zc"  // clo
+    api("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.1.5")
+    //compileOnly("mezz.jei:jei-26.1.2-fabric-api:29.37.0.98")
+    compileOnly("mezz.jei:jei-26.1.1-fabric-api:29.3.0.22")
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:26.1.819"
+    api "me.shedaniel.cloth:basic-math:+"
+    compileOnly "maven.modrinth:lhGA9TYQ:k9DCEQ4B"  //architectury
+    //compileOnly "curse.maven:roughly-enough-items-310111:8271476"
+    //compileOnly ("curse.maven:cloth-config-348521:7817582") { transitive = true }
+    compileOnly "maven.modrinth:5VolwT6c:Pwofj04I"  // rrv
 }
 
 processResources {
-	inputs.property "version", project.version
+	def version = project.version
+	inputs.property "version", version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+		expand "version": version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
@@ -98,15 +101,16 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
+	def projectName = project.name
+	inputs.property "projectName", projectName
 
 	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}"}
+		rename { "${it}_$projectName"}
 	}
 }
 
@@ -114,7 +118,6 @@ jar {
 publishing {
 	publications {
 		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
 			from components.java
 		}
 	}

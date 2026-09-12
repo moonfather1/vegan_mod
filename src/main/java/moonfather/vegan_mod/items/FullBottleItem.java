@@ -1,25 +1,20 @@
 package moonfather.vegan_mod.items;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import org.jspecify.annotations.Nullable;
 
-public class FullBottleItem extends Item
+public class FullBottleItem extends IdentifiableItem
 {
-    public FullBottleItem()
+    public FullBottleItem(String shortId)
     {
-        super(new Properties());
+        super(shortId);
     }
 
     @Override
-    public boolean hasCraftingRemainingItem()
+    public @Nullable ItemStackTemplate getCraftingRemainder(ItemStack stack)
     {
-        return true;
-    }
-
-    @Override
-    public ItemStack getRecipeRemainder(ItemStack stack)
-    {
-        return new ItemStack(Items.GLASS_BOTTLE);
+        return new ItemStackTemplate(Items.GLASS_BOTTLE);
     }
 }

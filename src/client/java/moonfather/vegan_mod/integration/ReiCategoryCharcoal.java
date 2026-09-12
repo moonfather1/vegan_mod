@@ -8,26 +8,28 @@ import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.client.entry.ItemEntryDefinition;
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ReiCategoryCharcoal implements DisplayCategory<ReiCategoryCharcoal.KilnRecipeDisplay>
 {
-    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "rei_plugin2");
+    private static final Identifier ID = Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "rei_plugin2");
 
 
     @Override
@@ -36,7 +38,7 @@ public class ReiCategoryCharcoal implements DisplayCategory<ReiCategoryCharcoal.
     public Component getTitle() { return Component.translatable("emi.category.vegan_mod.emi_category2"); }
     @Override
     public Renderer getIcon() { return ICON; }
-    public static final EntryStack<ItemStack> ICON = EntryStack.of(new ItemEntryDefinition(), VeganMod.Blocks.KILN_ITEM.getDefaultInstance());
+    public static final EntryStack<ItemStack> ICON = EntryStacks.of(VeganMod.Blocks.KILN_ITEM.getDefaultInstance());
 
     /////////////////////////////////
 
@@ -116,5 +118,11 @@ public class ReiCategoryCharcoal implements DisplayCategory<ReiCategoryCharcoal.
         public CategoryIdentifier<?> getCategoryIdentifier() {
             return CategoryIdentifier.of(ID);
         }
+
+        @Override
+        public Optional<Identifier> getDisplayLocation() { return Optional.empty(); }
+
+        @Override
+        public @Nullable DisplaySerializer<? extends Display> getSerializer() { return null; }
     }
 }

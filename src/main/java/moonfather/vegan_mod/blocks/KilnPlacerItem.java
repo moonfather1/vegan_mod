@@ -1,7 +1,11 @@
 package moonfather.vegan_mod.blocks;
 
+import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -19,9 +23,9 @@ public class KilnPlacerItem extends Item
 {
     private final Block block;
 
-    public KilnPlacerItem(Block block, Properties properties)
+    public KilnPlacerItem(Block block, String id)
     {
-        super(properties);
+        super((new Item.Properties()).useBlockDescriptionPrefix().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, id))));
         this.block = block;
     }
 
@@ -43,7 +47,7 @@ public class KilnPlacerItem extends Item
         {
             if (context.getPlayer() != null)
             {
-                context.getPlayer().displayClientMessage(Component.translatable("message.vegan_mod.no_room_for_kiln_1"), true);
+                context.getPlayer().sendOverlayMessage(Component.translatable("message.vegan_mod.no_room_for_kiln_1"));
             }
             return InteractionResult.FAIL;
         }
@@ -56,7 +60,7 @@ public class KilnPlacerItem extends Item
         {
             if (context.getPlayer() != null)
             {
-                context.getPlayer().displayClientMessage(Component.translatable("message.vegan_mod.no_room_for_kiln_2"), true);
+                context.getPlayer().sendOverlayMessage(Component.translatable("message.vegan_mod.no_room_for_kiln_2"));
             }
             return InteractionResult.FAIL;
         }
@@ -78,7 +82,4 @@ public class KilnPlacerItem extends Item
         }
         return InteractionResult.CONSUME;
     }
-
-    @Override @NotNull
-    public String getDescriptionId() { return this.block.getDescriptionId(); }
 }

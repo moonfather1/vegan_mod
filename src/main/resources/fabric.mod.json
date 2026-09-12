@@ -20,15 +20,15 @@
 		"client": [
 			"moonfather.vegan_mod.ClientEntryPoint"
 		],
-        "emi": [
-          "moonfather.vegan_mod.integration.EmiRegistration"
-        ],
-        "jei_mod_plugin": [
-          "moonfather.vegan_mod.integration.JeiRegistration"
-        ],
-      "rei_client": [
-        "moonfather.vegan_mod.integration.ReiRegistration"
-      ]
+          "emi": [
+            "moonfather.vegan_mod.integration.EmiRegistration"
+          ],
+          "jei_mod_plugin": [
+            "moonfather.vegan_mod.integration.JeiRegistration"
+          ],
+          "rei_client": [
+            "moonfather.vegan_mod.integration.ReiRegistration"
+          ]
 	},
 	"mixins": [
 		"vegan_mod.mixins.json",
@@ -38,13 +38,10 @@
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.17.2",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-        "forgeconfigapiport": "*",
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+                "forgeconfigapiport": "*",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }

@@ -1,8 +1,10 @@
 package moonfather.vegan_mod.items;
 
+import com.mojang.serialization.MapCodec;
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
@@ -11,9 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ArmorUncraftingRecipe extends CustomRecipe
 {
-    public ArmorUncraftingRecipe(CraftingBookCategory craftingBookCategory) {
-        super(craftingBookCategory);
-    }
+    public ArmorUncraftingRecipe() { super(); }
 
     @Override
     public boolean matches(CraftingInput craftingInput, Level level)
@@ -23,7 +23,7 @@ public class ArmorUncraftingRecipe extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider provider)
+    public ItemStack assemble(CraftingInput craftingInput)
     {
         if (craftingInput.width() != 1 || craftingInput.height() != 1)  { return ItemStack.EMPTY; }
         ItemStack input = craftingInput.getItem(0);
@@ -55,20 +55,18 @@ public class ArmorUncraftingRecipe extends CustomRecipe
         if (input.is(Items.LEATHER_HORSE_ARMOR)) return 4;
         return 0;
     }
-    @Override
-    public boolean canCraftInDimensions(int i, int j)
-    {
-        return i >= 1 && j >= 1;
-    }
 
-    @Override
-    public RecipeSerializer<?> getSerializer()
-    {
-        return serializer;
-    }
+    public RecipeSerializer<ArmorUncraftingRecipe> getSerializer() { return SERIALIZER; }
     public static RecipeSerializer<?> getSerializerForRegistration()
     {
-        return serializer;
+        return SERIALIZER;
     }
-    private static final RecipeSerializer<ArmorUncraftingRecipe> serializer = new SimpleCraftingRecipeSerializer<ArmorUncraftingRecipe>(ArmorUncraftingRecipe::new);
+    private static final ArmorUncraftingRecipe INSTANCE = new ArmorUncraftingRecipe();
+    public static final RecipeSerializer<ArmorUncraftingRecipe> SERIALIZER = new RecipeSerializer<>
+            (
+                    // The map codec for reading the recipe to/from disk.
+                    MapCodec.unit(INSTANCE),
+                    // The stream codec for reading the recipe to/from the network.
+                    StreamCodec.unit(INSTANCE)
+            );
 }

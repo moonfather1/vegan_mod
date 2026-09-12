@@ -2,7 +2,7 @@ package moonfather.vegan_mod.blocks;
 
 import com.google.common.collect.ImmutableList;
 import moonfather.vegan_mod.VeganMod;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -28,11 +28,11 @@ public class DryingRecipeManager
 
     public static void initialize(ServerPlayer serverPlayer, boolean joined)
     {
-        if (serverPlayer.getServer() == null) { return; }
+        if (serverPlayer.level() == null) { return; }
         recipes.clear();
-        for (RecipeHolder<DryingRecipe> holder : serverPlayer.getServer().getRecipeManager().getAllRecipesFor(VeganMod.Other.DRYING_RECIPE_TYPE))
+        for (RecipeHolder<DryingRecipe> holder : serverPlayer.level().recipeAccess().getAllOfType(VeganMod.Other.DRYING_RECIPE_TYPE))
         {
-            recipes.put(holder.id(), holder.value());
+            recipes.put(holder.id().identifier(), holder.value());
         }
     }
 
@@ -40,7 +40,7 @@ public class DryingRecipeManager
     {
         recipes.clear();
     }
-    private static final Map<ResourceLocation, DryingRecipe> recipes = new HashMap<>();
+    private static final Map<Identifier, DryingRecipe> recipes = new HashMap<>();
 
-    public static Map<ResourceLocation, DryingRecipe> getAll() { return recipes; } // no need for immu, this is for client only
+    public static Map<Identifier, DryingRecipe> getAll() { return recipes; } // no need for immu, this is for client only
 }

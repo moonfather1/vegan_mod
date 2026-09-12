@@ -4,11 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import moonfather.vegan_mod.VeganMod;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -38,27 +36,34 @@ public class DryingRecipe implements Recipe<SingleRecipeInput>
     }
 
     @Override
-    public ItemStack assemble(SingleRecipeInput recipeInput, HolderLookup.Provider provider)
+    public ItemStack assemble(SingleRecipeInput recipeInput)
     {
         return this.result;
     }
 
     @Override
-    public boolean canCraftInDimensions(int i, int j) { return i == 1 && j == 1; }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) { return this.result; }
-
-    @Override
     public boolean isSpecial() { return true; }
+
+    @Override
+    public boolean showNotification() { return false; }
+
+    @Override
+    public String group() { return ""; }
 
     //---------------------------------------------//
 
+
     @Override
-    public RecipeType<?> getType()
+    public RecipeType<? extends Recipe<SingleRecipeInput>> getType()
     {
         return VeganMod.Other.DRYING_RECIPE_TYPE;
     }
+
+    @Override
+    public PlacementInfo placementInfo() { return PlacementInfo.NOT_PLACEABLE; }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() { return RecipeBookCategories.BLAST_FURNACE_MISC; }
 
     public static final MapCodec<DryingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
@@ -77,13 +82,7 @@ public class DryingRecipe implements Recipe<SingleRecipeInput>
             DryingRecipe::new
     );
 
-    public static final RecipeSerializer<DryingRecipe> SERIALIZER = new RecipeSerializer<DryingRecipe>()
-        {
-            @Override
-            public MapCodec<DryingRecipe> codec() { return CODEC; }
-            @Override
-            public StreamCodec<RegistryFriendlyByteBuf, DryingRecipe> streamCodec() { return STREAM_CODEC; }
-        };
+    public static final RecipeSerializer<DryingRecipe> SERIALIZER = new RecipeSerializer<DryingRecipe>(CODEC, STREAM_CODEC);
 
     @Override
     public RecipeSerializer<DryingRecipe> getSerializer()

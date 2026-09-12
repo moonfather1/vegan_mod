@@ -2,8 +2,11 @@ package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -31,9 +34,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DryingRackBlock extends Block implements EntityBlock
 {
-    public DryingRackBlock()
+    public DryingRackBlock(String id)
     {
-        super(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.BAMBOO_WOOD_HANGING_SIGN).strength(0.8f, 0.5f));
+        super(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.BAMBOO_WOOD_HANGING_SIGN).strength(0.8f, 0.5f)
+                .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, id)))
+        );
     }
 
     @Override
@@ -46,12 +51,6 @@ public class DryingRackBlock extends Block implements EntityBlock
     protected RenderShape getRenderShape(BlockState state)
     {
         return RenderShape.MODEL;
-    }
-
-    @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos)
-    {
-        return TABLE;
     }
 
     @Override
@@ -70,15 +69,6 @@ public class DryingRackBlock extends Block implements EntityBlock
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    @Override
-//    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return true; }
-//    @Override
-//    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return 40; }
-//    @Override
-//    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) { return 20; }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState blockState)
     {
@@ -91,24 +81,9 @@ public class DryingRackBlock extends Block implements EntityBlock
         return null;
     }
 
-    @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving)
-    {
-        if (state.getBlock() != newState.getBlock())
-        {
-            BlockEntity be = worldIn.getBlockEntity(pos);
-            if (be instanceof DryingRackBlockEntity rack)
-            {
-                rack.dropAll();
-            }
-            super.onRemove(state, worldIn, pos, newState, isMoving);
-        }
-    }
-
-
     //////////////////////////////////////////////////////////////////////////
 
-    private final MutableComponent RackMessage = Component.translatable("message.vegan_mod.invalid_item_for_rack");
+    private final MutableComponent RACKMESSAGE = Component.translatable("message.vegan_mod.invalid_item_for_rack");
 
     protected boolean canDepositItem(ItemStack mainHandItem)
     {
@@ -118,7 +93,7 @@ public class DryingRackBlock extends Block implements EntityBlock
     @Override
     public InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult)
     {
-        if (level.isClientSide)
+        if (level.isClientSide())
         {
             return InteractionResult.SUCCESS;
         }
@@ -130,7 +105,7 @@ public class DryingRackBlock extends Block implements EntityBlock
         {
             if (! this.canDepositItem(itemInMainHand))
             {
-                player.displayClientMessage(RackMessage, true);
+                player.sendOverlayMessage(RACKMESSAGE);
                 return InteractionResult.CONSUME;
             }
             //System.out.println("~~~~~ADDED FROM MAIN");
@@ -148,7 +123,7 @@ public class DryingRackBlock extends Block implements EntityBlock
         {
             if (! this.canDepositItem(itemInOffHand))
             {
-                player.displayClientMessage(RackMessage, true);
+                player.sendOverlayMessage(RACKMESSAGE);
                 return InteractionResult.CONSUME;
             }
             //System.out.println("~~~~~ADDED FROM OFFHAND");

@@ -8,10 +8,15 @@ import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.blocks.DryingRecipeManager;
 import moonfather.vegan_mod.blocks.KilnBlockEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -23,11 +28,11 @@ import java.util.List;
 public class JeiRegistration implements IModPlugin
 {
     @Override
-    public ResourceLocation getPluginUid()
+    public Identifier getPluginUid()
     {
         return ID;
     }
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(VeganMod.MOD_ID, "jei_plugin");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "jei_plugin");
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration)
@@ -60,10 +65,20 @@ public class JeiRegistration implements IModPlugin
 
             List<JeiCategoryCharcoal.CharcoalRecipeForJei> list = new ArrayList<>();
             JeiCategoryCharcoal.CharcoalRecipeForJei recipe = new JeiCategoryCharcoal.CharcoalRecipeForJei();
-            recipe.input = Ingredient.of(ItemTags.LOGS_THAT_BURN);  recipe.output = Items.CHARCOAL;   recipe.timeInSeconds = (int) Math.round(KilnBlockEntity.BASE_TIME_IN_SECONDS * Config.kiln_time_multiplier());
+            recipe.input = makeIngredient(ItemTags.LOGS_THAT_BURN);  recipe.output = Items.CHARCOAL;   recipe.timeInSeconds = (int) Math.round(KilnBlockEntity.BASE_TIME_IN_SECONDS * Config.kiln_time_multiplier());
             recipe.byproduct = new ArrayList<>(3); recipe.byproduct.add(bottle);   if (Config.kiln_gives_tar_paint()) { recipe.byproduct.add(tar); }
             list.add(recipe);
             registration.addRecipes(JeiCategoryCharcoal.CHARCOAL_RECIPE_TYPE, list);
         }
+    }
+
+    ///  because we can no longer write Ingredient.of(tagKey) ...   ffs...
+    private static Ingredient makeIngredient(TagKey<Item> tag, HolderLookup.Provider lookupProvider)
+    {
+        return Ingredient.of(lookupProvider.lookupOrThrow(Registries.ITEM).getOrThrow(tag));
+    }
+    private static Ingredient makeIngredient(TagKey<Item> tag)
+    {
+        return Ingredient.of(Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.ITEM).getOrThrow(tag));
     }
 }

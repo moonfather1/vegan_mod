@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.RegistryOps;
 import org.jetbrains.annotations.Nullable;
 
 public record OptionalRecipeCondition(String flag) implements ResourceCondition
@@ -26,7 +27,7 @@ public record OptionalRecipeCondition(String flag) implements ResourceCondition
     private static ResourceConditionType<?> type = null;
 
     @Override
-    public boolean test(HolderLookup.@Nullable Provider registryLookup)
+    public boolean test(RegistryOps.@org.jspecify.annotations.Nullable RegistryInfoLookup registryInfoLookup)
     {
         if (flag == null) { return false; }
         if (flag.equals("make_leather_on_crafting_table")) { return Config.leather_make_on_crafting_table(); }

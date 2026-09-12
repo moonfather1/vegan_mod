@@ -1,33 +1,29 @@
-package moonfather.vegan_mod.changes;
 
+package moonfather.vegan_mod.changes;
 import moonfather.vegan_mod.VeganMod;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.*;
 
-import java.util.Collection;
-
-public class RecipeManagerForRabbitHide
+public class RecipeManagerForRabbitHide extends RecipeReplacerForItems
 {
-    public static void joined(ServerPlayer serverPlayer, boolean joined)
+    @Override
+    protected ItemStack whatToReplace()
     {
-        if (serverPlayer == null || serverPlayer.getServer() == null) { return; }
-        ItemStack hide = new ItemStack(Items.RABBIT_HIDE), our = new ItemStack(VeganMod.Items.HARDENED_FABRIC);
-        Collection<RecipeHolder<?>> all = serverPlayer.getServer().getRecipeManager().getRecipes();
-        for (RecipeHolder<?> recipe : all)
-        {
-            if (recipe.id().equals(four2one)) { continue; }
-            for (int i = 0; i < recipe.value().getIngredients().size(); i++)
-            {
-                if (recipe.value().getIngredients().get(i).test(hide) && ! recipe.value().getIngredients().get(i).test(our))
-                {
-                    Ingredient newIng = RecipeManagerForLeather.makeIngredient(recipe.value().getIngredients().get(i), our);
-                    recipe.value().getIngredients().set(i, newIng);
-                }
-            }
-        }
+        return new ItemStack(Items.RABBIT_HIDE);
     }
-    private static final ResourceLocation four2one = ResourceLocation.withDefaultNamespace("leather");  }
+
+    @Override
+    protected ItemStack replacement()
+    {
+        return new ItemStack(VeganMod.Items.HARDENED_FABRIC);
+    }
+
+    @Override
+    protected boolean shouldSkip(Identifier identifier, Recipe<?> value)
+    {
+        return identifier.equals(four2one);
+    }
+    private static final Identifier four2one = Identifier.withDefaultNamespace("leather");
+}

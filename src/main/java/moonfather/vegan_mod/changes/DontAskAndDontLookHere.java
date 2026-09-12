@@ -2,8 +2,8 @@ package moonfather.vegan_mod.changes;
 
 import moonfather.vegan_mod.mixin.CatGoalAccessor;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.animal.Cat;
-import net.minecraft.world.entity.animal.Ocelot;
+import net.minecraft.world.entity.animal.feline.Cat;
+import net.minecraft.world.entity.animal.feline.Ocelot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
