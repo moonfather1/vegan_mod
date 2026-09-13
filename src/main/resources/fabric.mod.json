@@ -14,22 +14,25 @@
 	"icon": "assets/vegan_mod/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"moonfather.vegan_mod.VeganMod"
-		],
-		"client": [
-			"moonfather.vegan_mod.ClientEntryPoint"
-		],
-          "emi": [
-            "moonfather.vegan_mod.integration.EmiRegistration"
+          "main": [
+            "moonfather.vegan_mod.VeganMod"
+          ],
+          "client": [
+            "moonfather.vegan_mod.ClientEntryPoint"
           ],
           "jei_mod_plugin": [
             "moonfather.vegan_mod.integration.JeiRegistration"
           ],
           "rei_client": [
             "moonfather.vegan_mod.integration.ReiRegistration"
+          ],
+          "rrv": [
+            "moonfather.vegan_mod.integration.RrvServerPlugin"
+          ],
+          "rrv_client": [
+            "moonfather.vegan_mod.integration.RrvClientPlugin"
           ]
-	},
+    },
 	"mixins": [
 		"vegan_mod.mixins.json",
 		{
