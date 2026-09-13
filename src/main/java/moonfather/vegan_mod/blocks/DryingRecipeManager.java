@@ -1,15 +1,12 @@
 package moonfather.vegan_mod.blocks;
 
-import com.google.common.collect.ImmutableList;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DryingRecipeManager
@@ -42,5 +39,9 @@ public class DryingRecipeManager
     }
     private static final Map<Identifier, DryingRecipe> recipes = new HashMap<>();
 
-    public static Map<Identifier, DryingRecipe> getAll() { return recipes; } // no need for immu, this is for client only
+    public static Map<Identifier, DryingRecipe> getAll()
+    {
+        //LoggerFactory.getLogger(VeganMod.MOD_ID).info("~~~ DRM / " + recipes.size());
+        return recipes;
+    } // no need for immu, this is for client only
 }

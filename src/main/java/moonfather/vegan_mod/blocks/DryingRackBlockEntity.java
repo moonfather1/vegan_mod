@@ -182,7 +182,7 @@ public class DryingRackBlockEntity extends BlockEntity
             //System.out.printf("~~ %d,%d (%s) skipping because of coin toss  %n", this.getBlockPos().getX(), this.getBlockPos().getZ(), this.itemOnRack.getHoverName().getString());
             //return;
         }
-        this.depositItem(recipe.getResult());
+        this.depositItem(recipe.getResult().create());
         this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
     private long startTime = 0;

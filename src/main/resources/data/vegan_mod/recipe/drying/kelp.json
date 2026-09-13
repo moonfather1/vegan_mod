@@ -1,9 +1,7 @@
 {
   "type": "vegan_mod:drying",
-  "base_item": {
-    "item": "minecraft:kelp"
-  },
-  "time_in_minutes": 2,
+  "base_item": "minecraft:kelp",
+  "time_in_minutes": 12,
   "result": {
     "id": "minecraft:dried_kelp"
   }

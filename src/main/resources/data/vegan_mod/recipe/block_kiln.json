@@ -5,17 +5,11 @@
         "CFC",
         "S S"
     ],
-    "key": {
-        "F": {
-                "item": "minecraft:furnace"
-             },
-        "C": {
-                "item": "minecraft:clay_ball"
-             },
-        "S": {
-                "tag": "minecraft:stone_tool_materials"
-             }
-    },
+  "key": {
+    "F": "minecraft:furnace",
+    "C": "minecraft:clay_ball",
+    "S": "#minecraft:stone_tool_materials"
+  },
     "result": {
         "id": "vegan_mod:kiln",
         "count": 1

@@ -6,12 +6,8 @@
         " F "
     ],
     "key": {
-        "F": {
-                "tag": "vegan_mod:fabric_for_leather"
-             },
-        "O": {
-                "tag": "vegan_mod:oil_for_leather_rare"
-             }
+        "F": "#vegan_mod:fabric_for_leather",
+        "O": "#vegan_mod:oil_for_leather_rare"
     },
     "result": {
         "id": "vegan_mod:hardened_fabric",

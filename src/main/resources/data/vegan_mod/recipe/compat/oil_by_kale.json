@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "item": "kaleidoscope_cookery:oil"
-    }
+    "minecraft:glass_bottle",
+    "kaleidoscope_cookery:oil"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",

@@ -1,9 +1,7 @@
 {
   "type": "vegan_mod:drying",
-  "base_item": {
-    "item": "vegan_mod:raw_fabric"
-  },
-  "time_in_minutes": 2,
+  "base_item": "vegan_mod:raw_fabric",
+  "time_in_minutes": 12,
   "result": {
     "id": "vegan_mod:hardened_fabric"
   }

@@ -193,8 +193,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                         {
                             if (byproduct.isEmpty())
                             {
-                                byproduct = new ItemStack(Items.BLACK_DYE, tarToStore);
-                                byproduct.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+                                byproduct = makeTarItemStack(tarToStore);
                                 kbe.getContainer().setItem(KilnMenu.SLOT_BYPRODUCT, byproduct);
                             }
                             else
@@ -234,6 +233,14 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             kbe.dataBigTicksTarget = (int) Math.floor(BASE_TIME_IN_SECONDS * multiplier * Config.kiln_time_multiplier() / SECONDS_BETWEEN_OUR_TICKS);
             level.sendBlockUpdated(blockPos, blockState, blockState, 2);
         }
+    }
+
+    public static ItemStack makeTarItemStack(int tarToStore)
+    {
+        ItemStack result = new ItemStack(Items.BLACK_DYE, tarToStore);
+        result.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+        result.set(DataComponents.ITEM_MODEL, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "black_dye_old"));
+        return result;
     }
 
     private static Item getRecipeOutput(ItemStack input)

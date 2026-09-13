@@ -51,7 +51,7 @@ public class JeiRegistration implements IModPlugin
             {
                 //System.out.printf("~~ %s -> %s in %d  %n ", entry.getKey().location(), entry.getValue().output().getRegisteredName(), entry.getValue().timeInMinutes());
                 JeiCategoryDrying.DryingRecipeForJei recipe = new JeiCategoryDrying.DryingRecipeForJei();
-                recipe.input = entry.getValue().getBaseItem();  recipe.output = entry.getValue().getResult();   recipe.timeInMinutes = entry.getValue().getTimeInMinutes();
+                recipe.input = entry.getValue().getBaseItem();  recipe.output = entry.getValue().getResultForViewers();   recipe.timeInMinutes = entry.getValue().getTimeInMinutes();
                 list.add(recipe);
             }
             registration.addRecipes(JeiCategoryDrying.DRYING_RECIPE_TYPE, list);
@@ -60,8 +60,7 @@ public class JeiRegistration implements IModPlugin
         {
             ItemStack bottle = VeganMod.Items.THICK_OIL.getDefaultInstance();
             bottle.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.thick_oil2"));
-            ItemStack tar = new ItemStack(Items.BLACK_DYE);
-            tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+            ItemStack tar = KilnBlockEntity.makeTarItemStack(1);
 
             List<JeiCategoryCharcoal.CharcoalRecipeForJei> list = new ArrayList<>();
             JeiCategoryCharcoal.CharcoalRecipeForJei recipe = new JeiCategoryCharcoal.CharcoalRecipeForJei();

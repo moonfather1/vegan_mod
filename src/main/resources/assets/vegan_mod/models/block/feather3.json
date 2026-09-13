@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "minecraft:block/white_wool",
-		"1": "minecraft:item/feather",
+		"1": "vegan_mod:block/feather__by_jappa_and_mojang",
 		"particle": "minecraft:block/white_wool"
 	},
 	"render_type": "minecraft:cutout_mipped",

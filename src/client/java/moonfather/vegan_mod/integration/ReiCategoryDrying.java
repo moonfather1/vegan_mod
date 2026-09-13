@@ -91,8 +91,8 @@ public class ReiCategoryDrying implements DisplayCategory<ReiCategoryDrying.Dryi
         public DryingRecipeDisplay(DryingRecipe recipe)
         {
             this.input = recipe.getBaseItem();
-            this.output = recipe.getResult();
-            this.time = (int) Math.round(recipe.getTimeInMinutes() * 60 * Config.kiln_time_multiplier());
+            this.output = recipe.getResultForViewers();
+            this.time = recipe.getTimeInMinutes();
         }
 
         @Override

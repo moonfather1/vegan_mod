@@ -5,10 +5,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryOps;
-import org.jetbrains.annotations.Nullable;
 
 public record TagEmptyRecipeCondition(String tag_id) implements ResourceCondition
 {
@@ -28,7 +26,7 @@ public record TagEmptyRecipeCondition(String tag_id) implements ResourceConditio
     private static ResourceConditionType<?> type = null;
 
     @Override
-    public boolean test(RegistryOps.@org.jspecify.annotations.Nullable RegistryInfoLookup registryInfoLookup)
+    public boolean test(RegistryOps.RegistryInfoLookup registryInfoLookup)
     {
         if (this.tag_id == null) return false;
         int count = TagConditionSupport.INSTANCE.getCount(Identifier.parse(this.tag_id));

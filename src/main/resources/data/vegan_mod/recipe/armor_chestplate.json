@@ -6,9 +6,7 @@
         "VVV"
     ],
     "key": {
-        "V": {
-                "item": "vegan_mod:hardened_fabric"
-             }
+        "V": "vegan_mod:hardened_fabric"
     },
     "result": {
         "id": "minecraft:leather_chestplate",

@@ -1,15 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:beetroot"
-    },
-    {
-      "item": "minecraft:beetroot"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    }
+    "minecraft:beetroot",
+    "minecraft:beetroot",
+    "minecraft:glass_bottle"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",

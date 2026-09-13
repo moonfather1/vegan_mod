@@ -15,6 +15,7 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
+import moonfather.vegan_mod.blocks.KilnBlockEntity;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -107,8 +108,7 @@ public class ReiCategoryCharcoal implements DisplayCategory<ReiCategoryCharcoal.
             bottle.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.thick_oil2"));
             if (Config.kiln_gives_tar_paint())
             {
-                ItemStack tar = new ItemStack(Items.BLACK_DYE);
-                tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+                ItemStack tar = KilnBlockEntity.makeTarItemStack(1);
                 return List.of(EntryIngredients.ofItemStacks(List.of(Items.CHARCOAL.getDefaultInstance())), EntryIngredients.ofItemStacks(List.of((bottle))), EntryIngredients.ofItemStacks(List.of((tar))));
             }
             return List.of(EntryIngredients.ofItemStacks(List.of(Items.CHARCOAL.getDefaultInstance())), EntryIngredients.ofItemStacks(List.of((bottle))));

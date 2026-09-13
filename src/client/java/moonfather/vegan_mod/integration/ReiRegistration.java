@@ -4,7 +4,9 @@ import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import moonfather.vegan_mod.Config;
+import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.blocks.DryingRecipeManager;
+import org.slf4j.LoggerFactory;
 
 public class ReiRegistration implements REIClientPlugin
 {
@@ -23,6 +25,7 @@ public class ReiRegistration implements REIClientPlugin
     @Override
     public void registerDisplays(DisplayRegistry registry)
     {
+        //LoggerFactory.getLogger(VeganMod.MOD_ID).info("~~~ REI ~~~");
         // drying rack
         if (Config.leather_make_on_drying_rack())
         {

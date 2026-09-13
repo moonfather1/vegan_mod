@@ -3,12 +3,14 @@ package moonfather.vegan_mod;
 import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import moonfather.vegan_mod.blocks.*;
 import moonfather.vegan_mod.changes.RecipeManagerMain;
+import moonfather.vegan_mod.changes.ReloadCommandReimplementation;
 import moonfather.vegan_mod.changes.SheddingHandler;
 import moonfather.vegan_mod.items.*;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -17,9 +19,11 @@ import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Unit;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.MenuType;
@@ -69,7 +73,25 @@ public class VeganMod implements ModInitializer
         ConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_them_._serverconfig.toml");
         //////////////////////
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(DryingRecipeManager::initialize);
-	}
+
+
+//        CommonLifecycleEvents.TAGS_LOADED.register((regAccess, client) -> LOGGER.info("~~~ CommonLifecycleEvents.TAGS_LOADED / " + client) );
+//        ServerLifecycleEvents.SERVER_STARTING.register((server) -> LOGGER.info("~~~ ServerLifecycleEvents.SERVER_STARTING"));
+//        ServerLifecycleEvents.SERVER_STARTED.register((server) -> LOGGER.info("~~~ ServerLifecycleEvents.SERVER_STARTED"));
+//        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, rm, suc) -> LOGGER.info("~~~ ServerLifecycleEvents.END_DATA_PACK_RELOAD"));
+//        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((serverPl, jo) -> LOGGER.info("~~~ ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS / " + jo));
+        ServerLifecycleEvents.SERVER_STARTED.register(VeganMod::reloadResourcesBecauseOfTags);
+    }
+
+    private static void reloadResourcesBecauseOfTags(MinecraftServer minecraftServer)
+    {
+        if (firstTimeFlag)
+        {
+            firstTimeFlag = false;
+            ReloadCommandReimplementation.slashReload(minecraftServer);
+        }
+    }
+    private static boolean firstTimeFlag = true;
 
 	///////////////////////////////////////
 

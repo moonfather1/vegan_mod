@@ -1,18 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "adorablehamsterpets:green_beans"
-    },
-    {
-      "item": "adorablehamsterpets:green_beans"
-    },
-    {
-      "item": "adorablehamsterpets:green_beans"
-    },
-    {
-      "item": "minecraft:glass_bottle"
-    }
+    "adorablehamsterpets:green_beans",
+    "adorablehamsterpets:green_beans",
+    "adorablehamsterpets:green_beans",
+    "minecraft:glass_bottle"
   ],
   "result": {
     "id": "vegan_mod:plant_oil",
