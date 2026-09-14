@@ -80,6 +80,8 @@ dependencies {
     //compileOnly "curse.maven:roughly-enough-items-310111:8271476"
     //compileOnly ("curse.maven:cloth-config-348521:7817582") { transitive = true }
     compileOnly "maven.modrinth:5VolwT6c:Pwofj04I"  // rrv
+
+    compileOnly "curse.maven:jade-324717:8652624"
 }
 
 processResources {
