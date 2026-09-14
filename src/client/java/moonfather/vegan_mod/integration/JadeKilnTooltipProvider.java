@@ -57,9 +57,9 @@ public class JadeKilnTooltipProvider implements IBlockComponentProvider
                 return;
             }
             Tooltip inner = new Tooltip();
-            tooltip.add(new SpacerElement(8, 6));
+            tooltip.add(new SpacerElement(8, 2));
             inner.add(MESSAGE_CONTENT);
-            tooltip.add(new SpacerElement(8, 6));
+            tooltip.add(new SpacerElement(8, 2));
             BoxElement box = new BoxElementImpl(inner, BoxStyle.transparent());
             //box.setPadding(ScreenDirection.UP, 6);
             //box.setPadding(ScreenDirection.DOWN, 6);

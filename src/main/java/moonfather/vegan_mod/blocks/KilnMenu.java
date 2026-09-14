@@ -3,6 +3,7 @@ package moonfather.vegan_mod.blocks;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -266,6 +267,10 @@ public class KilnMenu extends AbstractContainerMenu
         if (level.getBlockEntity(pos) instanceof KilnBlockEntity kbe)
         {
             kbe.awardXP(player, isByproduct);
+            if (level instanceof ServerLevel sl)
+            {
+                sl.getChunkSource().blockChanged(pos);  // basically level.sendBlockUpdated();   here for Jade.
+            }
         }
     }
 }
