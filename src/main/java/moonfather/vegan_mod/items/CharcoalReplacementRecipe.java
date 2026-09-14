@@ -20,7 +20,7 @@ public class CharcoalReplacementRecipe extends AbstractCookingRecipe {
     }
 
     public CharcoalReplacementRecipe() {
-        this(new CommonInfo(false), new CookingBookInfo(CookingBookCategory.MISC, "none"), Ingredient.of(Items.WARPED_FUNGUS_ON_A_STICK), new ItemStackTemplate(Items.GREEN_CANDLE), 1f, 20);
+        this(new CommonInfo(false), new CookingBookInfo(CookingBookCategory.MISC, "none"), Ingredient.of(Items.WARPED_FUNGUS_ON_A_STICK), new ItemStackTemplate(Items.DEAD_BUSH), 1f, 20);
     }
 
     public ItemStack getToastSymbol() { return new ItemStack(Blocks.ANDESITE); }

@@ -64,7 +64,7 @@ public class Config {
 
     private static final ModConfigSpec.IntValue _kiln_multiples_at_once = BUILDER
             .comment("How many logs does kiln smelt at the same time? (all of them require separate fuel though)")
-            .defineInRange("Leather.Kiln.charcoal_kiln__multiples_at_once", 2, 1, 6);
+            .defineInRange("Leather.Kiln.charcoal_kiln__multiples_at_once", 2, 1, 8);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
