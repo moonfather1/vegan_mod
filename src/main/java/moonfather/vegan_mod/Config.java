@@ -44,7 +44,7 @@ public class Config {
 
     private static final ModConfigSpec.BooleanValue _feather_litter_enabled = BUILDER
             .comment("Is feather litter enabled? If yes, feathers on the ground became small piles (that don't tick all the time like dropped items. If not enabled, feathers wait on the ground as normal.")
-            .define("Feathers.feather_litter_enabled", false);
+            .define("Feathers.feather_litter_enabled", true);
 
     private static final ModConfigSpec.BooleanValue _kiln_enabled = BUILDER
             .comment("Is charcoal kiln block enabled? If yes, logs are turned to charcoal in it. As a byproduct, it will give you some creosote oil (useful for hardened fabric) and tar (black dye). If this is disabled, you need other ways to make black ink and hardened fabric.")
@@ -56,7 +56,7 @@ public class Config {
 
     private static final ModConfigSpec.BooleanValue _kiln_gives_tar = BUILDER
             .comment("Does charcoal kiln give tar paint as a byproduct? Disable this if you want black dye to be hard to obtain.")
-            .define("Leather.Kiln.charcoal_kiln_gives_tar_paint", false);
+            .define("Leather.Kiln.charcoal_kiln_gives_tar_paint", true);
 
     private static final ModConfigSpec.DoubleValue _kiln_xp_multiplier = BUILDER
             .comment("How much xp does kiln give? 1.0 means author's default (1.8 for charcoal, 0.3 for byproducts). 0.5 means half of that, 2 means double, 0 means no xp.")
@@ -64,7 +64,7 @@ public class Config {
 
     private static final ModConfigSpec.IntValue _kiln_multiples_at_once = BUILDER
             .comment("How many logs does kiln smelt at the same time? (all of them require separate fuel though)")
-            .defineInRange("Leather.Kiln.charcoal_kiln__multiples_at_once", 2, 1, 6);
+            .defineInRange("Leather.Kiln.charcoal_kiln__multiples_at_once", 2, 1, 8);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
