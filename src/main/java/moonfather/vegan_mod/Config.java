@@ -38,7 +38,7 @@ public class Config {
 
     private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
             .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
-            .define("Feathers.shedding", "#vegan_mod:drops_feathers=minecraft:feather=720, #vegan_mod:drops_feathers_rare=minecraft:feather=1200, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=600");
+            .define("Feathers.shedding", "#vegan_mod:drops_feathers=minecraft:feather=720, #vegan_mod:drops_feathers_rare=minecraft:feather=1200, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=600,  alexsmobs:roadrunner=alexsmobs:roadrunner_feather=420");
 
     private static final ModConfigSpec.IntValue _feather_litter_decay_target = BUILDER
             .comment("How long on average does feather litter last? Default 6 means 1/6 chance every minute for one leaf in litter to decay. That makes them last somewhat longer than normal but with no ticks.")
