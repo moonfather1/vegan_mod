@@ -19,6 +19,6 @@ public class JadePlugin implements IWailaPlugin
     @Override
     public void register(IWailaCommonRegistration registration)
     {
-        registration.registerBlockDataProvider(JadeKilnTooltipProvider.getInstance(), KilnBlockEntity.class);
+        registration.registerBlockDataProvider(JadeKilnTooltipProvider.getInstance(), KilnBlock.class);
     }
 }

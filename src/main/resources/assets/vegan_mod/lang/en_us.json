@@ -61,6 +61,7 @@
   "vegan_mod.configuration.charcoal_kiln_gives_tar_paint": "Charcoal Kiln gives tar paint",
   "vegan_mod.configuration.charcoal_kiln_xp_multiplier": "Charcoal Kiln xp multiplier",
   "vegan_mod.configuration.charcoal_kiln__multiples_at_once": "Charcoal Kiln items in parallel",
+  "vegan_mod.configuration.charcoal_kiln_works_with_pipes_and_hoppers": "Charcoal kiln works with pipes",
 
   "vegan_mod.configuration.leather_armor_color.tooltip": "What color is the leather armor made from plant materials? You can prefix with # or 0x if you want to use hex numbers.",
   "vegan_mod.configuration.shedding.tooltip": "What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.",
@@ -75,6 +76,12 @@
   "vegan_mod.configuration.charcoal_kiln_gives_tar_paint.tooltip": "Does charcoal kiln give tar paint as a byproduct? Disable this if you want black dye to be hard to obtain.",
   "vegan_mod.configuration.charcoal_kiln_xp_multiplier.tooltip": "How much xp does kiln give? 1.0 means author's default (1.8 for charcoal, 0.3 for byproducts). 0.5 means half of that, 2 means double, 0 means no xp.",
   "vegan_mod.configuration.charcoal_kiln__multiples_at_once.tooltip": "How many logs does kiln smelt at the same time? (all of them require separate fuel though)",
+  "vegan_mod.configuration.charcoal_kiln_works_with_pipes_and_hoppers.tooltip": "Does charcoal kiln cooperate with pipes, hoppers, etc.? It's intended as a low-tech block, but if you want, enable this.",
+  "vegan_mod.configuration.Leather": "Leather (category)",
+  "vegan_mod.configuration.Other": "Other",
+  "vegan_mod.configuration.Ink": "Ink (category)",
+  "vegan_mod.configuration.Feathers": "Feathers (category)",
+  "vegan_mod.configuration.Kiln": "Kiln (category)",
   "vegan_mod.configuration.title": "Config",
   "vegan_mod.configuration.section.i.dont.want.to.kill.them.serverconfig.toml.title": "Configure the mod! Love the mod!",
   "vegan_mod.configuration.section.i.dont.want.to.kill.them.serverconfig.toml": "Config"

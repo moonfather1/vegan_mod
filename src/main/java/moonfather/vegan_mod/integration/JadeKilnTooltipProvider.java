@@ -88,8 +88,19 @@ public class JadeKilnTooltipProvider implements IBlockComponentProvider, IServer
     @Override
     public void appendServerData(CompoundTag data, BlockAccessor blockAccessor)
     {
-        int oil = ((KilnBlockEntity)blockAccessor.getBlockEntity()).getOilVolume();
-        data.putInt("oil_volume", oil);
+        KilnBlockEntity kiln = (KilnBlockEntity) blockAccessor.getBlockEntity();
+        if (kiln != null)
+        {
+            data.putInt("oil_volume", kiln.getOilVolume());
+        }
+        else
+        {
+            kiln = (KilnBlockEntity) blockAccessor.getLevel().getBlockEntity(blockAccessor.getPosition().below());
+            if (kiln != null)
+            {
+                data.putInt("oil_volume", kiln.getOilVolume());
+            }
+        }
     }
 
     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //

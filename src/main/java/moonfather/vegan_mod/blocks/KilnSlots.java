@@ -37,8 +37,7 @@ public class KilnSlots
     {
         public WoodSlot(Container container, int index, int x, int y, KilnMenu host) { super(container, index, x, y, host); }
 
-        @Override
-        public boolean mayPlace(ItemStack stack)
+        public static boolean isValidItem(ItemStack stack)
         {
             if (stack.is(ItemTags.LOGS_THAT_BURN))
             {
@@ -50,16 +49,28 @@ public class KilnSlots
             }
             return false;
         }
+
+        @Override
+        public boolean mayPlace(ItemStack stack)
+        {
+            return isValidItem(stack);
+        }
     }
 
     public static class FuelSlot extends BaseSlot
     {
         public FuelSlot(Container container, int index, int x, int y, KilnMenu host) { super(container, index, x, y, host); }
 
+        public static boolean isValidItem(ItemStack stack)
+        {
+            return stack.getBurnTime(null) > 0 && ! stack.is(Tags.Items.BUCKETS);
+        }
+
+
         @Override
         public boolean mayPlace(ItemStack stack)
         {
-            return stack.getBurnTime(null) > 0 && ! stack.is(Tags.Items.BUCKETS);
+            return isValidItem(stack);
         }
     }
 
@@ -67,12 +78,17 @@ public class KilnSlots
     {
         public ByproductSlot(Container container, int index, int x, int y, KilnMenu host) { super(container, index, x, y, host); }
 
+        public static boolean isValidItem(ItemStack stack, int oilAmount)
+        {
+            return stack.is(Items.GLASS_BOTTLE) && oilAmount >= 250
+                    || stack.is(Tags.Items.BUCKETS_EMPTY) && oilAmount >= 1000;
+        }
+
         @Override
         public boolean mayPlace(ItemStack stack)
         {
             int oilAmount = this.host.getOilAmount();
-            return stack.is(Items.GLASS_BOTTLE) && oilAmount >= 250
-                    || stack.is(Tags.Items.BUCKETS_EMPTY) && oilAmount >= 1000;
+            return isValidItem(stack, oilAmount);
         }
 
         @Override

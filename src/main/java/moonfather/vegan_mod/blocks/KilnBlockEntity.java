@@ -4,6 +4,7 @@ import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.integration.ImmersiveEngineeringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -28,7 +29,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -399,5 +402,155 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             amountAsInt += 1;
         }
         player.giveExperiencePoints(amountAsInt);
+    }
+
+    /////////////////////////////
+    //////  capabilities  /////
+
+    public static @Nullable IItemHandler getItemHandlerForTheGivenSide(KilnBlockEntity myBlockEntity, Direction  side)
+    {
+        if (! Config.kiln_works_with_pipes())
+        {
+            return null;
+        }
+        if (side == null || side.getAxis().isVertical() || myBlockEntity == null)
+        {
+            return null;
+        }
+        return myBlockEntity.itemCapability;
+    }
+    private final OurCapability itemCapability = new OurCapability();
+
+    public static final BlockCapability<IItemHandler, @Nullable Direction> ITEM_HANDLER_ON_KILN =
+            BlockCapability.createSided(
+                    // Provide a name to uniquely identify the capability.
+                    ResourceLocation.fromNamespaceAndPath(VeganMod.MODID, "item_handler"),
+                    // Provide the queried type. Here, we want to look up `IItemHandler` instances.
+                    IItemHandler.class);
+
+    private class OurCapability implements IItemHandler
+    {
+        private static final int SLOT_COUNT = 4;
+        @Override
+        public int getSlots()
+        {
+            return SLOT_COUNT;
+        }
+
+        @Override
+        public ItemStack getStackInSlot(int slot)
+        {
+            return (slot < SLOT_COUNT && slot >= 0) ? KilnBlockEntity.this.getContainer().getItem(slot) : null;
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
+        {
+            if (slot == KilnMenu.SLOT_RESULT || stack.isEmpty() || ! this.isItemValid(slot, stack))
+            {
+                return stack.copy();
+            }
+            if (slot == KilnMenu.SLOT_FUEL && KilnSlots.WoodSlot.isValidItem(stack))
+            {
+                return stack.copy();  // don't allow logs into duel; also coal with ie.
+            }
+            ItemStack existing = this.getStackInSlot(slot);
+            if (existing == null || (! existing.isEmpty() && ! ItemStack.isSameItemSameComponents(existing, stack)))
+            {
+                return stack.copy(); // nope
+            }
+            int amountWeCanFit = this.getSlotLimit(slot) - existing.getCount();
+            if (amountWeCanFit == 0)
+            {
+                return stack.copy();
+            }
+            int amountToInsert = Math.min(amountWeCanFit, stack.getCount());
+            if (! simulate)
+            {
+                KilnBlockEntity.this.getContainer().setItem(slot, stack.copyWithCount(existing.getCount() + amountToInsert));
+                if (KilnBlockEntity.this.level != null)
+                {
+                    KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
+                }
+            }
+            if (stack.getCount() == amountToInsert)
+            {
+                return ItemStack.EMPTY;
+            }
+            return stack.copyWithCount(stack.getCount() - amountToInsert);
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate)
+        {
+            if (slot == KilnMenu.SLOT_FUEL || slot == KilnMenu.SLOT_INPUT1)
+            {
+                return ItemStack.EMPTY;
+            }
+            if (slot == KilnMenu.SLOT_BYPRODUCT)
+            {
+                ItemStack existing = this.getStackInSlot(slot);
+                if (existing.is(Items.GLASS_BOTTLE) || existing.is(Tags.Items.BUCKETS_EMPTY))
+                {
+                    return ItemStack.EMPTY;
+                }
+            }
+            ItemStack existing = this.getStackInSlot(slot);
+            if (existing == null || existing.isEmpty() || amount <= 0)
+            {
+                return ItemStack.EMPTY;
+            }
+            int amountToReturn = Math.min(amount, existing.getCount());
+            if (! simulate)
+            {
+                if (amountToReturn < existing.getCount())
+                {
+                    KilnBlockEntity.this.getContainer().setItem(slot, existing.copyWithCount(existing.getCount() - amountToReturn));
+                }
+                else
+                {
+                    KilnBlockEntity.this.getContainer().setItem(slot, ItemStack.EMPTY);
+                }
+                KilnBlockEntity.this.setChanged();
+                if (KilnBlockEntity.this.level != null)
+                {
+                    KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
+                }
+            }
+            return existing.copyWithCount(amountToReturn);
+        }
+
+        @Override
+        public int getSlotLimit(int slot)
+        {
+            if (slot == KilnMenu.SLOT_BYPRODUCT)
+            {
+                return 1;
+            }
+            ItemStack existing = this.getStackInSlot(slot);
+            return (existing != null && ! existing.isEmpty()) ? existing.getMaxStackSize() : 64;
+        }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack itemStack)
+        {
+            if (slot == KilnMenu.SLOT_RESULT)
+            {
+                return false;
+            }
+            if (slot == KilnMenu.SLOT_BYPRODUCT)
+            {
+                return KilnSlots.ByproductSlot.isValidItem(itemStack, KilnBlockEntity.this.getOilVolume());
+            }
+            if (slot == KilnMenu.SLOT_INPUT1)
+            {
+                return KilnSlots.WoodSlot.isValidItem(itemStack);
+            }
+            if (slot == KilnMenu.SLOT_FUEL)
+            {
+                return KilnSlots.FuelSlot.isValidItem(itemStack);
+            }
+            return false;
+        }
     }
 }

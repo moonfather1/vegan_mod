@@ -133,10 +133,10 @@ dependencies {
     //runtimeOnly "curse.maven:emi-580555:6420931"
 
     compileOnly "curse.maven:jade-324717:5846105"
-    //runtimeOnly "curse.maven:jade-324717:5846105"
+    runtimeOnly "curse.maven:jade-324717:5846105"
 
     compileOnly "curse.maven:the-one-probe-245211:6106998"
-    runtimeOnly "curse.maven:the-one-probe-245211:6106998"
+    //runtimeOnly "curse.maven:the-one-probe-245211:6106998"
 
     compileOnly "maven.modrinth:xQPESMXS:pLBz0rqb"   // SIU
 }

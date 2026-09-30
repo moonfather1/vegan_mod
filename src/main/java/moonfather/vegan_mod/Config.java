@@ -66,6 +66,11 @@ public class Config {
             .comment("How many logs does kiln smelt at the same time? (all of them require separate fuel though)")
             .defineInRange("Leather.Kiln.charcoal_kiln__multiples_at_once", 2, 1, 8);
 
+    private static final ModConfigSpec.BooleanValue _kiln_works_with_pipes = BUILDER
+            .worldRestart()
+            .comment("Does charcoal kiln cooperate with pipes? It's intended as a low-tech block, but if you want, enable this.")
+            .define("Leather.Kiln.charcoal_kiln_works_with_pipes_and_hoppers", false);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     //-----------------------------------------//
@@ -104,6 +109,7 @@ public class Config {
     }
     public static boolean kiln_enabled() { return _kiln_enabled.get(); }
     public static boolean kiln_gives_tar_paint() { return _kiln_gives_tar.get(); }
+    public static boolean kiln_works_with_pipes() { return _kiln_works_with_pipes.get(); }
     public static double kiln_time_multiplier()
     {
         return _kiln_time_multiplier.get();
