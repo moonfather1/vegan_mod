@@ -109,12 +109,21 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
 
     public static <T extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, T blockEntity)
     {
-        final int SECONDS_BETWEEN_OUR_TICKS = 2;
         if (level.getLevelData().getGameTime() % (20 * SECONDS_BETWEEN_OUR_TICKS) != 12)
         {
             return;
         }
-        if (! (blockEntity instanceof KilnBlockEntity kbe)) { return; }
+        if (! (blockEntity instanceof KilnBlockEntity kbe))
+        {
+            return;
+        }
+        serverTickInternal(level, blockPos, blockState, kbe);
+        level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+    }
+    private static final int SECONDS_BETWEEN_OUR_TICKS = 2;
+
+    public static void serverTickInternal(Level level, BlockPos blockPos, BlockState blockState, KilnBlockEntity kbe)
+    {
         ItemStack byproduct = kbe.getContainer().getItem(KilnMenu.SLOT_BYPRODUCT);
         //---------------------------------------------------------//
         if (byproduct.is(Items.GLASS_BOTTLE) && kbe.dataOil >= 250)
@@ -143,7 +152,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             if (input1.isEmpty())
             {
                 kbe.dataStatus = 0;  kbe.dataBigTicksDone = 0;
-                level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+                kbe.setChanged();
                 return;   // fuel charged, no need to check it
             }
             if (kbe.dataBigTicksDone >= kbe.dataBigTicksTarget / 3)
@@ -157,7 +166,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                 kbe.getContainer().setItem(7, new ItemStack(output, countToProcess));
                 kbe.dataStatus = 2;
                 kbe.dataBigTicksDone += 1;
-                level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+                kbe.setChanged();
                 return;
             }
             kbe.dataBigTicksDone += 1;
@@ -208,7 +217,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                 }
                 kbe.dataStatus = 0;
                 kbe.dataBigTicksDone = 0;
-                level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+                kbe.setChanged();
             }  // intentionally no return here. i used to have it and it caused a 2sec pause. fine by me, but i know it would throw people off.
             else
             {
@@ -233,7 +242,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             kbe.dataBigTicksDone = 1;  // actually 0 but this is to show fire in gui. one tick changes nothing (even a big 2sec tick).
             double multiplier = (! input1.is(Items.COAL)) ? 1.0 : 1.5;
             kbe.dataBigTicksTarget = (int) Math.floor(BASE_TIME_IN_SECONDS * multiplier * Config.kiln_time_multiplier() / SECONDS_BETWEEN_OUR_TICKS);
-            level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+            kbe.setChanged();
         }
     }
 
@@ -468,6 +477,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             if (! simulate)
             {
                 KilnBlockEntity.this.getContainer().setItem(slot, stack.copyWithCount(existing.getCount() + amountToInsert));
+                KilnBlockEntity.this.setChanged();
                 if (KilnBlockEntity.this.level != null)
                 {
                     KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
