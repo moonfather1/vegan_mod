@@ -4,10 +4,13 @@ import com.mojang.serialization.MapCodec;
 import moonfather.vegan_mod.VeganMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
@@ -146,9 +149,20 @@ public class KilnBlock extends BaseEntityBlock
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return state.getValue(HALF) == Half.BOTTOM ? Shapes.block() : SLAB;
+        if (state.getValue(HALF) == Half.TOP)
+        {
+            return SLAB;
+        }
+        return state.getValue(FACING).getAxis() == Direction.Axis.X ? BOTTOM_ALL_NS : BOTTOM_ALL_EW;
     }
     private static final VoxelShape SLAB = Shapes.box(0, 0, 0, 1, 0.5, 1);
+    private static final VoxelShape BASE1NS = Shapes.box(0, 0, 0, 1, 5/16d, 5/16d);
+    private static final VoxelShape BASE2NS = Shapes.box(0, 0, 11/16d, 1, 5/16d, 1);
+    private static final VoxelShape BASE1EW = Shapes.box(0, 0, 0, 5/16d, 5/16d, 1);
+    private static final VoxelShape BASE2EW = Shapes.box(11/16d, 0, 0, 1, 5/16d, 1);
+    private static final VoxelShape BOTTOM_MAIN = Shapes.box(0, 5/16d, 0, 1, 1, 1);
+    private static final VoxelShape BOTTOM_ALL_NS = Shapes.or(BOTTOM_MAIN, BASE1NS, BASE2NS);
+    private static final VoxelShape BOTTOM_ALL_EW = Shapes.or(BOTTOM_MAIN, BASE1EW, BASE2EW);
 
     @Override @NotNull
     protected RenderShape getRenderShape(BlockState state)
@@ -179,10 +193,25 @@ public class KilnBlock extends BaseEntityBlock
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
     {
-        if (state.getValue(HALF).equals(Half.BOTTOM))
+        if (state.getValue(HALF).equals(Half.BOTTOM) && state.getValue(LIT))  // top doesn't get lit anyway but that might change
         {
-            // top doesn't get lit anyway but that might change
-            Blocks.FURNACE.animateTick(state, level, pos, random);
+            double rolledRandom = random.nextDouble();
+            double baseX = (double) pos.getX() + (double) 0.5F;
+            double baseY = (double) pos.getY();
+            double baseZ = (double) pos.getZ() + (double) 0.5F;
+            if (rolledRandom < 0.05)
+            {
+                level.playLocalSound(baseX, baseY, baseZ, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+            }
+            if (rolledRandom > 0.50) {
+                double sideStep = random.nextDouble() * 0.4 - 0.2;
+                double vertical = random.nextDouble() * (double) 4.0F / (double) 16.0F;
+                Direction direction = state.getValue(FACING);
+                double stepX = direction.getAxis() == Direction.Axis.X ? (double) direction.getStepX() * 0.52 : sideStep;
+                double stepZ = direction.getAxis() == Direction.Axis.Z ? (double) direction.getStepZ() * 0.52 : sideStep;
+                level.addParticle(ParticleTypes.SMOKE, baseX + (-1) * stepX, baseY + vertical, baseZ + (-1) * stepZ, (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                level.addParticle(ParticleTypes.SMOKE, baseX + (+1) * stepX, baseY + vertical, baseZ + (+1) * stepZ, (double) 0.0F, (double) 0.0F, (double) 0.0F);
+            }      // used to be  Blocks.FURNACE.animateTick(state, level, pos, random);
         }
     }
 }
