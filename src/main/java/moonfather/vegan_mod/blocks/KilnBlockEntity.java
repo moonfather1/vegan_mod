@@ -41,10 +41,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class KilnBlockEntity extends StandardContainerBlockEntity implements MenuProvider
 {
+    public static final Identifier OLD_BLACK_DYE = Identifier.fromNamespaceAndPath(VeganMod.MODID, "black_dye");
+
     public KilnBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState)
     {
         super(type, pos, blockState);
@@ -66,7 +67,13 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
     public static final int FUEL_FOR_ONE_OPERATION = 200; // stick is 100  // i wanted double but that makes charcoal smelt as much as planks
     public static final int OIL_GAIN_PER_OPERATION = 50;
 
-
+    public static ItemStack makeTarItemStack(int count)
+    {
+        ItemStack tar = new ItemStack(Items.DYE.black());
+        tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+        tar.set(DataComponents.ITEM_MODEL, KilnBlockEntity.OLD_BLACK_DYE);
+        return tar;
+    }
 
     @Override  @NotNull
     public Component getDisplayName()
@@ -127,12 +134,17 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
 
     public static <T extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, T blockEntity)
     {
-        final int SECONDS_BETWEEN_OUR_TICKS = 2;
         if (level.getLevelData().getGameTime() % (20 * SECONDS_BETWEEN_OUR_TICKS) != 12)
         {
             return;
         }
         if (! (blockEntity instanceof KilnBlockEntity kbe)) { return; }
+        serverTickInternal(level, blockPos, blockState, kbe);
+        level.sendBlockUpdated(blockPos, blockState, blockState, 2); // just for stupid jade, we send unconditionally.
+    }
+    private static final int SECONDS_BETWEEN_OUR_TICKS = 2;
+    public static void serverTickInternal(Level level, BlockPos blockPos, BlockState blockState, KilnBlockEntity kbe)
+    {
         ItemStack byproduct = kbe.getContainer().getItem(KilnMenu.SLOT_BYPRODUCT);
         //---------------------------------------------------------//
         if (byproduct.is(Items.GLASS_BOTTLE) && kbe.dataOil >= 250)
@@ -161,7 +173,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             if (input1.isEmpty())
             {
                 kbe.dataStatus = 0;  kbe.dataBigTicksDone = 0;
-                level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+                kbe.setChanged();
                 return;   // fuel charged, no need to check it
             }
             if (kbe.dataBigTicksDone >= kbe.dataBigTicksTarget / 3)
@@ -175,7 +187,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                 kbe.getContainer().setItem(7, new ItemStack(output, countToProcess));
                 kbe.dataStatus = 2;
                 kbe.dataBigTicksDone += 1;
-                level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+                kbe.setChanged();
                 return;
             }
             kbe.dataBigTicksDone += 1;
@@ -212,8 +224,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                         {
                             if (byproduct.isEmpty())
                             {
-                                byproduct = new ItemStack(Items.BLACK_DYE, tarToStore);
-                                byproduct.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
+                                byproduct = makeTarItemStack(tarToStore);
                                 kbe.getContainer().setItem(KilnMenu.SLOT_BYPRODUCT, byproduct);
                             }
                             else
@@ -226,8 +237,8 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                 }
                 kbe.dataStatus = 0;
                 kbe.dataBigTicksDone = 0;
-                level.sendBlockUpdated(blockPos, blockState, blockState, 2);
-            }  // intentionally no return here. i used to have it and it caused a 2sec pause. fine by me, but i know it would throw people off.
+                kbe.setChanged();
+            }  // intentionally no return here. i used to have it, and it caused a 2sec pause. fine by me, but i know it would throw people off.
             else
             {
                 kbe.dataBigTicksDone += 1;
@@ -251,7 +262,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             kbe.dataBigTicksDone = 1;  // actually 0 but this is to show fire in gui. one tick changes nothing (even a big 2sec tick).
             double multiplier = (! input1.is(Items.COAL)) ? 1.0 : 1.5;
             kbe.dataBigTicksTarget = (int) Math.floor(BASE_TIME_IN_SECONDS * multiplier * Config.kiln_time_multiplier() / SECONDS_BETWEEN_OUR_TICKS);
-            level.sendBlockUpdated(blockPos, blockState, blockState, 2);
+            kbe.setChanged();
         }
     }
 
@@ -555,10 +566,14 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             int amountToInsert = Math.min(amountWeCanFit, amount);
             ItemStackResourceHandler handler = KilnBlockEntity.this.resourceHandlers.get(index);
             int result = handler.insert(0, resource, amountToInsert, transaction);
-//            if (result > 0; KilnBlockEntity.this.level != null)
+            if (result > 0)
+            {
+                KilnBlockEntity.this.setChanged();
+//            if (KilnBlockEntity.this.level != null)
 //            {
 //                KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
 //            }
+            }
             return result;
         }
 
@@ -586,10 +601,14 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
 
             ItemStackResourceHandler handler = KilnBlockEntity.this.resourceHandlers.get(index);
             int result = handler.extract(0, resource, amountToReturn, transaction);
-//            if (result > 0; KilnBlockEntity.this.level != null)
+            if (result > 0)
+            {
+                KilnBlockEntity.this.setChanged();
+//            if (KilnBlockEntity.this.level != null)
 //            {
 //                KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
 //            }
+            }
             return result;
         }
 

@@ -71,7 +71,7 @@ public class JeiRegistration implements IModPlugin
         {
             ItemStack bottle = VeganMod.Items.THICK_OIL.toStack();
             bottle.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.thick_oil2"));
-            ItemStack tar = KilnBlockEntity.ma;
+            ItemStack tar = KilnBlockEntity.makeTarItemStack(1);
             ItemStack bucket = ImmersiveEngineeringHelper.getBucketItem().getDefaultInstance();
 
             List<JeiCategoryCharcoal.CharcoalRecipeForJei> list = new ArrayList<>();
