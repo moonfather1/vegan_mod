@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:parrot",
+    { "id": "naturalist:bird", "required": false },
+    { "id": "alexsmobs:potoo", "required": false },
+    { "id": "alexsmobs:crow", "required": false },
+    { "id": "alexsmobs:emu", "required": false }
+  ]
+}
