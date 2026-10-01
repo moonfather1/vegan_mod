@@ -35,6 +35,14 @@ public class JadeKilnDataProvider implements StreamServerDataProvider<BlockAcces
         {
             result.set(0, kiln.getOilVolume());
         }
+        else
+        {
+            kiln = (KilnBlockEntity) accessor.getLevel().getBlockEntity(accessor.getPosition().below());
+            if (kiln != null)
+            {
+                result.set(0, kiln.getOilVolume());
+            }
+        }
         return result;
     }
 
