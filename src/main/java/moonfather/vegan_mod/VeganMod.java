@@ -15,6 +15,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.*;
@@ -45,6 +47,7 @@ public class VeganMod
     public VeganMod(IEventBus modEventBus, ModContainer modContainer)
     {
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerCapability);
 
         Blocks.init(modEventBus);
         Items.init(modEventBus);
@@ -65,6 +68,16 @@ public class VeganMod
         {
             NeoForge.EVENT_BUS.addListener(LitterManager::onEntityTick);
         }
+    }
+
+
+    public void registerCapability(RegisterCapabilitiesEvent event)
+    {
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK, // capability to register for
+                BlockEntities.KILN_BE.get(), // block entity type to register for
+                KilnBlockEntity::getItemHandlerForTheGivenSide
+        );
     }
 
     public static class Other

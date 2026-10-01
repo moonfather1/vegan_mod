@@ -4,6 +4,7 @@ import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
 import moonfather.vegan_mod.integration.ImmersiveEngineeringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -28,9 +29,19 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.TransferPreconditions;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStackResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class KilnBlockEntity extends StandardContainerBlockEntity implements MenuProvider
 {
@@ -39,8 +50,13 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         super(type, pos, blockState);
         this.setCapacity(container_capacity);
         this.blockContainer = new MostlySimpleContainer(container_capacity, this);
+        for (int i = 0; i < OurCapability.SLOT_COUNT; i++)
+        {
+            resourceHandlers.add(new KilnStackResourceHandler(i));
+        } // access to our slots for transfer capabilities
     }
     public KilnBlockEntity(BlockPos blockPos, BlockState blockState) { this(VeganMod.BlockEntities.KILN_BE.get(), blockPos, blockState); }
+    private final List<KilnStackResourceHandler> resourceHandlers = new ArrayList<>(4);
 
     /////////////////////////////////////////////////////////////////////
 
@@ -417,6 +433,8 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         player.giveExperiencePoints(amountAsInt);
     }
 
+
+
     private static class MostlySimpleContainer extends SimpleContainer
     {
         public MostlySimpleContainer(int containerCapacity, StandardContainerBlockEntity owner)
@@ -431,6 +449,198 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         {
             super.setChanged();
             this.owner.setChanged();
+        }
+    }
+
+
+
+
+
+    /////////////////////////////
+    //////  capabilities  /////
+
+    public static final BlockCapability<ResourceHandler<ItemResource>, @Nullable Direction> ITEM_HANDLER_ON_KILN =
+            BlockCapability.createSided(
+                    // Provide a name to uniquely identify the capability.
+                    Identifier.fromNamespaceAndPath(VeganMod.MODID, "item_handler"),
+                    // Provide the queried type. Here, we want to look up `ResourceHandler<ItemResource>` instances.
+                    ResourceHandler.asClass()
+            );
+
+
+    @Nullable
+    public static ResourceHandler<ItemResource> getItemHandlerForTheGivenSide(KilnBlockEntity kbe, @Nullable Direction direction)
+    {
+        if (! Config.kiln_works_with_pipes())
+        {
+            return null;
+        }
+        if (direction == null || direction.getAxis().isVertical() || kbe == null)
+        {
+            return null;
+        }
+        return kbe.itemCapability;
+    }
+
+
+
+    private final ResourceHandler<ItemResource> itemCapability = new OurCapability();
+
+    private class OurCapability implements ResourceHandler<ItemResource>
+    {
+        private static final int SLOT_COUNT = 4;
+        @Override
+        public int size()
+        {
+            return SLOT_COUNT;
+        }
+
+        @Override
+        public ItemResource getResource(int index)
+        {
+            return (index < SLOT_COUNT && index >= 0) ? ItemResource.of(KilnBlockEntity.this.getContainer().getItem(index)) : null;
+        }
+
+        @Override
+        public long getAmountAsLong(int index)
+        {
+            return (index < SLOT_COUNT && index >= 0) ? KilnBlockEntity.this.getContainer().getItem(index).getCount() : 0;
+        }
+
+        @Override
+        public long getCapacityAsLong(int index, ItemResource resource)
+        {
+            if (index >= SLOT_COUNT || index < 0) return 0;
+            if (index == KilnMenu.SLOT_BYPRODUCT) return 1;
+            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
+            return existing.isEmpty() ? 64 : existing.getMaxStackSize();
+        }
+
+        @Override
+        public int getCapacityAsInt(int index, ItemResource resource)
+        {
+            if (index >= SLOT_COUNT || index < 0) return 0;
+            if (index == KilnMenu.SLOT_BYPRODUCT) return 1;
+            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
+            return existing.isEmpty() ? 64 : existing.getMaxStackSize();
+        }
+
+        @Override
+        public boolean isValid(int index, ItemResource resource)
+        {
+            if (index == KilnMenu.SLOT_BYPRODUCT) return KilnSlots.ByproductSlot.isValidItem(resource, KilnBlockEntity.this.getOilVolume());
+            if (index == KilnMenu.SLOT_FUEL) return ! KilnSlots.WoodSlot.isValidItem(resource) && KilnSlots.FuelSlot.isValidItem(resource, KilnBlockEntity.this.level);
+            if (index == KilnMenu.SLOT_INPUT1) return KilnSlots.WoodSlot.isValidItem(resource);
+            return false;
+        }
+
+        @Override
+        public int insert(int index, ItemResource resource, int amount, TransactionContext transaction)
+        {
+            TransferPreconditions.checkNonEmptyNonNegative(resource, amount);
+            if (index == KilnMenu.SLOT_RESULT || amount == 0 || index >= SLOT_COUNT || ! this.isValid(index, resource))
+            {
+                return 0;
+            }
+            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
+            if (existing == null || (! existing.isEmpty() && ! resource.matches(existing)))
+            {
+                return 0; // nope
+            }
+            int amountWeCanFit = this.getCapacityAsInt(index, null) - existing.getCount();
+            if (amountWeCanFit == 0)
+            {
+                return 0;
+            }
+            int amountToInsert = Math.min(amountWeCanFit, amount);
+            ItemStackResourceHandler handler = KilnBlockEntity.this.resourceHandlers.get(index);
+            int result = handler.insert(0, resource, amountToInsert, transaction);
+//            if (result > 0; KilnBlockEntity.this.level != null)
+//            {
+//                KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
+//            }
+            return result;
+        }
+
+        @Override
+        public int extract(int index, ItemResource resource, int amount, TransactionContext transaction)
+        {
+            TransferPreconditions.checkNonEmptyNonNegative(resource, amount);
+            if (index == KilnMenu.SLOT_FUEL || index == KilnMenu.SLOT_INPUT1 || index >= SLOT_COUNT)
+            {
+                return 0;
+            }
+            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
+            if (index == KilnMenu.SLOT_BYPRODUCT)
+            {
+                if (existing.is(Items.GLASS_BOTTLE) || existing.is(Tags.Items.BUCKETS_EMPTY))
+                {
+                    return 0;
+                }
+            }
+            if (existing.isEmpty() || amount <= 0)
+            {
+                return 0;
+            }
+            int amountToReturn = Math.min(amount, existing.getCount());
+
+            ItemStackResourceHandler handler = KilnBlockEntity.this.resourceHandlers.get(index);
+            int result = handler.extract(0, resource, amountToReturn, transaction);
+//            if (result > 0; KilnBlockEntity.this.level != null)
+//            {
+//                KilnBlockEntity.this.level.sendBlockUpdated(KilnBlockEntity.this.getBlockPos(), KilnBlockEntity.this.getBlockState(), KilnBlockEntity.this.getBlockState(), 2);
+//            }
+            return result;
+        }
+
+        @Override
+        public int insert(ItemResource resource, int amount, TransactionContext transaction)
+        {
+            if (KilnSlots.WoodSlot.isValidItem(resource))
+                return this.insert(KilnMenu.SLOT_INPUT1, resource, amount, transaction);
+            if (KilnSlots.FuelSlot.isValidItem(resource, KilnBlockEntity.this.level))
+                return this.insert(KilnMenu.SLOT_FUEL, resource, amount, transaction);
+            if (KilnSlots.ByproductSlot.isValidItem(resource, KilnBlockEntity.this.getOilVolume()))
+                return this.insert(KilnMenu.SLOT_BYPRODUCT, resource, amount, transaction);
+            return 0;
+        }
+    }
+
+    private class KilnStackResourceHandler extends ItemStackResourceHandler
+    {
+        private final int index;
+        private KilnStackResourceHandler(int index) { this.index = index; }
+
+        @Override
+        protected ItemStack getStack()
+        {
+            return KilnBlockEntity.this.getContainer().getItem(index).copy();
+        }
+
+        @Override
+        protected void setStack(ItemStack stack)
+        {
+            KilnBlockEntity.this.getContainer().setItem(index, stack);
+            KilnBlockEntity.this.setChanged();
+        }
+
+        @Override
+        public int getAmountAsInt(int index)
+        {
+            return KilnBlockEntity.this.getContainer().getItem(index).getCount();
+        }
+
+        @Override
+        public ItemResource getResource(int index)
+        {
+            return ItemResource.of(KilnBlockEntity.this.getContainer().getItem(index));
+        }
+
+        @Override
+        public int getCapacityAsInt(int index, ItemResource resource)
+        {
+            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
+            return existing.isEmpty() ? 64 : existing.getMaxStackSize();
         }
     }
 }
