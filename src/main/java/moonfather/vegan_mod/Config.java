@@ -1,7 +1,9 @@
 package moonfather.vegan_mod;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -36,7 +38,7 @@ public class Config {
 
     private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
             .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
-            .define("Feathers.shedding", "minecraft:chicken=minecraft:feather=720, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=60");
+            .define("Feathers.shedding", "#vegan_mod:drops_feathers=minecraft:feather=720, #vegan_mod:drops_feathers_rare=minecraft:feather=1200, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=600,  alexsmobs:roadrunner=alexsmobs:roadrunner_feather=420");
 
     private static final ModConfigSpec.IntValue _feather_litter_decay_target = BUILDER
             .comment("How long on average does feather litter last? Default 6 means 1/6 chance every minute for one leaf in litter to decay. That makes them last somewhat longer than normal but with no ticks.")
@@ -115,20 +117,57 @@ public class Config {
 
     public static boolean doesEntityShed(Entity entity)
     {
-    //    initializeSheddingIfNeeded();
+        initializeSheddingIfNeeded();
         if (entity instanceof ItemEntity) { return false; }
-        return sheddingResults.containsKey(entity.getType());
+        for (var type : sheddingResults1.keySet())
+        {
+            if (entity.getType().equals(type))
+            {
+                return true;
+            }
+        }
+        for (var tag : sheddingResults2.keySet())
+        {
+            if (entity.is(tag))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public static Item getEntityShedItem(Entity entity)
     {
-    //    initializeSheddingIfNeeded();
-        return sheddingResults.get(entity.getType());
+        initializeSheddingIfNeeded();
+        if (sheddingResults1.containsKey(entity.getType()))
+        {
+            return sheddingResults1.get(entity.getType());
+        }
+        for (var pair : sheddingResults2.entrySet())
+        {
+            if (entity.is(pair.getKey()))
+            {
+                return pair.getValue();
+            }
+        }
+        return null;
     }
     public static int getEntityShedIntervalInSeconds(Entity entity)
     {
-    //    initializeSheddingIfNeeded();
-        return sheddingTime.get(entity.getType());
+        initializeSheddingIfNeeded();
+        if (sheddingTime1.containsKey(entity.getType()))
+        {
+            return sheddingTime1.get(entity.getType());
+        }
+        for (var pair : sheddingTime2.entrySet())
+        {
+            if (entity.is(pair.getKey()))
+            {
+                return pair.getValue();
+            }
+        }
+        return Integer.MAX_VALUE;
     }
+
     private static void initializeSheddingIfNeeded()
     {
         if (sheddingInitialized) { return; }
@@ -139,28 +178,40 @@ public class Config {
             String[] parts = entry.split("\\s*=\\s*");
             if (parts.length != 3)
             {
-                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (bad format)");
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (bad format)");
                 continue;
             }
-            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(parts[0])))
+            if (! parts[0].startsWith("#") && ! BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(parts[0])))
             {
-                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (entity not present in game)");
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (entity not present in game)");
                 continue;
             }
             if (! BuiltInRegistries.ITEM.containsKey(Identifier.parse(parts[1])))
             {
-                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill cows\". (item not present in game)");
+                VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (item not present in game)");
                 continue;
             }
-            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(parts[0])).get().value();
-            sheddingResults.put(key, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value());
-            sheddingTime.put(key, parseInt(parts[2], 900));
+
+            if (! parts[0].startsWith("#"))
+            {
+                EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(parts[0])).get().value(); // we checked
+                sheddingResults1.put(key, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value()); // we checked
+                sheddingTime1.put(key, parseInt(parts[2], 900));
+            }
+            else
+            {
+                TagKey<EntityType<?>> tag = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse(parts[0].substring(1)));
+                sheddingResults2.put(tag, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value());
+                sheddingTime2.put(tag, parseInt(parts[2], 900));
+            }
         }
     }
 
 
-    private static final Map<EntityType<?>, Item> sheddingResults = new HashMap<>();
-    private static final Map<EntityType<?>, Integer> sheddingTime = new HashMap<>();
-    private static boolean sheddingInitialized = false;
+
+    private static final Map<EntityType<?>, Item> sheddingResults1 = new HashMap<>();
+    private static final Map<EntityType<?>, Integer> sheddingTime1 = new HashMap<>();
+    private static final Map<TagKey<EntityType<?>>, Item> sheddingResults2 = new HashMap<>();
+    private static final Map<TagKey<EntityType<?>>, Integer> sheddingTime2 = new HashMap<>();    private static boolean sheddingInitialized = false;
     private static int parseInt(String input, int def) { try { return Integer.parseInt(input); } catch (NumberFormatException ex) { return def; } }
 }
