@@ -24,7 +24,7 @@ version="${mod_version}" #mandatory
 displayName="${mod_name}" #mandatory
 
 # A URL to query for updates for this mod. See the JSON update specification https://docs.neoforged.net/docs/misc/updatechecker/
-#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+updateJSONURL="https://neoforge.curseupdate.com/1653354/vegan_mod" #optional
 
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://legacy.curseforge.com/minecraft/mc-mods/i-dont-want-to-kill-them/" #optional
@@ -33,7 +33,8 @@ displayURL="https://legacy.curseforge.com/minecraft/mc-mods/i-dont-want-to-kill-
 logoFile="assets/vegan_mod/icon.png" #optional
 
 # A text field displayed in the mod UI
-#credits="" #optional
+credits="Kiln art was made by Cebularz." #optional
+rrv_client = "moonfather.vegan_mod.integration.RrvClientPlugin"
 
 # The authors of the mod, displayed in the mod UI (optional)
 authors="MoonFather"

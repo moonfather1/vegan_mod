@@ -126,8 +126,10 @@ configurations {
 }
 
 dependencies {
+    compileOnly "curse.maven:rrv-1422317:8975832"
+    runtimeOnly "curse.maven:rrv-1422317:8975832"
     compileOnly "curse.maven:jei-238222:8108851"
-    runtimeOnly "curse.maven:jei-238222:8108851"
+    //runtimeOnly "curse.maven:jei-238222:8108851"
     // emi and cdp are 1.21.1
     compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
     //compileOnly "curse.maven:emi-580555:6420931"
