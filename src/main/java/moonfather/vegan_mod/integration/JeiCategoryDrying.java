@@ -43,7 +43,7 @@ public class JeiCategoryDrying extends AbstractRecipeCategory<JeiCategoryDrying.
     public void createRecipeExtras(IRecipeExtrasBuilder builder, DryingRecipeForJei recipe, IFocusGroup focuses)
     {
         int cookTime = recipe.timeInMinutes;
-        builder.addAnimatedRecipeArrow(cookTime * 60).setPosition(30, 6);
+        builder.addAnimatedRecipeArrowWidget(cookTime * 60).setPosition(30, 6);
         int xpAmount = 5;
         Component experienceString = Component.translatable("gui.jei.category.smelting.experience", xpAmount);
         ((ITextWidget)builder.addText(experienceString, this.getWidth() - 20, 10).setPosition(0, 0, this.getWidth(), this.getHeight(), HorizontalAlignment.RIGHT, VerticalAlignment.TOP)).setTextAlignment(HorizontalAlignment.RIGHT).setColor(-8355712);

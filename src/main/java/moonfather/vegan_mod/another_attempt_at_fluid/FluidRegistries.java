@@ -66,7 +66,7 @@ public class FluidRegistries
                             .replaceable()
                             .noCollision()
                             .strength(100.0f)
-                            .pushReaction(PushReaction.DESTROY)
+                            .pushReaction(PushReaction.IGNORE_ENTITY)
                             .noLootTable()
                             .liquid()
                             .sound(SoundType.FROGSPAWN)

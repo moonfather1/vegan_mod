@@ -57,7 +57,7 @@ public class VeganMod
         FluidRegistries.init(modEventBus);
 
         modEventBus.addListener(DataMapManager::registerDataMapTypes);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "i_dont_want_to_kill_them_._serverconfig.toml");
+        modContainer.registerConfig(ModConfig.Type.LOCAL, Config.SPEC, "i_dont_want_to_kill_them_._serverconfig.toml");
         NeoForge.EVENT_BUS.addListener(SheddingHandler::onEntityTick);
         NeoForge.EVENT_BUS.addListener(SheddingHandler::onEntityRightClick);
     }

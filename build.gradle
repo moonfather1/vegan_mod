@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.148'
     id 'idea'
 }
 
@@ -126,16 +126,14 @@ configurations {
 }
 
 dependencies {
-    compileOnly "curse.maven:jei-238222:8648480"
-   // runtimeOnly "curse.maven:jei-238222:8648480"
-    compileOnly "curse.maven:rrv-1422317:8975836"
-    runtimeOnly "curse.maven:rrv-1422317:8975836"
+    compileOnly "curse.maven:jei-238222:9038350"
+   // runtimeOnly "curse.maven:jei-238222:9038350"
+    compileOnly "curse.maven:rrv-1422317:8975840"
+    runtimeOnly "curse.maven:rrv-1422317:8975840"
     // emi and cdp are 1.21.1
-    compileOnly "maven.modrinth:create-dragons-plus:SzMfOokp"
-    //compileOnly "curse.maven:emi-580555:6420931"
 
-    compileOnly "curse.maven:jade-324717:8650925"
-    runtimeOnly "curse.maven:jade-324717:8650925"
+    compileOnly "curse.maven:jade-324717:9042207"
+    runtimeOnly "curse.maven:jade-324717:9042207"
 
     // top is on 1.21.1
     //compileOnly "curse.maven:the-one-probe-245211:6106998"

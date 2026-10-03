@@ -1,6 +1,7 @@
 package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.integration.ImmersiveEngineeringHelper;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +10,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.FuelValues;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
@@ -70,29 +70,22 @@ public class KilnSlots
         public FuelSlot(Player player, Container container, int index, int x, int y, KilnMenu host)
         {
             super(container, index, x, y, host);
-            this.stupidDesignDecision = player.level().fuelValues();
         }
-        private final FuelValues stupidDesignDecision;
 
-        public static boolean isValidItem(ItemStack stack, Level moronicDesignDecision)
+        public static boolean isValidItem(ItemStack stack)
         {
-            if (moronicDesignDecision == null) return false;
-            return isValidItem(stack, moronicDesignDecision.fuelValues());
+            return stack.has(DataComponents.COOKING_FUEL) && ! stack.is(Tags.Items.BUCKETS);
+            // will not check burn time. there is a method in KBE for that.
         }
-        public static boolean isValidItem(ItemResource resource, Level moronicDesignDecision)
+        public static boolean isValidItem(ItemResource resource)
         {
-            if (moronicDesignDecision == null) return false;
-            return isValidItem(resource.toStack(1), moronicDesignDecision.fuelValues());
-        }
-        private static boolean isValidItem(ItemStack stack, FuelValues stupidDesignDecision)
-        {
-            return stack.getBurnTime(null, stupidDesignDecision) > 0 && ! stack.is(Tags.Items.BUCKETS);
+            return isValidItem(resource.toStack(1)); // capability can easily pass block entity to this method
         }
 
         @Override
         public boolean mayPlace(ItemStack stack)
         {
-            return isValidItem(stack, stupidDesignDecision);
+            return isValidItem(stack);
         }
     }
 

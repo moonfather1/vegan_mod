@@ -48,7 +48,7 @@ public class KilnBlock extends BaseEntityBlock
                 .requiresCorrectToolForDrops()
                 .strength(3.5F)
                 .lightLevel(KilnBlock::getLight)
-                .pushReaction(PushReaction.BLOCK)
+                .pushReaction(PushReaction.IMMOVEABLE)
                 .requiresCorrectToolForDrops()
                 .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MODID, shortName))));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false));
@@ -71,13 +71,6 @@ public class KilnBlock extends BaseEntityBlock
     {
         builder.add(FACING, LIT, HALF);
     }
-
-    @Override  @NotNull
-    protected MapCodec<? extends BaseEntityBlock> codec()
-    {
-        return CODEC;
-    }
-    public static final MapCodec<KilnBlock> CODEC = BlockBehaviour.simpleCodec(KilnBlock::new);
 
     //---------------------------------//
 

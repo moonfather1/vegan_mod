@@ -49,8 +49,8 @@ public class JeiCategoryCharcoal extends AbstractRecipeCategory<JeiCategoryCharc
     public void createRecipeExtras(IRecipeExtrasBuilder builder, CharcoalRecipeForJei recipe, IFocusGroup focuses)
     {
         int cookTimeSeconds = recipe.timeInSeconds;
-        builder.addAnimatedRecipeArrow(60).setPosition(30, 7);
-        builder.addAnimatedRecipeFlame(60).setPosition(8, 28);
+        builder.addAnimatedRecipeArrowWidget(60).setPosition(30, 7);
+        builder.addAnimatedRecipeFlameWidget(60).setPosition(8, 28);
         int xpAmount = (int)  Math.round(1.8 * Config.kiln_xp_multiplier());
         Component experienceString = Component.translatable("gui.jei.category.smelting.experience", xpAmount);
         ((ITextWidget)builder.addText(experienceString, this.getWidth() - 20, 10).setPosition(0, 0, this.getWidth(), this.getHeight(), HorizontalAlignment.RIGHT, VerticalAlignment.TOP)).setTextAlignment(HorizontalAlignment.RIGHT).setColor(-8355712);

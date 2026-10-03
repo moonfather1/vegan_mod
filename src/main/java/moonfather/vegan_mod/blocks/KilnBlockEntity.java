@@ -9,6 +9,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -23,14 +25,22 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.loot.NeoForgeLootContextParams;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.TransferPreconditions;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -41,6 +51,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class KilnBlockEntity extends StandardContainerBlockEntity implements MenuProvider
 {
@@ -58,6 +69,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
     }
     public KilnBlockEntity(BlockPos blockPos, BlockState blockState) { this(VeganMod.BlockEntities.KILN_BE.get(), blockPos, blockState); }
     private final List<KilnStackResourceHandler> resourceHandlers = new ArrayList<>(4);
+    private LootContext stupidLootContextForStupidFuelValues = null;
 
     /////////////////////////////////////////////////////////////////////
 
@@ -249,7 +261,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
             int storingAValueForSimplerReturns = kbe.dataExcessFuelPaid;
             kbe.dataExcessFuelPaid = 0; // so that i can just return;
             if (input1.isEmpty()) { return; }
-            int fuelValue = fuel.getBurnTime(null, level.fuelValues()) * fuel.getCount();
+            int fuelValue = kbe.getBurnDuration(fuel) * fuel.getCount();
             if (fuelValue < FUEL_FOR_ONE_OPERATION && storingAValueForSimplerReturns == 0) { return; }
             if (! result.isEmpty() && result.getCount() == result.getMaxStackSize())  { return; }
             Item output = getRecipeOutput(input1);
@@ -303,6 +315,19 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         return result;
     }
 
+    public int getBurnDuration(ItemStack fuelItem)
+    {
+        if (fuelItem.isEmpty()) { return 0; }
+        if (this.stupidLootContextForStupidFuelValues == null)
+        {
+            if (level instanceof ServerLevel sl)
+            {
+                this.stupidLootContextForStupidFuelValues = (new LootContext.Builder((new LootParams.Builder(sl)).withParameter(LootContextParams.BLOCK_STATE, this.getBlockState()).withParameter(LootContextParams.BLOCK_ENTITY, this).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.getBlockPos())).withParameter(LootContextParams.CONTAINER, this.blockContainer).withOptionalParameter(NeoForgeLootContextParams.QUERIED_STACK, null).create(LootContextParamSets.CONTAINER_PROCESS))).create(Optional.empty());
+            }
+        }
+        return ResolvableInt.getFromItem(fuelItem, DataComponents.COOKING_FUEL, CookingFuel::burnTime, this.stupidLootContextForStupidFuelValues, 0);
+    }
+
     private void resolveFuel(ItemStack fuel, int inputCount, Level level)
     {
         this.dataCurrentFuelPaid = 0;
@@ -317,7 +342,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
                 return;
             }
             // we know that this.dataCurrentFuelPaid == this.dataExcessFuelPaid.previous, but we can fit more...
-            int fuelTime1 = fuel.getBurnTime(null, level.fuelValues());
+            int fuelTime1 = this.getBurnDuration(fuel);
             if (fuelTime1 <= FUEL_FOR_ONE_OPERATION)
             {
                 int fuelNeededForOneLog = (int) Math.ceil(FUEL_FOR_ONE_OPERATION * 1d / fuelTime1);
@@ -335,7 +360,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         else
         {
             // no excess
-            int fuelTime1 = fuel.getBurnTime(null, level.fuelValues());
+            int fuelTime1 = this.getBurnDuration(fuel);
             if (fuelTime1 <= FUEL_FOR_ONE_OPERATION)
             {
                 int fuelNeededForOneLog = (int) Math.ceil(FUEL_FOR_ONE_OPERATION * 1d / fuelTime1);
@@ -540,7 +565,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         public boolean isValid(int index, ItemResource resource)
         {
             if (index == KilnMenu.SLOT_BYPRODUCT) return KilnSlots.ByproductSlot.isValidItem(resource, KilnBlockEntity.this.getOilVolume());
-            if (index == KilnMenu.SLOT_FUEL) return ! KilnSlots.WoodSlot.isValidItem(resource) && KilnSlots.FuelSlot.isValidItem(resource, KilnBlockEntity.this.level);
+            if (index == KilnMenu.SLOT_FUEL) return ! KilnSlots.WoodSlot.isValidItem(resource) && KilnSlots.FuelSlot.isValidItem(resource);
             if (index == KilnMenu.SLOT_INPUT1) return KilnSlots.WoodSlot.isValidItem(resource);
             return false;
         }
@@ -581,11 +606,16 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         public int extract(int index, ItemResource resource, int amount, TransactionContext transaction)
         {
             TransferPreconditions.checkNonEmptyNonNegative(resource, amount);
-            if (index == KilnMenu.SLOT_FUEL || index == KilnMenu.SLOT_INPUT1 || index >= SLOT_COUNT)
+            if (index == KilnMenu.SLOT_INPUT1 || index >= SLOT_COUNT)
+            {
+                return 0;
+                // maybe if fuel islot is in tag mc:furnace_fuel_bottom_takeable  allow take? currently
+            }
+            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
+            if (index == KilnMenu.SLOT_FUEL && ! existing.is(ItemTags.FURNACE_FUEL_BOTTOM_TAKEABLE)) // bucket?
             {
                 return 0;
             }
-            ItemStack existing = KilnBlockEntity.this.getContainer().getItem(index);
             if (index == KilnMenu.SLOT_BYPRODUCT)
             {
                 if (existing.is(Items.GLASS_BOTTLE) || existing.is(Tags.Items.BUCKETS_EMPTY))
@@ -617,7 +647,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         {
             if (KilnSlots.WoodSlot.isValidItem(resource))
                 return this.insert(KilnMenu.SLOT_INPUT1, resource, amount, transaction);
-            if (KilnSlots.FuelSlot.isValidItem(resource, KilnBlockEntity.this.level))
+            if (KilnSlots.FuelSlot.isValidItem(resource))
                 return this.insert(KilnMenu.SLOT_FUEL, resource, amount, transaction);
             if (KilnSlots.ByproductSlot.isValidItem(resource, KilnBlockEntity.this.getOilVolume()))
                 return this.insert(KilnMenu.SLOT_BYPRODUCT, resource, amount, transaction);

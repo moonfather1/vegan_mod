@@ -1,15 +1,16 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "cookingtime": 200,
+  "cookingtime": 400,
   "experience": 0.15,
-  "ingredient": "#minecraft:logs_that_burn",
+  "ingredient": "minecraft:mossy_cobblestone",
   "result": {
-    "id": "minecraft:charcoal"
+    "id": "minecraft:cobblestone"
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:never"
+      "type": "vegan_mod:optional",
+      "flag": "charcoal_kiln_enabled"
     }
   ]
 }
