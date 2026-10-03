@@ -69,7 +69,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
 
     public static ItemStack makeTarItemStack(int count)
     {
-        ItemStack tar = new ItemStack(Items.DYE.black());
+        ItemStack tar = new ItemStack(Items.DYE.black(), count);
         tar.set(DataComponents.ITEM_NAME, Component.translatable("item.vegan_mod.black_paint"));
         tar.set(DataComponents.ITEM_MODEL, KilnBlockEntity.OLD_BLACK_DYE);
         return tar;
