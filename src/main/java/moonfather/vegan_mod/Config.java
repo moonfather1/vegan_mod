@@ -1,7 +1,9 @@
 package moonfather.vegan_mod;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -36,7 +38,7 @@ public class Config {
 
     private static final ModConfigSpec.ConfigValue<String> _shedding = BUILDER
             .comment("What animals shed feathers or scales? And approximately how often (in seconds; so 900 (15*60) means roughly every 15 minutes (4 times every 3 game-days). Format of single entry is entity=item=time; no quotes; you can have any number of these entries, separate them with commas and optionally spaces after commas.")
-            .define("Feathers.shedding", "minecraft:chicken=minecraft:feather=720, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=60");
+            .define("Feathers.shedding", "#vegan_mod:drops_feathers=minecraft:feather=720, #vegan_mod:drops_feathers_rare=minecraft:feather=1200, minecraft:armadillo=minecraft:armadillo_scute=2100,  twilightforest:raven=twilightforest:raven_feather=600,  alexsmobs:roadrunner=alexsmobs:roadrunner_feather=420");
 
     private static final ModConfigSpec.IntValue _feather_litter_decay_target = BUILDER
             .comment("How long on average does feather litter last? Default 6 means 1/6 chance every minute for one leaf in litter to decay. That makes them last somewhat longer than normal but with no ticks.")
@@ -44,7 +46,7 @@ public class Config {
 
     private static final ModConfigSpec.BooleanValue _feather_litter_enabled = BUILDER
             .comment("Is feather litter enabled? If yes, feathers on the ground became small piles (that don't tick all the time like dropped items. If not enabled, feathers wait on the ground as normal.")
-            .define("Feathers.feather_litter_enabled", false);
+            .define("Feathers.feather_litter_enabled", true);
 
     private static final ModConfigSpec.BooleanValue _kiln_enabled = BUILDER
             .comment("Is charcoal kiln block enabled? If yes, logs are turned to charcoal in it. As a byproduct, it will give you some creosote oil (useful for hardened fabric) and tar (black dye). If this is disabled, you need other ways to make black ink and hardened fabric.").worldRestart()
@@ -56,7 +58,7 @@ public class Config {
 
     private static final ModConfigSpec.BooleanValue _kiln_gives_tar = BUILDER
             .comment("Does charcoal kiln give tar paint as a byproduct? Disable this if you want black dye to be hard to obtain.")
-            .define("Leather.Kiln.charcoal_kiln_gives_tar_paint", false);
+            .define("Leather.Kiln.charcoal_kiln_gives_tar_paint", true);
 
     private static final ModConfigSpec.DoubleValue _kiln_xp_multiplier = BUILDER
             .comment("How much xp does kiln give? 1.0 means author's default (1.8 for charcoal, 0.3 for byproducts). 0.5 means half of that, 2 means double, 0 means no xp.")
@@ -117,17 +119,53 @@ public class Config {
     {
         initializeSheddingIfNeeded();
         if (entity instanceof ItemEntity) { return false; }
-        return sheddingResults.containsKey(entity.getType());
+        for (var type : sheddingResults1.keySet())
+        {
+            if (entity.getType().equals(type))
+            {
+                return true;
+            }
+        }
+        for (var tag : sheddingResults2.keySet())
+        {
+            if (entity.is(tag))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public static Item getEntityShedItem(Entity entity)
     {
         initializeSheddingIfNeeded();
-        return sheddingResults.get(entity.getType());
+        if (sheddingResults1.containsKey(entity.getType()))
+        {
+            return sheddingResults1.get(entity.getType());
+        }
+        for (var pair : sheddingResults2.entrySet())
+        {
+            if (entity.is(pair.getKey()))
+            {
+                return pair.getValue();
+            }
+        }
+        return null;
     }
     public static int getEntityShedIntervalInSeconds(Entity entity)
     {
         initializeSheddingIfNeeded();
-        return sheddingTime.get(entity.getType());
+        if (sheddingTime1.containsKey(entity.getType()))
+        {
+            return sheddingTime1.get(entity.getType());
+        }
+        for (var pair : sheddingTime2.entrySet())
+        {
+            if (entity.is(pair.getKey()))
+            {
+                return pair.getValue();
+            }
+        }
+        return Integer.MAX_VALUE;
     }
     private static void initializeSheddingIfNeeded()
     {
@@ -142,7 +180,7 @@ public class Config {
                 VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (bad format)");
                 continue;
             }
-            if (! BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(parts[0])))
+            if (! parts[0].startsWith("#") && ! BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(parts[0])))
             {
                 VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (entity not present in game)");
                 continue;
@@ -152,15 +190,26 @@ public class Config {
                 VeganMod.LOGGER.warn("Invalid entry in config file of mod \"I don't want to kill them\". (item not present in game)");
                 continue;
             }
-            EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(parts[0])).get().value();
-            sheddingResults.put(key, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value());
-            sheddingTime.put(key, parseInt(parts[2], 900));
+            if (! parts[0].startsWith("#"))
+            {
+                EntityType<?> key = BuiltInRegistries.ENTITY_TYPE.get(Identifier.parse(parts[0])).get().value(); // we checked
+                sheddingResults1.put(key, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value()); // we checked
+                sheddingTime1.put(key, parseInt(parts[2], 900));
+            }
+            else
+            {
+                TagKey<EntityType<?>> tag = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse(parts[0].substring(1)));
+                sheddingResults2.put(tag, BuiltInRegistries.ITEM.get(Identifier.parse(parts[1])).get().value());
+                sheddingTime2.put(tag, parseInt(parts[2], 900));
+            }
         }
     }
 
 
-    private static final Map<EntityType<?>, Item> sheddingResults = new HashMap<>();
-    private static final Map<EntityType<?>, Integer> sheddingTime = new HashMap<>();
+    private static final Map<EntityType<?>, Item> sheddingResults1 = new HashMap<>();
+    private static final Map<EntityType<?>, Integer> sheddingTime1 = new HashMap<>();
+    private static final Map<TagKey<EntityType<?>>, Item> sheddingResults2 = new HashMap<>();
+    private static final Map<TagKey<EntityType<?>>, Integer> sheddingTime2 = new HashMap<>();
     private static boolean sheddingInitialized = false;
     private static int parseInt(String input, int def) { try { return Integer.parseInt(input); } catch (NumberFormatException ex) { return def; } }
 }

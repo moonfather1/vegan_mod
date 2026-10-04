@@ -1,0 +1,12 @@
+{
+  "values": [
+    "minecraft:chicken",
+    { "id": "naturalist:duck", "required": false },
+    { "id": "naturalist:vulture", "required": false },
+    { "id": "alexsmobs:blue_jay", "required": false },
+    { "id": "alexsmobs:bald_eagle", "required": false },
+    { "id": "alexsmobs:seagull", "required": false },
+    { "id": "alexsmobs:shoebill", "required": false },
+    { "id": "alexsmobs:toucan", "required": false }
+  ]
+}

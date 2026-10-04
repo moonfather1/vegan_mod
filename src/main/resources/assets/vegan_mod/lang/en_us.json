@@ -21,6 +21,10 @@
   "tag.item.vegan_mod.logs_that_give_more_charcoal": "Logs that give more charcoal",
   "tag.item.vegan_mod.logs_that_give_more_tar": "Logs that give more tar",
   "tag.item.minecraft.repairs_leather_armor": "Things that repair leather gear",
+  "tag.entity_type.vegan_mod.drops_feathers": "Birbs that drop feathers",
+  "tag.entity_type.vegan_mod.drops_feathers_rare": "Birbs that drop feathers",
+
+
 
   "block.vegan_mod.litter_of_feathers": "Feathers",
   "block.vegan_mod.drying_rack": "Drying Rack",
