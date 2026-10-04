@@ -54,15 +54,15 @@ public class KilnSlots
         public FuelSlot(Player player, Container container, int index, int x, int y, KilnMenu host)
         {
             super(container, index, x, y, host);
-            //this.stupidDesignDecision = player.level().fuelValues();
+            this.stupidDesignDecision = player.level().fuelValues();
         }
-        //private final FuelValues stupidDesignDecision;
+        private final FuelValues stupidDesignDecision;
 
         @Override
         public boolean mayPlace(ItemStack stack)
         {
-            //return stupidDesignDecision.isFuel(stack) && ! stack.is(ConventionalItemTags.BUCKETS);
-            return ! stack.is(ConventionalItemTags.BUCKETS);
+            return stupidDesignDecision.isFuel(stack) && ! stack.is(ConventionalItemTags.BUCKETS);
+            //return ! stack.is(ConventionalItemTags.BUCKETS);
         }
     }
 

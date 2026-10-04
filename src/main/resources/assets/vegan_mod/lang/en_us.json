@@ -62,6 +62,7 @@
   "vegan_mod.configuration.charcoal_kiln_gives_tar_paint": "Charcoal Kiln gives tar paint",
   "vegan_mod.configuration.charcoal_kiln_xp_multiplier": "Charcoal Kiln xp multiplier",
   "vegan_mod.configuration.charcoal_kiln__multiples_at_once": "Charcoal Kiln items in parallel",
+  "vegan_mod.configuration.charcoal_kiln_works_with_pipes_and_hoppers": "Charcoal kiln works with pipes",
 
   "vegan_mod.configuration.Leather": "Leather (category)",
   "vegan_mod.configuration.Feathers": "Feathers (category)",

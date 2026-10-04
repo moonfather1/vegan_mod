@@ -2,12 +2,16 @@ package moonfather.vegan_mod.blocks;
 
 import moonfather.vegan_mod.Config;
 import moonfather.vegan_mod.VeganMod;
+import moonfather.vegan_mod.blocks.transfer.*;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -27,14 +31,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class KilnBlockEntity extends StandardContainerBlockEntity implements MenuProvider
+import java.util.List;
+
+public class KilnBlockEntity extends StandardContainerBlockEntity implements MenuProvider, ItemStackHost
 {
     public KilnBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) { super(type, pos, blockState); this.setCapacity(container_capacity); }
     public KilnBlockEntity(BlockPos blockPos, BlockState blockState) { super(VeganMod.Blocks.KILN_BLOCK_ENTITY, blockPos, blockState); this.setCapacity(container_capacity); }
@@ -417,4 +422,43 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
         }
         player.giveExperiencePoints(amountAsInt);
     }
+
+    // these are for transfer api
+
+    @Override
+    public void putItemStack(ItemStack stack, int slot)
+    {
+        this.getContainer().setItem(slot, stack);
+    }
+
+    @Override
+    public ItemStack getItemStack(int slot)
+    {
+        return this.getContainer().getItem(slot);
+    }
+
+    @Nullable
+    public Storage<ItemVariant> getCapability(@Nullable Direction d)
+    {
+        if (! Config.kiln_works_with_pipes())
+        {
+            return null;
+        }
+        if (d != null && d.getAxis().isVertical())
+        {
+            return null;
+        }
+        if (this.capability == null)
+        {
+            this.capability = new CombinedStorage<ItemVariant, SingleStackStorage>(List.of(
+                    new KilnResultSlotStorage(this, KilnMenu.SLOT_RESULT),
+                    new KilnWoodSlotStorage(this, KilnMenu.SLOT_INPUT1),
+                    new KilnFuelSlotStorage(this, KilnMenu.SLOT_FUEL),
+                    new KilnByproductSlotStorage(this, KilnMenu.SLOT_BYPRODUCT)
+            ));
+
+        }
+        return this.capability;
+    }
+    private Storage<ItemVariant> capability = null;
 }

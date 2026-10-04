@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentType;
@@ -81,6 +82,8 @@ public class VeganMod implements ModInitializer
 //        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, rm, suc) -> LOGGER.info("~~~ ServerLifecycleEvents.END_DATA_PACK_RELOAD"));
 //        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((serverPl, jo) -> LOGGER.info("~~~ ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS / " + jo));
         ServerLifecycleEvents.SERVER_STARTED.register(VeganMod::reloadResourcesBecauseOfTags);
+        //////////////////
+        ItemStorage.SIDED.registerForBlockEntity(KilnBlockEntity::getCapability, Blocks.KILN_BLOCK_ENTITY);
     }
 
     private static void reloadResourcesBecauseOfTags(MinecraftServer minecraftServer)
