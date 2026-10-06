@@ -10,6 +10,10 @@ public class KilnByproductSlotStorage extends KilnBaseSlotStorage
     public KilnByproductSlotStorage(ItemStackHost host, int slotIndex) { super(host, slotIndex); }
 
 
+    @Override
+    protected int getCapacity(ItemVariant itemVariant) { return 1; }
+    @Override
+    public long getCapacity() { return 1; }
 
     @Override
     protected boolean canInsert(ItemVariant itemVariant)

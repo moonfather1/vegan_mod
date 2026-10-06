@@ -2,11 +2,13 @@ package moonfather.vegan_mod.mixin.client;
 
 import moonfather.vegan_mod.integration.JadeProxy;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import snownee.jade.Jade;
 
+@Pseudo
 @Mixin(Jade.class)
 public class StupidJadeMixin
 {
