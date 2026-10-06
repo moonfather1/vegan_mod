@@ -25,6 +25,12 @@ public class KilnByproductSlotStorage extends KilnBaseSlotStorage
     }
 
     @Override
+    protected int getCapacity(ItemVariant itemVariant)
+    {
+        return 1;
+    }
+
+    @Override
     public boolean supportsInsertion() { return true; }
     @Override
     public boolean supportsExtraction() { return true; }
