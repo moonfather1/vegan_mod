@@ -14,6 +14,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -28,16 +29,24 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class KilnBlockEntity extends StandardContainerBlockEntity implements MenuProvider, ItemStackHost
 {
@@ -47,6 +56,7 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
     /////////////////////////////////////////////////////////////////////
 
     private int dataStatus, dataBigTicksDone, dataBigTicksTarget, dataOil, dataExcessFuelPaid, dataCurrentFuelPaid, dataXp1, dataXp2, dataInputFlags;
+    private LootContext stupidLootContextForStupidFuelValues = null;
 
     public static final int BASE_TIME_IN_SECONDS = 600;
     public static final int FUEL_FOR_ONE_OPERATION = 200; // stick is 100  // i wanted double but that makes charcoal smelt as much as planks
@@ -349,8 +359,15 @@ public class KilnBlockEntity extends StandardContainerBlockEntity implements Men
 
     private int getBurnTime(ItemStack fuel)
     {
-        if (this.level == null) { return 0; }
-        return this.level.fuelValues().burnDuration(fuel);
+        if (fuel.isEmpty()) { return 0; }
+        if (this.stupidLootContextForStupidFuelValues == null)
+        {
+            if (level instanceof ServerLevel sl)
+            {
+                this.stupidLootContextForStupidFuelValues = (new LootContext.Builder((new LootParams.Builder(sl)).withParameter(LootContextParams.BLOCK_STATE, this.getBlockState()).withParameter(LootContextParams.BLOCK_ENTITY, this).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.getBlockPos())).withParameter(LootContextParams.CONTAINER, this.blockContainer).create(LootContextParamSets.CONTAINER_PROCESS))).create(Optional.empty());
+            }
+        }
+        return ResolvableInt.getFromItem(fuel, DataComponents.COOKING_FUEL, CookingFuel::burnTime, this.stupidLootContextForStupidFuelValues, 0);
     }
 
     private static final TagKey<Item> LOGS_THAT_GIVE_MORE_CHARCOAL = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, "logs_that_give_more_charcoal"));

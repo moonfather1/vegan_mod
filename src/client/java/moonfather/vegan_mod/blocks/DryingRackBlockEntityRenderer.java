@@ -17,6 +17,8 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Quaternionf;
 
 import java.util.HashMap;
@@ -73,7 +75,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
             {
                 if (state.item.usesBlockLight())
                 {
-                    poseStack.translate(0, 0, -3.50/16d); // cubes are centered. lift them up a lot.
+                    poseStack.translate(0, 0, +3.50/16d); // cubes are centered. lift them up a lot.
                 }
                 else
                 {
@@ -88,9 +90,39 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
 
 
 
-    private static final Quaternionf XPlus90 = new Quaternionf().fromAxisAngleDeg(1, 0, 0, 90);
-    private static final Quaternionf ZPlus180 = new Quaternionf().fromAxisAngleDeg(0, 0, 1, 180);
+    private static final Matrix4fc XPlus90 = aroundX(90);   // new Quaternionf().fromAxisAngleDeg(1, 0, 0, 90);
+    private static final Matrix4fc ZPlus180 = aroundZ(180); // new Quaternionf().fromAxisAngleDeg(0, 0, 1, 180);
 
+    private static Matrix4fc aroundX(double angleInRad)
+    {
+        float c = (float) Math.cos(angleInRad), s = (float) Math.sin(angleInRad);
+        return new Matrix4f(
+                1f, 0, 0, 0,
+                0, c, -s, 0,
+                0, s, c, 0,
+                0, 0, 0, 1
+        );
+    }
+    private static Matrix4fc aroundX(int angleInDeg)
+    {
+        return aroundX(Math.toRadians(angleInDeg));
+    }
+    private static Matrix4fc aroundZ(double angleInRad)
+    {
+        float c = (float) Math.cos(angleInRad), s = (float) Math.sin(angleInRad);
+        return new Matrix4f(
+                c, -s, 0, 0,
+                s, c, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+        );
+    }
+
+
+    private static Matrix4fc aroundZ(int angleInDeg)
+    {
+        return aroundZ(Math.toRadians(angleInDeg));
+    }
     ///////////////////////////////////////////
 
     private static final Map<Item, Boolean> mapFor3d = new HashMap<>();

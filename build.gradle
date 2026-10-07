@@ -71,19 +71,15 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     //modImplementation "maven.modrinth:ohNO6lps:N5qzq0XV"  // FCAPI
-    api("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.2.1")
-    compileOnly("mezz.jei:jei-26.2-fabric-api:30.7.0.41")
-    compileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:26.2.820"
+    api("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.3.1")
+    compileOnly("mezz.jei:jei-26.3-fabric-api:31.9.0.57")
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:26.3.823"
     api "me.shedaniel.cloth:basic-math:+"
-    //compileOnly "maven.modrinth:lhGA9TYQ:k9DCEQ4B"  //architectury
-    compileOnly "curse.maven:architectury-api-419699:8851247"    //architectury
-    //compileOnly "curse.maven:roughly-enough-items-310111:8271476"
-    //compileOnly ("curse.maven:cloth-config-348521:7817582") { transitive = true }
+    compileOnly "curse.maven:architectury-api-419699:9075717"    //architectury
 
-    //compileOnly "maven.modrinth:5VolwT6c:Pwofj04I"  // rrv  26.1
-    compileOnly "curse.maven:rrv-1422317:8823542"  // rrv 26.2
+    compileOnly "curse.maven:rrv-1422317:8975838"  // rrv 26.3
 
-    compileOnly "curse.maven:jade-324717:8650785"
+    compileOnly "curse.maven:jade-324717:9042194"
 }
 
 processResources {

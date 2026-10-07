@@ -10,17 +10,14 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
-import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -28,14 +25,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Unit;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -182,7 +178,7 @@ public class VeganMod implements ModInitializer
     public static class Blocks
     {
         public static final Block DRYING_RACK_BLOCK = new DryingRackBlock("drying_rack");
-        public static final Item DRYING_RACK_BLOCK_ITEM = new IdentifiableBlockItem(DRYING_RACK_BLOCK, "drying_rack");
+        public static final Item DRYING_RACK_BLOCK_ITEM = new IdentifiableBlockItem(DRYING_RACK_BLOCK, "drying_rack", p -> p.cookingFuel(ContextIntProviders.COOKING_TIME_HANGING_SIGNS));
         public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.<DryingRackBlockEntity>create(DryingRackBlockEntity::new, DRYING_RACK_BLOCK).build();
 
         public static final Block LITTER_OF_FEATHERS = new LitterBlock(net.minecraft.world.item.Items.FEATHER, true, "litter_of_feathers");
@@ -224,13 +220,6 @@ public class VeganMod implements ModInitializer
             Registry.register(BuiltInRegistries.ITEM, id4, KILN_ITEM);
             Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id5, KILN_BLOCK_ENTITY);
             Registry.register(BuiltInRegistries.MENU, id6, KILN_MENU_TYPE);
-
-            FuelValueEvents.BUILD.register(Blocks::registerFuels);
-        }
-
-        private static void registerFuels(FuelValues.Builder builder, FuelValueEvents.Context context)
-        {
-            builder.add(DRYING_RACK_BLOCK_ITEM, 300*4);
         }
 
         private Blocks() {}

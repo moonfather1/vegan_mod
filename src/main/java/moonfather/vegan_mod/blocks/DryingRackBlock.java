@@ -36,7 +36,7 @@ public class DryingRackBlock extends Block implements EntityBlock
 {
     public DryingRackBlock(String id)
     {
-        super(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.BAMBOO_WOOD_HANGING_SIGN).strength(0.8f, 0.5f)
+        super(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.POPPED).randomTicks().sound(SoundType.BAMBOO_WOOD_HANGING_SIGN).strength(0.8f, 0.5f)
                 .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, id)))
         );
     }

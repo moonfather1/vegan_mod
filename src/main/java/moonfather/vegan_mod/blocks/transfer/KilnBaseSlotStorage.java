@@ -18,8 +18,6 @@ public abstract class KilnBaseSlotStorage extends SingleStackStorage
         this.slotIndex = slotIndex;
     }
 
-    protected Level level() { return this.host.getLevel(); } // for fuel values
-
     protected int getHostOilAmount() { return this.host.getOilVolume();}
 
 

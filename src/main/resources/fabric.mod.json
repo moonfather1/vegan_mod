@@ -33,7 +33,7 @@
             "moonfather.vegan_mod.integration.RrvClientPlugin"
           ],
           "jade": [
-            "moonfather.vegan_mod.integration.JadeServerPlugin",
+            "moonfather.vegan_mod.integration.JadeServerPlugin"
           ]
     },
 	"mixins": [
@@ -45,7 +45,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.19.5",
-		"minecraft": "~26.2",
+		"minecraft": "~26.3",
 		"java": ">=25",
 		"forgeconfigapiport": "*",
 		"fabric-api": "*"

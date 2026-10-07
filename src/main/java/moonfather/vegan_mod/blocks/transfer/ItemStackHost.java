@@ -7,7 +7,6 @@ public interface ItemStackHost
 {
     void putItemStack(ItemStack stack, int slot);
     ItemStack getItemStack(int slot);
-    Level getLevel();  // for fuel values.
     void setChanged();
     int getOilVolume();
 }

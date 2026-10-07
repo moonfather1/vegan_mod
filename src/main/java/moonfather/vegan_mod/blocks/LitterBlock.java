@@ -49,7 +49,7 @@ public class LitterBlock extends Block
 
     public LitterBlock(Item madeOutOf, boolean flammable, String id)
     {
-        super(Properties.of().strength(0.2f, 0.0f).sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.DESTROY).ignitedByLava().noCollision().noOcclusion().replaceable().randomTicks()
+        super(Properties.of().strength(0.2f, 0.0f).sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.POPPED).ignitedByLava().noCollision().noOcclusion().replaceable().randomTicks()
                 .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(VeganMod.MOD_ID, id)))
         );
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AMOUNT, Integer.valueOf(1)));

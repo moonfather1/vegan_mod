@@ -25,16 +25,12 @@ public class CharcoalReplacementRecipe extends AbstractCookingRecipe {
 
     public ItemStack getToastSymbol() { return new ItemStack(Blocks.ANDESITE); }
 
-//    public RecipeSerializer<?> getSerializer() {  return RecipeSerializer.SMELTING_RECIPE; }
-
-    // RecipeSerializer<SmeltingRecipe> SMELTING_RECIPE = register("smelting", new SimpleCookingSerializer(SmeltingRecipe::new, 200));
-    public static final MapCodec<CharcoalReplacementRecipe> MAP_CODEC = cookingMapCodec(CharcoalReplacementRecipe::new, 12000);
+    public static final MapCodec<CharcoalReplacementRecipe> MAP_CODEC = cookingMapCodec(CharcoalReplacementRecipe::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, CharcoalReplacementRecipe> STREAM_CODEC = cookingStreamCodec(CharcoalReplacementRecipe::new);
     public static final RecipeSerializer<CharcoalReplacementRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     @Override
     public RecipeSerializer<? extends AbstractCookingRecipe> getSerializer() { return SERIALIZER; }
-    //public RecipeSerializer<?> getSerializer() {  return VeganMod.Other.OUR_SMELTING_RECIPE_SERIALIZER; }
 
     @Override
     public RecipeType<? extends AbstractCookingRecipe> getType() { return VeganMod.Other.OUR_SMELTING_RECIPE_TYPE; }

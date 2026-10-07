@@ -43,7 +43,7 @@ public class RecipeManagerForInk  extends RecipeReplacerForItems
     @Override
     protected boolean shouldSkip(Identifier identifier, Recipe<?> recipe)
     {
-        ItemStack output = recipe.display() != null && recipe.display().size() > 0 ? recipe.display().get(0).result().resolveForFirstStack(CM_EMPTY) : ItemStack.EMPTY;
+        ItemStack output = recipe.display() != null && recipe.display().size() > 0 ? recipe.display().get(0).result().resolveForFirstStack(ContextMap.EMPTY) : ItemStack.EMPTY;
         if (output.has(DataComponents.FOOD))
         {
             return true; // FD adds some food with squid ink
@@ -54,6 +54,6 @@ public class RecipeManagerForInk  extends RecipeReplacerForItems
         }
         return  false;
     }
-    private static final ContextKeySet CKS_EMPTY = (new ContextKeySet.Builder()).build();
-    private static final ContextMap CM_EMPTY = (new ContextMap.Builder()).create(CKS_EMPTY);
+    //private static final ContextKeySet CKS_EMPTY = (new ContextKeySet.Builder()).build();
+    //private static final ContextMap CM_EMPTY = (new ContextMap.Builder()).create(CKS_EMPTY);   // for some reason i have ContextMap.EMPTY. how did i miss it on NF version?
 }

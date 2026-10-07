@@ -1,6 +1,7 @@
 package moonfather.vegan_mod.blocks;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
@@ -8,7 +9,6 @@ import net.minecraft.world.inventory.FurnaceResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.FuelValues;
 
 public class KilnSlots
 {
@@ -51,18 +51,13 @@ public class KilnSlots
 
     public static class FuelSlot extends BaseSlot
     {
-        public FuelSlot(Player player, Container container, int index, int x, int y, KilnMenu host)
-        {
-            super(container, index, x, y, host);
-            this.stupidDesignDecision = player.level().fuelValues();
-        }
-        private final FuelValues stupidDesignDecision;
+        public FuelSlot(Container container, int index, int x, int y, KilnMenu host) { super(container, index, x, y, host); }
 
         @Override
         public boolean mayPlace(ItemStack stack)
         {
-            return stupidDesignDecision.isFuel(stack) && ! stack.is(ConventionalItemTags.BUCKETS);
-            //return ! stack.is(ConventionalItemTags.BUCKETS);
+            return stack.has(DataComponents.COOKING_FUEL) && ! stack.is(ConventionalItemTags.BUCKETS);
+            // will not check burn time. there is a method in KBE for that.
         }
     }
 
